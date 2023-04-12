@@ -9,115 +9,76 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
-<main>
-	<div class="container mt-5">
-		<section class="hero">
-			<div class="hero-body">
-				<h1 class="title">
+<div class="container">
+<div class="content">
+	<!--	ДЛЯ СТРАНИЦ ОБЪЯВЛЕНИЯ И ОБСУЖДЕНИЯ -->
+	<!--	<div class="columns ">-->
+	<!--		<div class="column is-3">-->
+	<!--			<div class="tabs">-->
+	<!--				<ul>-->
+	<!--					<li class="is-active"><a>All</a></li>-->
+	<!--					<li><a>Discussions</a></li>-->
+	<!--					<li><a>Announcements</a></li>-->
+	<!--				</ul>-->
+	<!--			</div>-->
+	<!--		</div>-->
+<!--	<div class="column">-->
+		<div class="field has-addons mt-5 ml-6">
+			<p class="control">
+				<input class="input" type="text" placeholder="Find a post">
+			</p>
+			<p class="control">
+				<button class="button">
+					Search
+				</button>
+			</p>
+		</div>
+<!--	</div>-->
+	<!--	</div>-->
+	<section class="section">
+		<h1 class="title">
 			<span class="tag is-danger is-medium">
   				Объявление
 			</span>
-					Отключение горячей воды
-				</h1>
-				<h2 class="subtitle">
-					24.04.2023 во всем доме будет отключена горячая вода для проведения ремонтых работ. Надеемся на ваше понимание!
-				</h2>
-				<h5 >Опубликовано: 16.04.2023</h5>
+			<a href="">Отключение горячей воды</a>
+		</h1>
+		<h2 class="subtitle">
+			24.04.2023 во всем доме будет отключена горячая вода для проведения ремонтых работ. Надеемся на ваше понимание!
+		</h2>
+		<h5 >Опубликовано: 16.04.2023</h5>
+		<a class="button is-dark" href="#">Перейти к обсуждению</a>
+	</section>
+	<section class="section">
+		<h1 class="title">
+			<span class="tag is-warning is-medium">
+  				Обсуждение
+			</span>
+			<a href="">Установка видеокамер в подъездах</a>
+		</h1>
+		<h2 class="subtitle">
+			С целью предотвратить воровство велосипедов из подъездов, было предложено установить камеры видеонаблюдения на первом этаже всех подъездов
+		</h2>
 
-				<h1 class="title mt-5">Комментарии</h1>
-				<article class="media comment">
+		<h5 >Опубликовано: 10.04.2023</h5>
 
-					<figure class="media-left">
-						<p class="image is-64x64">
-							<img src="https://bulma.io/images/placeholders/128x128.png">
-						</p>
-					</figure>
-					<div class="media-content">
-						<div class="content">
-							<p>
-								<strong>Иван Битриксовский</strong> <small>Квартира 11, 29</small> <br> <small>1 день назад</small>
-								<br>
-								Совсем оборзели. Еще бы за час предупредили!
-							</p>
-						</div>
-					</div>
+		<a class="button is-dark" href="#">Перейти к обсуждению</a>
+	</section>
+	<section class="section">
+		<h1 class="title">
+			<span class="tag is-danger is-medium">
+  				Объявление
+			</span>
+			<a href="">Внимание, мошенники!</a>
+		</h1>
+		<h2 class="subtitle">
+			Участились случаи проникновения мошенников в квартиры под видом сотрудников газовой службы. Будьте внимательны! Обо всех посещениях настоящих газовщиков мы предупреждаем заранее!
+		</h2>
+		<h5>Опубликовано: 04.04.2023</h5>
 
-				</article>
+		<a class="button is-dark" href="#">Перейти к обсуждению</a>
 
-				<article class="media comment">
 
-					<figure class="media-left">
-						<p class="image is-64x64">
-							<img src="https://bulma.io/images/placeholders/128x128.png">
-						</p>
-					</figure>
-					<div class="media-content">
-						<div class="content">
-							<p>
-								<strong>Станислав Душниловский</strong> <small>Квартира 32</small> <br> <small>13 часов назад</small>
-								<br>
-								Ни стыда, ни совести! Весь день ни помыться, ни побриться.
-							</p>
-						</div>
-					</div>
+	</section>
+</div>
 
-				</article>
-
-				<article class="media comment">
-
-					<figure class="media-left">
-						<p class="image is-64x64">
-							<img src="https://bulma.io/images/placeholders/128x128.png">
-						</p>
-					</figure>
-					<div class="media-content">
-						<div class="content">
-							<p>
-								<strong>Вы</strong> <small>Квартира 13</small> <br> <small>31 минуту назад</small>
-								<br>
-								Да ладно вам ребят! Потерпим немного, не на неделю же отключают
-							</p>
-						</div>
-					</div>
-
-					<form action="deleteComment" method="post">
-						<button class="button is-small">
-								<span class="icon">
-									<i class="fa-solid fa-xmark"></i>
-								</span>
-						</button>
-					</form>
-					<form action="changeComment" method="post">
-						<button class="button is-small ml-1">
-								<span class="icon">
-									<i class="fa-solid fa-pencil"></i>
-								</span>
-						</button>
-					</form>
-				</article>
-
-				<article class="media">
-					<figure class="media-left">
-						<p class="image is-64x64">
-							<img src="https://bulma.io/images/placeholders/128x128.png">
-						</p>
-					</figure>
-					<div class="media-content">
-						<div class="field">
-							<p class="control">
-								<textarea class="textarea" placeholder="Add a comment..."></textarea>
-							</p>
-						</div>
-						<nav class="level">
-							<div class="level-left">
-								<div class="level-item">
-									<a class="button is-info">Submit</a>
-								</div>
-							</div>
-						</nav>
-					</div>
-				</article>
-			</div>
-		</section>
-	</div>
-</main>
+</div>
