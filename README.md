@@ -1,18 +1,18 @@
-# Bitrix module example
+# HouseCeeper module install
 
 Clone repository to `${doc_root}/local/modules`
 
 Install module using admin panel
 
-Set `Tasks template` as your primary site template
+Set `House Ceeper template` as your primary site template
 
 ## Setup modern Bitrix routing
 
-Add `task.php` in `routing` section of `${doc_root}/bitrix/.settings.php` file:
+Add `houseceeper.php` in `routing` section of `${doc_root}/bitrix/.settings.php` file:
 
 ```php
 'routing' => ['value' => [
-	'config' => ['task.php']
+	'config' => ['houseceeper.php']
 ]],
 ```
 
@@ -38,7 +38,7 @@ Replace following lines in your `${doc_root}/.htaccess` file:
 You probably want to make following symlinks:
 
 ```
-local/components/up -> local/modules/up.projector/install/components/up
-local/templates/task -> local/modules/up.projector/install/templates/task
-local/routes/task.php -> local/modules/up.projector/install/routes/task.php
+local/components/hc -> local/modules/hc.houseceeper/install/components/hc
+local/templates/houseceeper -> local/modules/hc.houseceeper/install/templates/houseceeper
+local/routes/houseceeper.php -> local/modules/hc.houseceeper/install/routes/houseceeper.php
 ```
