@@ -3,7 +3,7 @@
 use Bitrix\Main\Application;
 use Bitrix\Main\DB\Connection;
 use Bitrix\Main\Request;
-Bitrix\Main\Loader::includeModule('up.tasks');
+Bitrix\Main\Loader::includeModule('hc.houseceeper');
 function request(): Request
 {
 	return Application::getInstance()->getContext()->getRequest();

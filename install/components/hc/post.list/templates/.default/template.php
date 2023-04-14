@@ -5,6 +5,8 @@
  * @var array $arParams
  */
 
+var_dump($arResult);
+
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 
