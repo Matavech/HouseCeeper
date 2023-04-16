@@ -9,3 +9,5 @@ DROP TABLE IF EXISTS hc_houseceeper_user;
 DROP TABLE IF EXISTS hc_houseceeper_role;
 DROP TABLE IF EXISTS hc_houseceeper_apartment;
 DROP TABLE IF EXISTS hc_houseceeper_house;
+
+DELETE FROM b_user WHERE WORK_COMPANY = 'HouseCeeper';
