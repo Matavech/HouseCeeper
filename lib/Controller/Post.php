@@ -15,7 +15,7 @@ class Post extends Engine\Controller
 //		];
 //	}
 
-	public function getListAction(int $pageNumber = 1): ?array
+	public function getListAction(string $housePath,int $pageNumber = 1): ?array
 	{
 		if ($pageNumber < 0)
 		{
@@ -24,7 +24,7 @@ class Post extends Engine\Controller
 			return null;
 		}
 
-		$postList = Repository\Post::getPage(self::PROJECT_PER_PAGE, $pageNumber);
+		$postList = Repository\Post::getPage(self::PROJECT_PER_PAGE, $pageNumber, $housePath);
 
 		return [
 			'pageNumber' => $pageNumber,
