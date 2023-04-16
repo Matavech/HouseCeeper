@@ -130,10 +130,10 @@ class PostTable extends DataManager
 				PostFileTable::class,
 				'POST'
 			),
-			new ManyToMany(
+			(new ManyToMany(
 				'TAGS',
 				TagTable::class
-			),
+			))->configureTableName('hc_houseceeper_post_tag'),
 		];
 	}
 

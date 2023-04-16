@@ -72,10 +72,10 @@ class UserTable extends DataManager
 					'title' => Loc::getMessage('USER_ENTITY_IMAGE_PATH_FIELD')
 				]
 			),
-			new ManyToMany(
+			(new ManyToMany(
 				'APARTMENT',
 				ApartmentTable::class
-			),
+			))->configureTableName('hc_houseceeper_apartment_user'),
 			new OneToMany(
 				'COMMENTS',
 				CommentTable::class,
