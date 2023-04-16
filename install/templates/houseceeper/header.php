@@ -2,6 +2,7 @@
 /**
  * @var CMain $APPLICATION
  */
+global $USER;
 ?><!doctype html>
 <html lang="<?= LANGUAGE_ID; ?>">
 <head>
@@ -20,8 +21,8 @@
 
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
 	<div class="navbar-brand">
-		<a class="navbar-item has-text-primary" href="https://bulma.io">
-			!Project name!
+		<a class="navbar-item has-text-primary" href="/">
+			HouseCeeper
 		</a>
 
 		<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -31,6 +32,7 @@
 		</a>
 	</div>
 
+	<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
 	<div id="navbarBasicExample" class="navbar-menu">
 		<div class="navbar-start">
 			<a class="navbar-item">
@@ -75,17 +77,20 @@
 
 			<div class="navbar-item">
 				<span class="tag has-background-grey-light is-large">
-					Антон Иванов, квартира 13
+					<?= $USER->GetFullName() ?>, квартира 13
 				</span>
 			</div>
-
+			<?php } ?>
+			<?php if ($USER->IsAuthorized()) { ?>
 			<div class="navbar-item">
 				<div class="buttons">
-					<a class="button is-link">
+					<a class="button is-link" href="/logout">
 						Logout
 					</a>
 				</div>
 			</div>
+			<?php } ?>
 		</div>
 	</div>
+
 </nav>
