@@ -1,6 +1,6 @@
 <?php
 
-class PostListComponent extends CBitrixComponent {
+class SignInComponent extends CBitrixComponent {
 	public function executeComponent()
 	{
 
