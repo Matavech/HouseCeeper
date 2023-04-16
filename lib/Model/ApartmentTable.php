@@ -83,12 +83,14 @@ class ApartmentTable extends DataManager
 				HouseTable::class,
 				Join::on('this.HOUSE_ID', 'ref.ID')
 			),
-			new ManyToMany(
+			(new ManyToMany(
 				'USER',
 				UserTable::class
-			),
+			))->configureTableName('hc_houseceeper_apartment_user'),
 		];
 	}
+
+
 
 	/**
 	 * Returns validators for REG_KEY field.

@@ -58,10 +58,10 @@ class TagTable extends DataManager
 					'title' => Loc::getMessage('TAG_ENTITY_NAME_FIELD')
 				]
 			),
-			new ManyToMany(
+			(new ManyToMany(
 				'POSTS',
 				PostTable::class
-			),
+			))->configureTableName('hc_houseceeper_post_tag'),
 		];
 	}
 

@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS hc_houseceeper_house (
     ADDRESS VARCHAR(100),
     NUMBER_OF_APARTMENT INT NOT NULL,
     UNIQUE_PATH VARCHAR(50) NOT NULL,
+    INFO VARCHAR(1000),
     PRIMARY KEY (ID)
 );
 
@@ -131,8 +132,8 @@ CREATE TABLE IF NOT EXISTS hc_houseceeper_post_tag (
         ON DELETE CASCADE
 );
 
-INSERT INTO hc_houseceeper_house (ID, NAME, ADDRESS, NUMBER_OF_APARTMENT, UNIQUE_PATH)
-VALUES (1, 'TEST HOUSE', 'address', '50', 'path');
+INSERT INTO hc_houseceeper_house (ID, NAME, ADDRESS, NUMBER_OF_APARTMENT, UNIQUE_PATH, INFO)
+VALUES (1, 'TEST HOUSE', 'address', '50', 'test-path', 'test info');
 
 INSERT INTO hc_houseceeper_apartment (ID, NUMBER, REG_KEY, HOUSE_ID)
 VALUES (1, 1, 'secret key', 1);

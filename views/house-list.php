@@ -4,14 +4,12 @@
  */
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("HouseCeeper");
 global $USER;
-if (!$USER->IsAuthorized()){
+if (!$USER->IsAdmin()){
 	LocalRedirect('/sign-in');
 }
+$APPLICATION->SetTitle("HouseCeeper admin");
 
-$APPLICATION->IncludeComponent('hc:post.list', '', [
-	'housePath' => $_REQUEST['housePath'],
-]);
+$APPLICATION->IncludeComponent('hc:house.list', '', []);
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

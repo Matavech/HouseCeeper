@@ -19,7 +19,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</h2>
 		</section>
 
-		<form action="login">
+		<form action="/login" method="post">
 
 
 			<div class="field mt-6">
@@ -44,7 +44,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="control mt-5">
-				<button class="button is-link" type="submit">Sign up</button>
+				<button class="button is-link" type="submit">Sign in</button>
 			</div>
 
 		</form>
