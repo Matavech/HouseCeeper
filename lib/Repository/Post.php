@@ -21,7 +21,7 @@ class Post
 		$query = HouseTable::query()
 			->setSelect(['ID'])
 			->setFilter([
-				'UNIQUE_PATH' => 'test-path'
+				'UNIQUE_PATH' => $housePath
 			]);
 
 		$result = $query->fetch();

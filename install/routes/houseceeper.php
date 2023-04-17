@@ -34,8 +34,13 @@ return function (RoutingConfigurator $routes)
 		$house->addNewHouse();
 	});
 
+	$routes->get('/house-about/{housePath}', new PublicPageController('/local/modules/hc.houseceeper/views/house-details.php'));
+	$routes->get('/create-reg-link', function () {
+		echo \Hc\Houseceeper\Controller\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
+	});
+
 	$routes->get('/house/{housePath}', new PublicPageController('/local/modules/hc.houseceeper/views/post-list.php'));
-	$routes->get('/house/{$housePath}/post', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'));
+	$routes->get('/house/{housePath}/post', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'));
 	$routes->get('/sign-up', new PublicPageController('/local/modules/hc.houseceeper/views/sign-up.php'));
 	$routes->get('/sign-in', new PublicPageController('/local/modules/hc.houseceeper/views/sign-in.php'));
 };

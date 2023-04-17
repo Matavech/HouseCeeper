@@ -2,8 +2,6 @@
 namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Engine;
-use Bitrix\Main\Error;
-use Hc\Houseceeper\Repository;
 
 class Auth extends Engine\Controller
 {
@@ -20,7 +18,12 @@ class Auth extends Engine\Controller
 
 		$errorMessage = $USER->Login($login, $password, "Y");
 
-		LocalRedirect('/');
+		if (is_bool($errorMessage) && $errorMessage){
+			LocalRedirect('/');
+		} else {
+			var_dump($errorMessage);
+			ShowMessage($errorMessage);
+		}
 	}
 
 	public static function signupUser() {

@@ -1,6 +1,7 @@
 <?php
 namespace Hc\Houseceeper\Model;
 
+use Bitrix\Main\Entity\ExpressionField;
 use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Data\DataManager,
 	Bitrix\Main\ORM\Fields\IntegerField,
@@ -9,6 +10,8 @@ use Bitrix\Main\Localization\Loc,
 use Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Fields\Validators\RangeValidator;
+use Bitrix\Main\ORM\Fields\Validators\UniqueValidator;
 use Bitrix\Main\ORM\Query\Join;
 use Bitrix\SocialServices\Integration\Zoom\Conference;
 
@@ -60,17 +63,23 @@ class ApartmentTable extends DataManager
 				'NUMBER',
 				[
 					'required' => true,
+					'validation' => [__CLASS__, 'validateNumber'],
 					'title' => Loc::getMessage('APARTMENT_ENTITY_NUMBER_FIELD')
 				]
 			),
-			new StringField(
-				'REG_KEY',
-				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateRegKey'],
-					'title' => Loc::getMessage('APARTMENT_ENTITY_REG_KEY_FIELD')
-				]
-			),
+//			new StringField(
+//				'REG_KEY',
+//				[
+//					'required' => true,
+//					'validation' => [__CLASS__, 'validateRegKey'],
+//					'title' => Loc::getMessage('APARTMENT_ENTITY_REG_KEY_FIELD')
+//				]
+//			),
+			new ExpressionField(
+                'REG_KEY',
+                'MD5(CONCAT(%s, "-", %s))',
+                ['HOUSE_ID', 'NUMBER']
+            ),
 			new IntegerField(
 				'HOUSE_ID',
 				[
@@ -87,20 +96,19 @@ class ApartmentTable extends DataManager
 				'USER',
 				UserTable::class
 			))->configureTableName('hc_houseceeper_apartment_user'),
+
 		];
 	}
 
-
-
 	/**
-	 * Returns validators for REG_KEY field.
+	 * Returns validators for NUMBER field.
 	 *
 	 * @return array
 	 */
-	public static function validateRegKey()
+	public static function validateNumber()
 	{
 		return [
-			new LengthValidator(null, 50),
+			new RangeValidator(1),
 		];
 	}
 }
