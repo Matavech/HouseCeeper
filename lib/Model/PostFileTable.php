@@ -8,6 +8,8 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Fields\Relations\Reference;
+use Bitrix\Main\ORM\Fields\Validators\RegExpValidator;
+use Bitrix\Main\ORM\Fields\Validators\UniqueValidator;
 
 Loc::loadMessages(__FILE__);
 
@@ -75,7 +77,9 @@ class PostFileTable extends DataManager
 	public static function validateFilePath()
 	{
 		return [
+			new RegExpValidator('/^[a-z0-9+-]*$/'),
 			new LengthValidator(null, 50),
+			new UniqueValidator()
 		];
 	}
 }

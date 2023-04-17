@@ -1,4 +1,5 @@
 <?php
+
 namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Engine;
@@ -12,10 +13,10 @@ use Hc\Houseceeper\Repository;
 class House extends Engine\Controller
 {
 	protected const HOUSE_PER_PAGE = 20;
+
 	public function getListAction(int $pageNumber = 1): ?array
 	{
-		if ($pageNumber < 0)
-		{
+		if ($pageNumber < 0) {
 			$this->addError(new Error('pageNumber should be greater than 0', 'invalid_page_number'));
 
 			return null;
@@ -35,20 +36,17 @@ class House extends Engine\Controller
 //			LocalRedirect('/');
 //		}
 
-		$houseName = 				trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('house-name'));
-		$uniquePath = 				trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('unique-path'));
-		$numberOfApart = 			trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('number-of-apartments'));
-		$address = 					trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('address'));
-		$info = 					trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('info'));
-		$headmanName = 				trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-name'));
-		$headmanLastname = 			trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-lastname'));
-		$headmanEmail = 			trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-email'));
-		$headmanApartmentNumber = 	trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-apartment-number'));
-		$headmanLogin = 			trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-login'));
-		$headmanPassword = 			trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-password'));
-
-		// Validation
-		// W.I.P.
+		$houseName = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('house-name'));
+		$uniquePath = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('unique-path'));
+		$numberOfApart = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('number-of-apartments'));
+		$address = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('address'));
+		$info = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('info'));
+		$headmanName = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-name'));
+		$headmanLastname = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-lastname'));
+		$headmanEmail = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-email'));
+		$headmanApartmentNumber = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-apartment-number'));
+		$headmanLogin = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-login'));
+		$headmanPassword = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-password'));
 
 		$result = HouseTable::add([
 			'NAME' => $houseName,
@@ -58,8 +56,7 @@ class House extends Engine\Controller
 			'INFO' => $info
 		]);
 
-		if ($result->isSuccess())
-		{
+		if ($result->isSuccess()) {
 			//var_dump('house add success');
 			$houseId = $result->getId();
 			$headman = new \CUser();
@@ -72,7 +69,7 @@ class House extends Engine\Controller
 				'WORK_COMPANY' => 'HouseCeeper',
 			]);
 
-			if ($headmanId) {
+			if ((int)$headmanId > 0) {
 				//var_dump('headmen profile add success');
 				$result = UserTable::add([
 					'ID' => $headmanId,
@@ -98,7 +95,14 @@ class House extends Engine\Controller
 						LocalRedirect('/');
 					}
 				}
+			} else {
+				echo $headman->LAST_ERROR;
 			}
+		}
+		$errors = $result->getErrors();
+		foreach ($errors as $error)
+		{
+			echo $error->getMessage() . "</br>";
 		}
 	}
 }

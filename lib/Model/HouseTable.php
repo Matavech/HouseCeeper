@@ -7,6 +7,11 @@ use Bitrix\Main\Localization\Loc,
 	Bitrix\Main\ORM\Fields\StringField,
 	Bitrix\Main\ORM\Fields\Validators\LengthValidator;
 use Bitrix\Main\ORM\Fields\Relations\OneToMany;
+use Bitrix\Main\ORM\Fields\Validators\EnumValidator;
+use Bitrix\Main\ORM\Fields\Validators\RangeValidator;
+use Bitrix\Main\ORM\Fields\Validators\RegExpValidator;
+use Bitrix\Main\ORM\Fields\Validators\UniqueValidator;
+use Bitrix\Main\PhoneNumber\Tools\RegexField;
 
 Loc::loadMessages(__FILE__);
 
@@ -72,7 +77,8 @@ class HouseTable extends DataManager
 				'NUMBER_OF_APARTMENT',
 				[
 					'required' => true,
-					'title' => Loc::getMessage('HOUSE_ENTITY_NUMBER_OF_APARTMENT_FIELD')
+					'title' => Loc::getMessage('HOUSE_ENTITY_NUMBER_OF_APARTMENT_FIELD'),
+					'validation' => [__CLASS__, 'validateNumberOfApartment']
 				]
 			),
 			new StringField(
@@ -104,7 +110,7 @@ class HouseTable extends DataManager
 	public static function validateName()
 	{
 		return [
-			new LengthValidator(null, 50),
+			new LengthValidator(1, 50),
 		];
 	}
 
@@ -116,7 +122,19 @@ class HouseTable extends DataManager
 	public static function validateAddress()
 	{
 		return [
-			new LengthValidator(null, 100),
+			new LengthValidator(1, 100),
+		];
+	}
+	/**
+	 * Returns validators for NUMBER_OF_APARTMENT field.
+	 *
+	 * @return array
+	 */
+	public static function validateNumberOfApartment()
+	{
+		return [
+			//new EnumValidator(),
+			new RangeValidator(1)
 		];
 	}
 
@@ -128,7 +146,9 @@ class HouseTable extends DataManager
 	public static function validateUniquePath()
 	{
 		return [
-			new LengthValidator(null, 50),
+			new LengthValidator(1, 50),
+			new RegExpValidator('/^[a-z0-9+-]*$/'),
+			new UniqueValidator()
 		];
 	}
 }
