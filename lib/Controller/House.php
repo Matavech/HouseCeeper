@@ -13,6 +13,7 @@ use Hc\Houseceeper\Repository;
 class House extends Engine\Controller
 {
 	protected const HOUSE_PER_PAGE = 20;
+	protected const REG_KEY_LENGTH = 50;
 
 	public function getListAction(int $pageNumber = 1): ?array
 	{
@@ -94,9 +95,9 @@ class House extends Engine\Controller
 
 				if ($result->isSuccess()) {
 					//var_dump('headmen add success');
-					//$regKey = Apartment::generateRegKey($houseId, $headmanApartmentNumber);
+					$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH));
 					$result = ApartmentTable::add([
-						//'REG_KEY' => $regKey,
+						'REG_KEY' => $regKey,
 						'NUMBER' => $headmanApartmentNumber,
 						'HOUSE_ID' => $houseId,
 					]);

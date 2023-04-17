@@ -67,19 +67,18 @@ class ApartmentTable extends DataManager
 					'title' => Loc::getMessage('APARTMENT_ENTITY_NUMBER_FIELD')
 				]
 			),
-//			new StringField(
-//				'REG_KEY',
-//				[
-//					'required' => true,
-//					'validation' => [__CLASS__, 'validateRegKey'],
-//					'title' => Loc::getMessage('APARTMENT_ENTITY_REG_KEY_FIELD')
-//				]
-//			),
-			new ExpressionField(
-                'REG_KEY',
-                'MD5(CONCAT(%s, "-", %s))',
-                ['HOUSE_ID', 'NUMBER']
-            ),
+			new StringField(
+				'REG_KEY',
+				[
+					'required' => true,
+					'title' => Loc::getMessage('APARTMENT_ENTITY_REG_KEY_FIELD')
+				]
+			),
+//			new ExpressionField(
+//                'REG_KEY',
+//                'MD5(CONCAT(%s, "-", %s))',
+//                ['HOUSE_ID', 'NUMBER']
+//            ),
 			new IntegerField(
 				'HOUSE_ID',
 				[
