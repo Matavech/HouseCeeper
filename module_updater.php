@@ -28,6 +28,7 @@ function __projectorMigrate(int $nextVersion, callable $callback)
 
 __projectorMigrate(2, function($updater, $DB)
 {
+	return;
 	if ($updater->CanUpdateDatabase() && !$updater->TableExists('hc_houseceeper_house'))
 	{
 		$DB->query('CREATE TABLE IF NOT EXISTS hc_houseceeper_house (
