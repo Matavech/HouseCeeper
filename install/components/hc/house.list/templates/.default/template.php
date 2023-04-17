@@ -21,7 +21,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			Адрес: <?= $house['ADDRESS'] ?>
 		</h2>
 		<h5><?= $house['NUMBER_OF_APARTMENT'] ?> квартир</h5>
-		<a class="button is-dark" href="/edit-house/<?= $house['UNIQUE_PATH'] ?>">Редактировать</a>
+		<a class="button is-dark" href="/house-about/<?= $house['UNIQUE_PATH'] ?>">Редактировать</a>
 	</section>
 	<?php } ?>
 

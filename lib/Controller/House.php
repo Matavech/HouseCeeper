@@ -30,6 +30,22 @@ class House extends Engine\Controller
 		];
 	}
 
+	public function getDetailsAction(string $housePath)
+	{
+		$houseId = Repository\House::getIdByPath($housePath);
+		if ($houseId)
+		{
+			$houseDetails = Repository\House::getDetails($houseId);
+			//$registeredCount = Repository\House::getRegisteredCount($houseId);
+
+		return [
+			'houseDetails' => $houseDetails,
+			//'registeredCount' => $registeredCount,
+		];
+		}
+		LocalRedirect('/');
+	}
+
 	public function addNewHouse()
 	{
 //		if (!check_bitrix_sessid()) {
@@ -78,8 +94,9 @@ class House extends Engine\Controller
 
 				if ($result->isSuccess()) {
 					//var_dump('headmen add success');
+					//$regKey = Apartment::generateRegKey($houseId, $headmanApartmentNumber);
 					$result = ApartmentTable::add([
-						'REG_KEY' => 'secret key 2',
+						//'REG_KEY' => $regKey,
 						'NUMBER' => $headmanApartmentNumber,
 						'HOUSE_ID' => $houseId,
 					]);
