@@ -47,11 +47,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<button class="button" type="submit">Сохранить</button>
 		</form>
 
-		<form method="get" action="/reg-link">
+		<form method="get" action="/create-reg-link">
 			<h3 class="title mt-6">
 				Получить ссылку-приглашение
 			</h3>
-			<input type="hidden" name="house-id" value="">
+			<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
 			<div class="field">
 				<label class="label">Номер квартиры</label>
 				<div class="control has-icons-left has-icons-right">
