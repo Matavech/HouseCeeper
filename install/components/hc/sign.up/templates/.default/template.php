@@ -19,24 +19,24 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</h2>
 	</section>
 
-	<form action="signup">
+	<form action="/reg" method="post">
 
 		<div class="field mt-6">
-			<label class="label">Firstname</label>
+			<label class="label">Имя</label>
 			<div class="control">
 				<input required class="input" type="text" placeholder="Введите имя" name="firstname">
 			</div>
 		</div>
 
 		<div class="field">
-			<label class="label">Lastname</label>
+			<label class="label">Фамилия</label>
 			<div class="control">
 				<input class="input" type="text" placeholder="Введите фамилию" name="lastname">
 			</div>
 		</div>
 
 		<div class="field">
-			<label class="label">Username</label>
+			<label class="label">Логин</label>
 			<div class="control has-icons-left has-icons-right">
 				<input required class="input " type="text" placeholder="Введите логин" name="login">
 				<span class="icon is-small is-left">
@@ -46,7 +46,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</div>
 
 		<div class="field">
-			<label class="label">Password</label>
+		<label class="label">Почта</label>
+		<div class="control has-icons-left has-icons-right">
+			<input required class="input " type="text" placeholder="Введите почту" name="email">
+			<span class="icon is-small is-left">
+		 <i class="fa-user fa-solid"></i>
+		</span>
+		</div>
+		</div>
+
+		<div class="field">
+			<label class="label">Пароль</label>
 			<div class="control has-icons-left has-icons-right">
 				<input required class="input " type="password" placeholder="Введите пароль" name="password">
 				<span class="icon is-small is-left">
@@ -58,7 +68,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<div class="field mt-6">
 			<label class="label">House key</label>
 			<div class="control has-icons-left has-icons-right">
-				<input required class="input " type="text" placeholder="Введите пароль" value="U23Dsv2" name="key">
+				<input required class="input " type="text" placeholder="Введите ключ" value="U23Dsv2" name="key">
 				<span class="icon is-small is-left">
 		<i class="fa-solid fa-key"></i>
 		</span>
@@ -66,7 +76,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</div>
 		</div>
 		<div class="control mt-5">
-			<button class="button is-link" type="submit">Sign up</button>
+			<button class="button is-link" type="submit">Зарегестрироваться</button>
+			<span>Уже зарегестрированы? </span> <a href="/sign-in">Авторизуйтесь</a>
 		</div>
 
 	</form>

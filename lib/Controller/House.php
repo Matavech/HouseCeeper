@@ -4,6 +4,7 @@ namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Engine;
 use Bitrix\Main\Error;
+use Bitrix\Main\Context;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\HouseTable;
@@ -13,7 +14,7 @@ use Hc\Houseceeper\Repository;
 class House extends Engine\Controller
 {
 	protected const HOUSE_PER_PAGE = 20;
-	protected const REG_KEY_LENGTH = 50;
+	protected const REG_KEY_LENGTH = 30;
 
 	public function getListAction(int $pageNumber = 1): ?array
 	{
@@ -34,15 +35,14 @@ class House extends Engine\Controller
 	public function getDetailsAction(string $housePath)
 	{
 		$houseId = Repository\House::getIdByPath($housePath);
-		if ($houseId)
-		{
+		if ($houseId) {
 			$houseDetails = Repository\House::getDetails($houseId);
 			//$registeredCount = Repository\House::getRegisteredCount($houseId);
 
-		return [
-			'houseDetails' => $houseDetails,
-			//'registeredCount' => $registeredCount,
-		];
+			return [
+				'houseDetails' => $houseDetails,
+				//'registeredCount' => $registeredCount,
+			];
 		}
 		LocalRedirect('/');
 	}
@@ -53,17 +53,18 @@ class House extends Engine\Controller
 //			LocalRedirect('/');
 //		}
 
-		$houseName = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('house-name'));
-		$uniquePath = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('unique-path'));
-		$numberOfApart = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('number-of-apartments'));
-		$address = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('address'));
-		$info = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('info'));
-		$headmanName = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-name'));
-		$headmanLastname = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-lastname'));
-		$headmanEmail = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-email'));
-		$headmanApartmentNumber = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-apartment-number'));
-		$headmanLogin = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-login'));
-		$headmanPassword = trim(\Bitrix\Main\Context::getCurrent()->getRequest()->getPost('headman-password'));
+		$request = Context::getCurrent()->getRequest();
+		$houseName = 				trim($request->getPost('house-name'));
+		$uniquePath = 				trim($request->getPost('unique-path'));
+		$numberOfApart = 			trim($request->getPost('number-of-apartments'));
+		$address = 					trim($request->getPost('address'));
+		$info = 					trim($request->getPost('info'));
+		$headmanName = 				trim($request->getPost('headman-name'));
+		$headmanLastname = 			trim($request->getPost('headman-lastname'));
+		$headmanEmail =			 	trim($request->getPost('headman-email'));
+		$headmanApartmentNumber = 	trim($request->getPost('headman-apartment-number'));
+		$headmanLogin = 			trim($request->getPost('headman-login'));
+		$headmanPassword = 			trim($request->getPost('headman-password'));
 
 		$result = HouseTable::add([
 			'NAME' => $houseName,
@@ -95,7 +96,7 @@ class House extends Engine\Controller
 
 				if ($result->isSuccess()) {
 					//var_dump('headmen add success');
-					$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH));
+					$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH / 2));
 					$result = ApartmentTable::add([
 						'REG_KEY' => $regKey,
 						'NUMBER' => $headmanApartmentNumber,
@@ -118,8 +119,7 @@ class House extends Engine\Controller
 			}
 		}
 		$errors = $result->getErrors();
-		foreach ($errors as $error)
-		{
+		foreach ($errors as $error) {
 			echo $error->getMessage() . "</br>";
 		}
 	}

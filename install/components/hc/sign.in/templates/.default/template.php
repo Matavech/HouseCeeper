@@ -23,9 +23,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="field mt-6">
-				<label class="label">Username</label>
+				<label class="label">Логин</label>
 				<div class="control has-icons-left has-icons-right">
-					<input  class="input " type="text" placeholder="Введите логин" name="login">
+					<input required class="input " type="text" placeholder="Введите логин" name="login">
 					<span class="icon is-small is-left">
 		 <i class="fa-user fa-solid"></i>
 		</span>
@@ -33,9 +33,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</div>
 
 			<div class="field">
-				<label class="label">Password</label>
+				<label class="label">Пароль</label>
 				<div class="control has-icons-left has-icons-right">
-					<input  class="input " type="password" placeholder="Введите пароль" name="password">
+					<input required class="input " type="password" placeholder="Введите пароль" name="password">
 					<span class="icon is-small is-left">
 		 <i class="fa-solid fa-lock"></i>
 		</span>
@@ -44,7 +44,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="control mt-5">
-				<button class="button is-link" type="submit">Sign in</button>
+				<button class="button is-link" type="submit">Авторизироваться</button>
+				<span>Не зарегестрированы? </span> <a href="/sign-up">Зарегестрируйтесь</a>
 			</div>
 
 		</form>

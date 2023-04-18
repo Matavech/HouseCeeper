@@ -8,7 +8,7 @@ use Hc\Houseceeper\Model\HouseTable;
 
 class Apartment extends Engine\Controller
 {
-	protected const REG_KEY_LENGTH = 50;
+	protected const REG_KEY_LENGTH = 30;
 	public static function generateRegKey($houseId, $apartNumber)
 	{
 		// Checking rights
@@ -31,7 +31,7 @@ class Apartment extends Engine\Controller
 			])->fetchObject();
 
 			if (!$apartment) {
-				$newRegKey = bin2hex(random_bytes(self::REG_KEY_LENGTH));
+				$newRegKey = bin2hex(random_bytes(self::REG_KEY_LENGTH/2));
 				$result = ApartmentTable::add([
 					'HOUSE_ID' => $houseId,
 					'NUMBER' => $apartNumber,
@@ -46,5 +46,17 @@ class Apartment extends Engine\Controller
 			return $apartment->get('REG_KEY');
 		}
 		return 'Дом не найден';
+	}
+
+	public static function getApartmentFromKey($key)
+	{
+		$query = ApartmentTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'=REG_KEY' => $key
+			]
+		]);
+
+		return $query->fetch();
 	}
 }
