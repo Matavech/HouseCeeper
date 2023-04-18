@@ -39,6 +39,12 @@ return function (RoutingConfigurator $routes)
 		echo \Hc\Houseceeper\Controller\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
 	});
 
+	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));
+	$routes->post('/house/{housePath}/add-post', function() {
+		$post = new \Hc\Houseceeper\Controller\Post();
+		$post->addNewPostForHouse($_REQUEST['housePath']);
+	});
+
 	$routes->get('/house/{housePath}', new PublicPageController('/local/modules/hc.houseceeper/views/post-list.php'));
 	$routes->get('/house/{housePath}/post', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'));
 	$routes->get('/sign-up', new PublicPageController('/local/modules/hc.houseceeper/views/sign-up.php'));

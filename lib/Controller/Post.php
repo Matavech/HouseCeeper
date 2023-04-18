@@ -1,8 +1,10 @@
 <?php
 namespace Hc\Houseceeper\Controller;
 
+use Bitrix\Main\Context;
 use Bitrix\Main\Engine;
 use Bitrix\Main\Error;
+use Hc\Houseceeper\Model\PostTable;
 use Hc\Houseceeper\Repository;
 
 class Post extends Engine\Controller
@@ -30,6 +32,29 @@ class Post extends Engine\Controller
 			'pageNumber' => $pageNumber,
 			'postList' => $postList,
 		];
+	}
+
+	public function addNewPostForHouse(string $housePath)
+	{
+		$request = Context::getCurrent()->getRequest();
+		$postCaption = trim($request->getPost('post-caption'));
+		$postBody = trim($request->getPost('post-body'));
+
+		$userId = '1';
+		$houseId = $housePath === 'dom1' ? '1' : '2'; //Todo get from db
+		$postTypeId = $request->getPost('post-type') === 'announcement' ? '1' : '2'; //Todo get from db
+
+		$result = PostTable::add([
+			'HOUSE_ID' => $houseId,
+			'USER_ID' => $userId,
+			'TITLE' => $postCaption,
+			'CONTENT' => $postBody,
+			'TYPE_ID' => $postTypeId,
+									 ]);
+
+		if ($result->isSuccess()) {
+			echo 'Post has been added successfully';
+		}
 	}
 
 	public function configureActions(): array
