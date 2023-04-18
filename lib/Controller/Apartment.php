@@ -39,7 +39,7 @@ class Apartment extends Engine\Controller
 				]);
 
 				if ($result->isSuccess()) {
-					echo 'Квартира была добавленна' . '</br>';
+					//echo 'Квартира была добавленна' . '</br>';
 					return $newRegKey;
 				}
 			}

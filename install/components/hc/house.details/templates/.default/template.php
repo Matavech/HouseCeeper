@@ -5,6 +5,7 @@
  * @var array $arParams
  */
 
+\Bitrix\Main\UI\Extension::load("ui.vue3");
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 
@@ -47,7 +48,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<button class="button" type="submit">Сохранить</button>
 		</form>
 
-		<form method="get" action="/create-reg-link">
+		<form method="get">
 			<h3 class="title mt-6">
 				Получить ссылку-приглашение
 			</h3>
@@ -58,7 +59,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<input required class="input" type="number" name="number">
 				</div>
 			</div>
-			<button class="button" type="submit">Получить</button>
+			<button class="button" type="submit" onclick="generateLink(event)">Получить</button>
+			<span id="invite-key" class="tag is-large has-background-white"></span>
+			<span id="invite-link" class="tag is-large has-background-white"></span>
 		</form>
 	</div>
 </div>

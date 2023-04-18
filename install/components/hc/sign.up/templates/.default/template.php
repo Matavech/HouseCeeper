@@ -68,7 +68,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<div class="field mt-6">
 			<label class="label">House key</label>
 			<div class="control has-icons-left has-icons-right">
-				<input required class="input " type="text" placeholder="Введите ключ" value="U23Dsv2" name="key">
+				<input required class="input " type="text" placeholder="Введите ключ" value="<?= $arParams['key'] ?>" name="key">
 				<span class="icon is-small is-left">
 		<i class="fa-solid fa-key"></i>
 		</span>

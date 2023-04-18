@@ -15,7 +15,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<?php foreach ($arResult['HOUSE'] as $house) {?>
 	<section class="section">
 		<h1 class="title">
-			<a href="/edit-house/<?= $house['UNIQUE_PATH'] ?>"><?= $house['NAME'] ?></a>
+			<a href="/house-about/<?= $house['UNIQUE_PATH'] ?>"><?= $house['NAME'] ?></a>
 		</h1>
 		<h2 class="subtitle">
 			Адрес: <?= $house['ADDRESS'] ?>
