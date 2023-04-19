@@ -18,7 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<a href="/house-about/<?= $house['UNIQUE_PATH'] ?>"><?= $house['NAME'] ?></a>
 		</h1>
 		<h2 class="subtitle">
-			Адрес: <?= $house['ADDRESS'] ?>
+			Адрес: <?= htmlspecialcharsbx($house['ADDRESS']) ?>
 		</h2>
 		<h5><?= $house['NUMBER_OF_APARTMENT'] ?> квартир</h5>
 		<a class="button is-dark" href="/house-about/<?= $house['UNIQUE_PATH'] ?>">Редактировать</a>
