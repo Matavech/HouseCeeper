@@ -55,4 +55,14 @@ class Post extends Engine\Controller
 			echo 'Wrong post type or house path';
 		}
 	}
+
+	public function getPostById($id)
+	{
+		$post = Repository\Post::getDetails((int)$id);
+
+		$user = new User();
+		$post['USER'] = $user->getUserName((int)$post['USER_ID']);
+
+		return $post;
+	}
 }

@@ -46,7 +46,8 @@ return function (RoutingConfigurator $routes)
 	});
 
 	$routes->get('/house/{housePath}', new PublicPageController('/local/modules/hc.houseceeper/views/post-list.php'));
-	$routes->get('/house/{housePath}/post', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'));
 	$routes->get('/sign-up', new PublicPageController('/local/modules/hc.houseceeper/views/sign-up.php'));
 	$routes->get('/sign-in', new PublicPageController('/local/modules/hc.houseceeper/views/sign-in.php'));
+
+	$routes->get('/house/{housePath}/post/{id}', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'))->where('id', '[0-9]+');
 };

@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\HouseTable;
 use Hc\Houseceeper\Model\PostTable;
 use Hc\Houseceeper\Model\PostTypeTable;
@@ -57,5 +58,24 @@ class Post
 			return $result['ID'];
 		}
 		return false;
+	}
+
+	public static function getDetails(string $id)
+	{
+		$query = PostTable::query()
+			->setSelect([
+				'*', 'TYPE.NAME', 'USER.IMAGE_PATH',
+							])
+			->setFilter([
+				'ID' => $id,
+						]);
+
+		$result = $query->fetch();
+		if (!$result)
+		{
+			return false;
+		}
+
+		return $result;
 	}
 }

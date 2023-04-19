@@ -10,6 +10,9 @@ if (!$USER->IsAuthorized()){
 	LocalRedirect('/sign-in');
 }
 
-$APPLICATION->IncludeComponent('hc:post.details', '', []);
+$APPLICATION->IncludeComponent('hc:post.details', '', [
+	'housePath' => $_REQUEST['housePath'],
+	'id' => $_REQUEST['id'],
+]);
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
