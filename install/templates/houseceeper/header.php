@@ -77,7 +77,7 @@ global $USER;
 
 			<div class="navbar-item">
 				<span class="tag has-background-grey-light is-large">
-					<?= $USER->GetFullName() ?>, квартира 13
+					<?= htmlspecialcharsbx($USER->GetFullName()) ?>, квартира 13
 				</span>
 			</div>
 			<?php } ?>
