@@ -20,11 +20,13 @@ class Post
 
 		if($result) {
 			$houseId = $result['ID'];
+			$navObject->setRecordCount(PostTable::getCount([
+				'HOUSE_ID' => $houseId
+			]));
+
 			$result = PostTable::getList([
 				'select' => ['*', 'TYPE.NAME'],
-				'filter' => [
-					'HOUSE_ID' => $houseId
-				],
+				'filter' => ['HOUSE_ID' => $houseId],
 				'offset' => $navObject->getOffset(),
 				'limit' => $navObject->getLimit()
 			]);

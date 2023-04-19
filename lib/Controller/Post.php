@@ -9,14 +9,13 @@ use Hc\Houseceeper\Repository;
 
 class Post extends Engine\Controller
 {
-	protected const PROJECT_PER_PAGE = 2;
+	protected const PROJECT_PER_PAGE = 3;
 
 	public function getListAction(string $housePath): ?array
 	{
 		$navObject = new \Bitrix\Main\UI\PageNavigation('nav');
 		$navObject->allowAllRecords(false)
 			->setPageSize(self::PROJECT_PER_PAGE)
-			->setRecordCount(PostTable::getCount())
 			->initFromUri();
 
 		$postList = Repository\Post::getPage($navObject, $housePath);
