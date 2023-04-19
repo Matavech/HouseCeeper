@@ -30,7 +30,7 @@ class Post
 		if($result) {
 			$houseId = $result['ID'];
 			$query = PostTable::query()
-				->setSelect(['*'])
+				->setSelect(['*', 'TYPE.NAME'])
 				->setFilter([
 					'HOUSE_ID' => $houseId
 				]);

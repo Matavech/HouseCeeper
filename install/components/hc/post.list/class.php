@@ -11,6 +11,6 @@ class PostListComponent extends CBitrixComponent {
 	{
 		$postList = new \Hc\Houseceeper\Controller\Post();
 		$list = $postList->getListAction($this->arParams['housePath']);
-		$this->arResult['HOUSE'] = $list['postList'];
+		$this->arResult['POSTS'] = $list['postList'];
 	}
 }
