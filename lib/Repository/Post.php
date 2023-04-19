@@ -4,6 +4,7 @@ namespace Hc\Houseceeper\Repository;
 
 use Hc\Houseceeper\Model\HouseTable;
 use Hc\Houseceeper\Model\PostTable;
+use Hc\Houseceeper\Model\PostTypeTable;
 
 class Post
 {
@@ -37,5 +38,21 @@ class Post
 		}
 
 		LocalRedirect('/');
+	}
+
+	public static function getPostTypeId(string $postType)
+	{
+		$query = PostTypeTable::query()
+			->setSelect(['ID'])
+			->setFilter([
+				'NAME' => $postType
+			]);
+
+		$result = $query->fetch();
+
+		if ($result) {
+			return $result['ID'];
+		}
+		return false;
 	}
 }

@@ -39,35 +39,28 @@ class Post extends Engine\Controller
 		$request = Context::getCurrent()->getRequest();
 		$postCaption = trim($request->getPost('post-caption'));
 		$postBody = trim($request->getPost('post-body'));
+		$postType = trim($request->getPost('post-type'));
 
-		$userId = '1';
-		$houseId = $housePath === 'dom1' ? '1' : '2'; //Todo get from db
-		$postTypeId = $request->getPost('post-type') === 'announcement' ? '1' : '2'; //Todo get from db
+		global $USER;
+		$userId = $USER->GetID();
+		$houseId = Repository\House::getIdByPath($housePath);
+		$postTypeId = Repository\Post::getPostTypeId($postType);
 
-		$result = PostTable::add([
-			'HOUSE_ID' => $houseId,
-			'USER_ID' => $userId,
-			'TITLE' => $postCaption,
-			'CONTENT' => $postBody,
-			'TYPE_ID' => $postTypeId,
-									 ]);
+		if ($houseId && $postTypeId){
+			$result = PostTable::add([
+				'HOUSE_ID' => $houseId,
+				'USER_ID' => $userId,
+				'TITLE' => $postCaption,
+				'CONTENT' => $postBody,
+				'TYPE_ID' => $postTypeId,
+			]);
 
-		if ($result->isSuccess()) {
-			echo 'Post has been added successfully';
+			if ($result->isSuccess()) {
+				//echo 'Post has been added successfully';
+				LocalRedirect('/');
+			}
+		} else {
+			echo 'Wrong post type or house path';
 		}
-	}
-
-	public function configureActions(): array
-	{
-		return [
-			'getList' => [
-				// '+prefilters' => [
-				// 	new ActionFilter\ApiKeyAuthorization(),
-				// ],
-				'-prefilters' => [
-					Engine\ActionFilter\Authentication::class,
-				],
-			],
-		];
 	}
 }

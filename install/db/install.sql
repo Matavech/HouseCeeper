@@ -150,7 +150,9 @@ INSERT INTO hc_houseceeper_apartment_user (USER_ID, APARTMENT_ID)
 VALUES (1, 1);
 
 INSERT INTO hc_houseceeper_post_type (ID, NAME)
-VALUES (1, 'announcement');
+VALUES (1, 'announcement'),
+       (2, 'discussion'),
+       (3, 'unconfirmed');
 
 INSERT INTO hc_houseceeper_post (HOUSE_ID, USER_ID, TITLE, CONTENT, TYPE_ID)
 VALUES (1, 1, 'test post title', 'test post content', 1);

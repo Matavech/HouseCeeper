@@ -63,7 +63,7 @@ global $USER;
 			</div>
 
 
-			<a class="navbar-item">
+			<a class="navbar-item" href=" <?= $APPLICATION->sDocPath2 . '/add-post' ?>">
 				New post
 			</a>
 
