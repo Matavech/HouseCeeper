@@ -9,28 +9,21 @@ use Hc\Houseceeper\Repository;
 
 class Post extends Engine\Controller
 {
-	protected const PROJECT_PER_PAGE = 20;
-//	protected function getDefaultPreFilters(): array
-//	{
-//		return [
-//			new ActionFilter\ApiKeyAuthorization(),
-//		];
-//	}
+	protected const PROJECT_PER_PAGE = 2;
 
-	public function getListAction(string $housePath,int $pageNumber = 1): ?array
+	public function getListAction(string $housePath): ?array
 	{
-		if ($pageNumber < 0)
-		{
-			$this->addError(new Error('pageNumber should be greater than 0', 'invalid_page_number'));
+		$navObject = new \Bitrix\Main\UI\PageNavigation('nav');
+		$navObject->allowAllRecords(false)
+			->setPageSize(self::PROJECT_PER_PAGE)
+			->setRecordCount(PostTable::getCount())
+			->initFromUri();
 
-			return null;
-		}
-
-		$postList = Repository\Post::getPage(self::PROJECT_PER_PAGE, $pageNumber, $housePath);
+		$postList = Repository\Post::getPage($navObject, $housePath);
 
 		return [
-			'pageNumber' => $pageNumber,
 			'postList' => $postList,
+			'navObject' => $navObject,
 		];
 	}
 

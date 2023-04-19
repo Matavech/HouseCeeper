@@ -79,7 +79,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<!--		<a class="button is-dark" href="#">Перейти к обсуждению</a>-->
 
 		<?php foreach ($arResult['POSTS'] as $post) { ?>
-			<section class="section">
+			<section class="section post">
 				<h1 class="title">
 					<span class="tag is-medium" id="type">
 		  				<?= $post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] ?>
@@ -94,4 +94,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</section>
 		<?php } ?>
 	</div>
+
+	<?php if ($arResult['NAV_OBJECT']->getPageCount() > 1): ?>
+		<div class="pagination">
+			<?php $APPLICATION->IncludeComponent(
+				"bitrix:main.pagenavigation",
+				"",
+				array(
+					"NAV_OBJECT" => $arResult["NAV_OBJECT"],
+					"SEF_MODE" => "N",
+					"SHOW_ALWAYS" => "Y"
+				),
+				false
+			); ?>
+		</div>
+	<?php endif; ?>
 </div>

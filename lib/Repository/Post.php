@@ -8,17 +8,8 @@ use Hc\Houseceeper\Model\PostTypeTable;
 
 class Post
 {
-	public static function getPage(int $itemsPerPage, int $pageNumber, string $housePath): array
+	public static function getPage($navObject, string $housePath): array
 	{
-		if ($pageNumber > 1)
-		{
-			$offset = $itemsPerPage * ($pageNumber - 1);
-		}
-		else
-		{
-			$offset = 0;
-		}
-
 		$query = HouseTable::query()
 			->setSelect(['ID'])
 			->setFilter([
@@ -29,12 +20,22 @@ class Post
 
 		if($result) {
 			$houseId = $result['ID'];
-			$query = PostTable::query()
-				->setSelect(['*', 'TYPE.NAME'])
-				->setFilter([
+			$result = PostTable::getList([
+				'select' => ['*', 'TYPE.NAME'],
+				'filter' => [
 					'HOUSE_ID' => $houseId
-				]);
-			return $query->fetchAll();
+				],
+				'offset' => $navObject->getOffset(),
+				'limit' => $navObject->getLimit()
+			]);
+			return $result->fetchAll();
+
+//			$query = PostTable::query()
+//				->setSelect(['*', 'TYPE.NAME'])
+//				->setFilter([
+//					'HOUSE_ID' => $houseId
+//				]);
+//			return $query->fetchAll();
 		}
 
 		LocalRedirect('/');

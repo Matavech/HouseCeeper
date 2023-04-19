@@ -1,6 +1,7 @@
 <?php
 
 class PostListComponent extends CBitrixComponent {
+
 	public function executeComponent()
 	{
 		$this->fetchPostList();
@@ -12,5 +13,6 @@ class PostListComponent extends CBitrixComponent {
 		$postList = new \Hc\Houseceeper\Controller\Post();
 		$list = $postList->getListAction($this->arParams['housePath']);
 		$this->arResult['POSTS'] = $list['postList'];
+		$this->arResult['NAV_OBJECT'] = $list['navObject'];
 	}
 }
