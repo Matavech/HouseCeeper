@@ -44,8 +44,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="control mt-5">
-				<button class="button is-link" type="submit">Авторизироваться</button>
-				<span>Не зарегестрированы? </span> <a href="/sign-up">Зарегестрируйтесь</a>
+				<button class="button is-link" type="submit">Авторизоваться</button>
+				<span>Не зарегистрированы? </span> <a href="/sign-up">Зарегистрируйтесь</a>
 			</div>
 
 		</form>

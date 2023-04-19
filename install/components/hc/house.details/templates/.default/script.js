@@ -6,11 +6,8 @@ function generateLink(event) {
 
 	fetch(`/create-reg-link?house-id=${houseId}&number=${number}`)
 		.then(response => response.text())
-		.then(inviteKey => {
-			const inviteKeyElement = document.getElementById("invite-key");
-			inviteKeyElement.textContent = inviteKey;
+		.then(inviteLink => {
 
-			let inviteLink = 'bitrix.dev.bx/sign-up?key=' + inviteKey;
 			const inviteLinkElement = document.getElementById("invite-link");
 			inviteLinkElement.textContent = inviteLink;
 		})

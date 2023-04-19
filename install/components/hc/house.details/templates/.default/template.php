@@ -17,7 +17,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<?php bitrix_sessid_post(); ?>
 
 			<h1 class="title mt-6">
-				<?= $arResult['HOUSE']['NAME'] ?>
+				<?= htmlspecialcharsbx($arResult['HOUSE']['NAME']) ?>
 			</h1>
 
 			<input type="hidden" name="id" value="">
