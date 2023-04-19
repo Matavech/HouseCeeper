@@ -16,11 +16,12 @@ class Apartment extends Engine\Controller
 
 		$query = HouseTable::getById($houseId);
 		$house = $query->fetch();
-		if ($house) {
-			$exitLink = '/house-about/' . $house['UNIQUE_PATH'];
-
+		if ($house)
+		{
 			if (!is_numeric($apartNumber) || $apartNumber < 1 || $apartNumber > $house['NUMBER_OF_APARTMENT'])
-				LocalRedirect($exitLink);
+			{
+				return 'Неверный номер квартиры';
+			}
 
 			$apartment = ApartmentTable::getList([
 				'select' => ['REG_KEY'],
@@ -30,20 +31,21 @@ class Apartment extends Engine\Controller
 				]
 			])->fetchObject();
 
-			if (!$apartment) {
-				$newRegKey = bin2hex(random_bytes(self::REG_KEY_LENGTH/2));
+			if (!$apartment)
+			{
+				$newRegKey = bin2hex(random_bytes(self::REG_KEY_LENGTH / 2));
 				$result = ApartmentTable::add([
 					'HOUSE_ID' => $houseId,
 					'NUMBER' => $apartNumber,
 					'REG_KEY' => $newRegKey,
 				]);
 
-				if ($result->isSuccess()) {
-					//echo 'Квартира была добавленна' . '</br>';
-					return $newRegKey;
+				if ($result->isSuccess())
+				{
+					return 'bitrix.dev.bx/sign-up?key=' . $newRegKey;
 				}
 			}
-			return $apartment->get('REG_KEY');
+			return 'bitrix.dev.bx/sign-up?key=' . $apartment->get('REG_KEY');
 		}
 		return 'Дом не найден';
 	}
