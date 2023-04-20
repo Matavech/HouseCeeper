@@ -4,6 +4,8 @@ namespace Hc\Houseceeper\Controller;
 use Bitrix\Main\Context;
 use Bitrix\Main\Engine;
 use Bitrix\Main\Error;
+use Bitrix\Main\Type\Date;
+use Bitrix\Main\Type\DateTime;
 use Hc\Houseceeper\Model\PostTable;
 use Hc\Houseceeper\Repository;
 
@@ -58,6 +60,7 @@ class Post extends Engine\Controller
 
 	public function getPostById($id)
 	{
+
 		$post = Repository\Post::getDetails((int)$id);
 
 		$user = new User();

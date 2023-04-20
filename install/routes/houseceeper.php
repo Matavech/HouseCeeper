@@ -50,4 +50,15 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/sign-in', new PublicPageController('/local/modules/hc.houseceeper/views/sign-in.php'));
 
 	$routes->get('/house/{housePath}/post/{id}', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'))->where('id', '[0-9]+');
+	$routes->post('/house/{housePath}/post/{id}', function() {
+
+		$comment = new \Hc\Houseceeper\Controller\Comment();
+		$comment->addComment($_REQUEST['housePath'],$_REQUEST['id']);
+	});
+
+	$routes->post('/house/{housePath}/post/{id}/deleteComment', function() {
+
+		$comment = new \Hc\Houseceeper\Controller\Comment();
+		$comment->deleteComment($_REQUEST['housePath'],$_REQUEST['id']);
+	});
 };
