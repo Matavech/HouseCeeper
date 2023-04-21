@@ -11,6 +11,6 @@ class PostDetailsComponent extends CBitrixComponent {
 	{
 		$post = new \Hc\Houseceeper\Controller\Post();
 		$this->arResult['POST'] =  $post->getPostById($this->arParams['id']);
+		$this->arResult['POST']['DATETIME_CREATED'] = FormatDate('X', $this->arResult['POST']['DATETIME_CREATED']);
 	}
-
 }

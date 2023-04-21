@@ -5,7 +5,6 @@
  * @var array $arParams
  * @var CMain $APPLICATION
  */
-
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 
@@ -24,7 +23,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
 				</h2>
 				<h5 >
-					Опубликовано: <?=$arResult['POST']['DATETIME_CREATED']?> <br>
+					Опубликовано: <?=$arResult['POST']['DATETIME_CREATED'] ?> <br>
 					Пользователь: <?= htmlspecialcharsbx($arResult['POST']['USER']['NAME'])?>
 					<?= htmlspecialcharsbx($arResult['POST']['USER']['LAST_NAME'])?>
 				</h5>
