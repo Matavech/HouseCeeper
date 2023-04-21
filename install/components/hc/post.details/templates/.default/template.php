@@ -18,12 +18,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<span id="type" class="tag is-medium" >
   				<?=$arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] ?>
 			</span>
-					<?=$arResult['POST']['TITLE']?>
+					<?= htmlspecialcharsbx($arResult['POST']['TITLE'])?>
 				</h1>
 				<h2 class="subtitle">
-					<?=$arResult['POST']['CONTENT']?>
+					<?= htmlspecialcharsbx(['POST']['CONTENT'])?>
 				</h2>
-				<h5 >Опубликовано: <?=$arResult['POST']['DATETIME_CREATED']?> <br> Пользователь: <?=$arResult['POST']['USER']['NAME']?> <?=$arResult['POST']['USER']['LAST_NAME']?></h5>
+				<h5 >
+					Опубликовано: <?=$arResult['POST']['DATETIME_CREATED']?> <br>
+					Пользователь: <?= htmlspecialcharsbx($arResult['POST']['USER']['NAME'])?>
+					<?= htmlspecialcharsbx($arResult['POST']['USER']['LAST_NAME'])?>
+				</h5>
 
 				<h1 class="title mt-5">Комментарии</h1>
 				<article class="media">

@@ -84,10 +84,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<span class="tag is-medium" id="type">
 		  				<?= $post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] ?>
 					</span>
-					<a href="<?= $APPLICATION->sDocPath2 . '/post/' . $post['ID'] ?>"><?= $post['TITLE'] ?></a>
+					<a href="<?= $APPLICATION->sDocPath2 . '/post/' . $post['ID'] ?>"><?= htmlspecialcharsbx($post['TITLE']) ?></a>
 				</h1>
 				<h2 class="subtitle">
-					<?= $post['CONTENT'] ?>
+					<?= htmlspecialcharsbx($post['CONTENT']) ?>
 				</h2>
 				<h5>Опубликовано: <?= $post['DATETIME_CREATED'] ?></h5>
 				<a class="button is-dark" href="<?= $APPLICATION->sDocPath2 . '/post/' . $post['ID'] ?>">Перейти к обсуждению</a>
