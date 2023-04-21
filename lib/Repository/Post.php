@@ -4,6 +4,7 @@ namespace Hc\Houseceeper\Repository;
 
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\HouseTable;
+use Hc\Houseceeper\Model\PostFileTable;
 use Hc\Houseceeper\Model\PostTable;
 use Hc\Houseceeper\Model\PostTypeTable;
 
@@ -79,4 +80,16 @@ class Post
 
 		return $result;
 	}
+
+	public static function addPost($houseId, $userId, $postCaption, $postBody, $postTypeId)
+	{
+		return PostTable::add([
+			'HOUSE_ID' => $houseId,
+			'USER_ID' => $userId,
+			'TITLE' => $postCaption,
+			'CONTENT' => $postBody,
+			'TYPE_ID' => $postTypeId,
+		]);
+	}
+
 }

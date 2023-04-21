@@ -12,7 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <div class="container">
 	<div class="content">
 
-		<form method="post" action="/house/<?=$arParams['housePath']?>/add-post">
+		<form method="post" action="/house/<?= $arParams['housePath'] ?>/add-post" enctype="multipart/form-data">
 			<?php bitrix_sessid_post(); ?>
 
 			<h1 class="title mt-6">
@@ -41,8 +41,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					Обсуждение
 				</label>
 			</div>
+
+			<div class="file mt-5">
+				<label class="file-label">
+					<input type="file" name="files[]" multiple>
+				</label>
+				<div class="input-file-list"></div>
+			</div>
 			<button class="button mt-5" type="submit">Добавить пост</button>
 		</form>
-
 	</div>
 </div>
