@@ -86,7 +86,6 @@ class PostTable extends DataManager
 			new StringField(
 				'TITLE',
 				[
-					'required' => true,
 					'validation' => [__CLASS__, 'validateTitle'],
 					'title' => Loc::getMessage('POST_ENTITY_TITLE_FIELD')
 				]
@@ -145,7 +144,7 @@ class PostTable extends DataManager
 	public static function validateTitle()
 	{
 		return [
-			new LengthValidator(null, 100),
+			new LengthValidator(1, 100, ['MIN' => 'Заголовок не должен быть пустым', 'MAX' => 'Слишком длинный заголовок']),
 		];
 	}
 
@@ -157,7 +156,7 @@ class PostTable extends DataManager
 	public static function validateContent()
 	{
 		return [
-			new LengthValidator(null, 1000),
+			new LengthValidator(null, 1000, ['MAX' => 'Превышено количество допустимых символов']),
 		];
 	}
 }

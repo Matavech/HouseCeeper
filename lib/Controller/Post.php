@@ -1,4 +1,5 @@
 <?php
+
 namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Context;
@@ -40,7 +41,7 @@ class Post extends Engine\Controller
 		$houseId = Repository\House::getIdByPath($housePath);
 		$postTypeId = Repository\Post::getPostTypeId($postType);
 
-		if ($houseId && $postTypeId){
+		if ($houseId && $postTypeId) {
 			$result = PostTable::add([
 				'HOUSE_ID' => $houseId,
 				'USER_ID' => $userId,
@@ -52,6 +53,11 @@ class Post extends Engine\Controller
 			if ($result->isSuccess()) {
 				//echo 'Post has been added successfully';
 				LocalRedirect('/');
+			} else {
+				$errors = $result->getErrors();
+				foreach ($errors as $error) {
+					echo $error->getMessage();
+				}
 			}
 		} else {
 			echo 'Wrong post type or house path';
