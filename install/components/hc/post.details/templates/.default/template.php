@@ -21,7 +21,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<?= htmlspecialcharsbx($arResult['POST']['TITLE'])?>
 				</h1>
 				<h2 class="subtitle">
-					<?= htmlspecialcharsbx(['POST']['CONTENT'])?>
+					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
 				</h2>
 				<h5 >
 					Опубликовано: <?=$arResult['POST']['DATETIME_CREATED']?> <br>
