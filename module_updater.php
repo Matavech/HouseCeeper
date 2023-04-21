@@ -28,7 +28,6 @@ function __projectorMigrate(int $nextVersion, callable $callback)
 
 __projectorMigrate(2, function($updater, $DB)
 {
-	return;
 	if ($updater->CanUpdateDatabase() && !$updater->TableExists('hc_houseceeper_house'))
 	{
 		$DB->query('CREATE TABLE IF NOT EXISTS hc_houseceeper_house (
@@ -225,3 +224,8 @@ VALUES (1, 1, 'test post title', 'test post content', 1);");
 	}
 });
 
+__projectorMigrate(3, function($updater, $DB){
+	$DB->query("INSERT INTO hc_houseceeper_post_type (ID, NAME)
+VALUES (2, 'discussion'),
+       (3, 'unconfirmed');");
+});
