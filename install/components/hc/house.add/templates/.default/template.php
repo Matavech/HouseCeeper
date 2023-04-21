@@ -39,7 +39,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label">Кол-во квартир</label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="number" name="number-of-apartments">
+					<input required class="input" min="1" type="number" name="number-of-apartments">
 				</div>
 			</div>
 			<div class="field">
@@ -72,7 +72,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label">Номер квартиры</label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="number" name="headman-apartment-number">
+					<input required class="input" min="1" type="number" name="headman-apartment-number">
 				</div>
 			</div>
 			<div class="field">

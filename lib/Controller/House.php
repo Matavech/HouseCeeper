@@ -123,4 +123,31 @@ class House extends Engine\Controller
 			echo $error->getMessage() . "</br>";
 		}
 	}
+
+	public function editHouse(){
+		$request = Context::getCurrent()->getRequest();
+		$houseId = 					trim($request->getPost('house-id'));
+		$houseName = 				trim($request->getPost('house-name'));
+		$uniquePath = 				trim($request->getPost('unique-path'));
+		$numberOfApart = 			trim($request->getPost('number-of-apartments'));
+		$address = 					trim($request->getPost('address'));
+		$info = 					trim($request->getPost('info'));
+
+		$result = HouseTable::update($houseId, [
+			'NAME' => $houseName,
+			'ADDRESS' => $address,
+			'NUMBER_OF_APARTMENT' => $numberOfApart,
+			'UNIQUE_PATH' => $uniquePath,
+			'INFO' => $info
+		]);
+
+		if ($result->isSuccess())
+		{
+			LocalRedirect('/');
+		}
+		$errors = $result->getErrors();
+		foreach ($errors as $error) {
+			echo $error->getMessage() . "</br>";
+		}
+	}
 }

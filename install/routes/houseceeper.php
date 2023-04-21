@@ -38,6 +38,15 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/create-reg-link', function () {
 		echo \Hc\Houseceeper\Controller\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
 	});
+	$routes->post('/edit-house', function () {
+		global $USER;
+		if(!$USER->IsAdmin())
+		{
+			LocalRedirect('/');
+		}
+		$house = new \Hc\Houseceeper\Controller\House();
+		$house->editHouse();
+	});
 
 	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));
 	$routes->post('/house/{housePath}/add-post', function() {
