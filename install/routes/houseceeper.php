@@ -34,7 +34,7 @@ return function (RoutingConfigurator $routes)
 		$house->addNewHouse();
 	});
 
-	$routes->get('/house-about/{housePath}', new PublicPageController('/local/modules/hc.houseceeper/views/house-details.php'));
+	$routes->get('/house/{housePath}/about', new PublicPageController('/local/modules/hc.houseceeper/views/house-details.php'));
 	$routes->get('/create-reg-link', function () {
 		echo \Hc\Houseceeper\Controller\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
 	});

@@ -15,13 +15,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<?php foreach ($arResult['HOUSE'] as $house) {?>
 	<section class="section">
 		<h1 class="title">
-			<a href="/house-about/<?= $house['UNIQUE_PATH'] ?>"><?= htmlspecialcharsbx($house['NAME']) ?></a>
+			<a href="<?= '/house/' . $house['UNIQUE_PATH'] . '/about' ?>"><?= htmlspecialcharsbx($house['NAME']) ?></a>
 		</h1>
 		<h2 class="subtitle">
 			Адрес: <?= htmlspecialcharsbx($house['ADDRESS']) ?>
 		</h2>
 		<h5><?= $house['NUMBER_OF_APARTMENT'] ?> квартир</h5>
-		<a class="button is-dark" href="/house-about/<?= $house['UNIQUE_PATH'] ?>">Редактировать</a>
+		<a class="button is-dark" href="<?= '/house/' . $house['UNIQUE_PATH'] . '/about' ?>">Редактировать</a>
 	</section>
 	<?php } ?>
 
