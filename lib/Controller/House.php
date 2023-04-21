@@ -37,10 +37,14 @@ class House extends Engine\Controller
 		$houseId = Repository\House::getIdByPath($housePath);
 		if ($houseId) {
 			$houseDetails = Repository\House::getDetails($houseId);
+			$houseHeadmanList = Repository\User::getHouseHeadmenList($houseId);
+			$houseUserList = Repository\User::getHouseUserList($houseId);
 			//$registeredCount = Repository\House::getRegisteredCount($houseId);
 
 			return [
 				'houseDetails' => $houseDetails,
+				'houseHeadmanList' => $houseHeadmanList,
+				'houseUserList' => $houseUserList,
 				//'registeredCount' => $registeredCount,
 			];
 		}

@@ -47,6 +47,24 @@ return function (RoutingConfigurator $routes)
 		$house = new \Hc\Houseceeper\Controller\House();
 		$house->editHouse();
 	});
+	$routes->post('/house/{housePath}/add-headman', function () {
+		global $USER;
+		if(!$USER->IsAdmin())
+		{
+			LocalRedirect('/');
+		}
+		$user = new \Hc\Houseceeper\Controller\User();
+		$user->addHeadman();
+	});
+	$routes->post('/house/{housePath}/delete-headman', function () {
+		global $USER;
+		if(!$USER->IsAdmin())
+		{
+			LocalRedirect('/');
+		}
+		$user = new \Hc\Houseceeper\Controller\User();
+		$user->deleteHeadman();
+	});
 
 	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));
 	$routes->post('/house/{housePath}/add-post', function() {

@@ -50,7 +50,7 @@ class Auth extends Engine\Controller
 
 				$result = UserTable::add([
 					'ID' => $userId,
-					'ROLE_ID' => 1
+					'ROLE_ID' => 3
 				]);
 
 				if ($result->isSuccess()) {

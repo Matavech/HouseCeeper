@@ -11,6 +11,8 @@ class HouseDetailsComponent extends CBitrixComponent {
 		$detailsList = new \Hc\Houseceeper\Controller\House();
 		$list = $detailsList->getDetailsAction($this->arParams['housePath']);
 		$this->arResult['HOUSE'] = $list['houseDetails'];
-		$this->arResult['REGISTEREDCOUNT'] = $list['registeredCount'];
+		$this->arResult['HEADMEN_LIST'] = $list['houseHeadmanList'];
+		$this->arResult['USER_LIST'] = $list['houseUserList'];
+		//$this->arResult['REGISTEREDCOUNT'] = $list['registeredCount'];
 	}
 }
