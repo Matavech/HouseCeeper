@@ -15,7 +15,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="content">
 
 		<form method="post" action="edit-house">
-			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled'?>>
+			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?>>
 				<?php bitrix_sessid_post(); ?>
 
 				<div class="field mt-6">
@@ -88,41 +88,45 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 							</p>
 						</div>
 						<p class="card-content subtitle is-6"><?= $headman['EMAIL'] ?></p>
-						<div class="card-footer">
-							<form method="post" action="delete-headman" class="card-footer-item">
-								<fieldset <?= $USER->IsAdmin() ? '' : 'disabled'?>>
-									<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
-									<input type="hidden" name="headman-id" value="<?= $headman['ID'] ?>">
-									<button type="submit" class="button is-danger ">Снять полномочия</button>
-								</fieldset>
-							</form>
-						</div>
+						<?php if ($USER->IsAdmin()) { ?>
+							<div class="card-footer">
+								<form method="post" action="delete-headman" class="card-footer-item">
+									<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?>>
+										<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
+										<input type="hidden" name="headman-id" value="<?= $headman['ID'] ?>">
+										<button type="submit" class="button is-danger ">Снять полномочия</button>
+									</fieldset>
+								</form>
+							</div>
+						<?php } ?>
 					</div>
 				<?php } ?>
 
-				<div class="card column is-3">
-					<div class="card-header">
-						<p class="card-header-title">Назначить нового</p>
+				<?php if ($USER->IsAdmin()) { ?>
+					<div class="card column is-3">
+						<div class="card-header">
+							<p class="card-header-title">Назначить нового</p>
+						</div>
+						<div class="card-content">
+							<?php foreach ($arResult['USER_LIST'] as $user) { ?>
+								<p>
+								<form method="post" action="add-headman"
+									  class="is-flex is-justify-content-space-between">
+									<div>
+										<?= htmlspecialcharsbx($user['NAME']) ?>
+										<?= htmlspecialcharsbx($user['LAST_NAME']) ?>
+									</div>
+									<fieldset>
+										<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
+										<input type="hidden" name="user-id" value="<?= $user['ID'] ?>">
+										<button type="submit" class="button is-primary ">Выбрать</button>
+									</fieldset>
+								</form>
+								</p>
+							<?php } ?>
+						</div>
 					</div>
-					<div class="card-content">
-						<?php foreach ($arResult['USER_LIST'] as $user) { ?>
-							<p>
-							<form method="post" action="add-headman" class="is-flex is-justify-content-space-between">
-								<div>
-									<?= htmlspecialcharsbx($user['NAME']) ?>
-									<?= htmlspecialcharsbx($user['LAST_NAME']) ?>
-								</div>
-								<fieldset <?= $USER->IsAdmin() ? '' : 'disabled'?>>
-									<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
-									<input type="hidden" name="user-id" value="<?= $user['ID'] ?>">
-									<button type="submit" class="button is-primary ">Выбрать</button>
-								</fieldset>
-							</form>
-							</p>
-						<?php } ?>
-					</div>
-
-				</div>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
