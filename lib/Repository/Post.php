@@ -28,6 +28,7 @@ class Post
 			$result = PostTable::getList([
 				'select' => ['*', 'TYPE.NAME'],
 				'filter' => ['HOUSE_ID' => $houseId],
+				'order' => ['DATETIME_CREATED' => 'DESC'],
 				'offset' => $navObject->getOffset(),
 				'limit' => $navObject->getLimit()
 			]);
