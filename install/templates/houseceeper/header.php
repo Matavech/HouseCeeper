@@ -63,7 +63,7 @@ global $USER;
 			</div>
 
 
-			<a class="navbar-item" href=" <?= $APPLICATION->sDocPath2 . '/add-post' ?>">
+			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()) . '/add-post' ?>">
 				New post
 			</a>
 

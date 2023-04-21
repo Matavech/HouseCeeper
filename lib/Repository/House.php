@@ -53,7 +53,7 @@ class House
 		return false;
 	}
 
-	public static function redirectToHisHouse($userId)
+	public static function getUserHousePath($userId)
 	{
 		$query = ApartmentUserTable::query()
 			->setSelect(['APARTMENT_ID'])
@@ -73,6 +73,6 @@ class House
 
 		$uniquePath = $query->fetch();
 
-		LocalRedirect('/house/' . $uniquePath['UNIQUE_PATH']);
+		return '/house/' . $uniquePath['UNIQUE_PATH'];
 	}
 }

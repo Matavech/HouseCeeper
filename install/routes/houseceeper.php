@@ -14,7 +14,7 @@ return function (RoutingConfigurator $routes)
 		if($USER->IsAdmin()) {
 			LocalRedirect('/house-list');
 		}
-		\Hc\Houseceeper\Repository\House::redirectToHisHouse($USER->GetID());
+		LocalRedirect(\Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()));
 	});
 
 	$routes->get('/logout', function() {
