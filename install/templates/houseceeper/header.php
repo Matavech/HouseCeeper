@@ -32,18 +32,19 @@ global $USER;
 		</a>
 	</div>
 
-	<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
+
 	<div id="navbarBasicExample" class="navbar-menu">
+		<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
 		<div class="navbar-start">
-			<a class="navbar-item">
+			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>">
 				Feed
 			</a>
 
-			<a class="navbar-item">
+			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/discussions">
 				Discussions
 			</a>
 
-			<a class="navbar-item">
+			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/announcements">
 				Announcements
 			</a>
 
@@ -67,10 +68,6 @@ global $USER;
 				New post
 			</a>
 
-
-			<div class="navbar-item">
-				<span class="tag has-background-grey-light is-large">Калининград, Ленинский проспект, 13</span>
-			</div>
 		</div>
 
 		<div class="navbar-end">

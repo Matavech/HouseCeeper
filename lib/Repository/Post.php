@@ -10,7 +10,7 @@ use Hc\Houseceeper\Model\PostTypeTable;
 
 class Post
 {
-	public static function getPage($navObject, string $housePath): array
+	public static function getPage($navObject, string $housePath, ?string $postType): array
 	{
 		$query = HouseTable::query()
 			->setSelect(['ID'])
@@ -26,21 +26,34 @@ class Post
 				'HOUSE_ID' => $houseId
 			]));
 
-			$result = PostTable::getList([
-				'select' => ['*', 'TYPE.NAME'],
-				'filter' => ['HOUSE_ID' => $houseId],
-				'order' => ['DATETIME_CREATED' => 'DESC'],
-				'offset' => $navObject->getOffset(),
-				'limit' => $navObject->getLimit()
-			]);
-			return $result->fetchAll();
+			if ($postType)
+			{
+				$postTypeId = PostTypeTable::query()
+					->setSelect(['ID'])
+					->setFilter(['NAME'=>$postType])
+					->fetch()['ID'];
+			}
 
-//			$query = PostTable::query()
-//				->setSelect(['*', 'TYPE.NAME'])
-//				->setFilter([
-//					'HOUSE_ID' => $houseId
-//				]);
-//			return $query->fetchAll();
+			// $result = PostTable::getList([
+			// 	'select' => ['*', 'TYPE.NAME'],
+			// 	'filter' => ['HOUSE_ID' => $houseId, 'TYPE_ID' => $postTypeId],
+			// 	'order' => ['DATETIME_CREATED' => 'DESC'],
+			// 	'offset' => $navObject->getOffset(),
+			// 	'limit' => $navObject->getLimit()
+			// ]);
+			//
+
+			$query = PostTable::query()
+				->setSelect(['*', 'TYPE.NAME'])
+				->setFilter(['HOUSE_ID' => $houseId])
+				->setOrder(['DATETIME_CREATED' => 'DESC'])
+				->setOffset($navObject->getOffset())
+				->setLimit($navObject->getLimit());
+			if ($postType)
+			{
+				$query->addFilter('TYPE_ID' , $postTypeId);
+			}
+			return $query->fetchAll();
 		}
 
 		LocalRedirect('/');

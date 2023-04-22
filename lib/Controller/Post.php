@@ -14,14 +14,14 @@ class Post extends Engine\Controller
 {
 	protected const PROJECT_PER_PAGE = 3;
 
-	public function getListAction(string $housePath): ?array
+	public function getListAction(string $housePath, ?string $postType): ?array
 	{
 		$navObject = new \Bitrix\Main\UI\PageNavigation('nav');
 		$navObject->allowAllRecords(false)
 			->setPageSize(self::PROJECT_PER_PAGE)
 			->initFromUri();
 
-		$postList = Repository\Post::getPage($navObject, $housePath);
+		$postList = Repository\Post::getPage($navObject, $housePath, $postType);
 
 		return [
 			'postList' => $postList,
