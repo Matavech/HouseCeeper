@@ -111,4 +111,15 @@ class User
 			echo $error->getMessage() . "</br>";
 		}
 	}
+
+	public static function isHeadman($userId)
+	{
+		$result = UserTable::query()
+			->setSelect(['role.NAME'])
+			->setFilter(['$userId']);
+
+		return $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_NAME'] === 'headman' || 'admin' ;
+	}
+
+
 }
