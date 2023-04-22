@@ -1,0 +1,8 @@
+.section {
+	border-bottom: 1px solid grey;
+}
+
+.section:last-child, .border-none {
+	border-bottom: none;
+}
+
