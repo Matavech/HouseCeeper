@@ -7,7 +7,7 @@ use Bitrix\Main\Engine\Controller;
 use Hc\Houseceeper\Model\CommentTable;
 class Comment extends Controller
 {
-	public function getComments(int $postId = 0, int $level = 0, int $maxLevel = 3, int $parentId = NULL)
+	public function getComments(int $postId = 0, int $level = 0, int $maxLevel = 3, string $order = 'DESC', int $parentId = NULL)
 	{
 		$result = CommentTable::query()
 			->setSelect(['*', 'user.NAME', 'user.LAST_NAME'])
@@ -33,7 +33,11 @@ class Comment extends Controller
 				{
 					--$level;
 				}
-				$this->getComments($postId, $level + 1, $maxLevel, $comment['ID']);
+				if ($level>=0)
+				{
+					$order = 'ASC';
+				}
+				$this->getComments($postId, $level + 1, $maxLevel, $order, $comment['ID']);
 			}
 		}
 
