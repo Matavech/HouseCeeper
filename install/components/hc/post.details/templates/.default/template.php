@@ -28,6 +28,25 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<?= htmlspecialcharsbx($arResult['POST']['USER']['LAST_NAME'])?>
 				</h5>
 
+				<?php foreach ($arResult['POST']['IMAGES'] as $image) {
+					echo CFile::ShowImage($image['ID'], 400, 400, 'border=2px');
+				} ?>
+
+				<div>
+					<h5>
+						Прикрепленные файлы:
+					</h5>
+					<?php foreach ($arResult['POST']['FILES'] as $file) { ?>
+						<div>
+							<a href="<?= $file['SRC'] ?>" download="<?= $file['ORIGINAL_NAME'] ?>">
+								<i class="fas fa-file" aria-hidden="true"></i>
+								<?= $file['ORIGINAL_NAME'] ?>
+								<i class="fas fa-download" aria-hidden="true"></i>
+							</a>
+						</div>
+					<?php } ?>
+				</div>
+
 				<h1 class="title mt-5">Комментарии</h1>
 				<article class="media">
 

@@ -50,11 +50,9 @@ class Post extends Engine\Controller
 				{
 					$postId = $result->getId();
 					Repository\File::addPostFiles($postId,$files, $result->getId());
-				} else
-				{
-					//echo 'Post has been added successfully';
-					LocalRedirect('/');
 				}
+				//echo 'Post has been added successfully';
+				LocalRedirect('/');
 			} else {
 				$errors = $result->getErrors();
 				foreach ($errors as $error) {
@@ -68,8 +66,10 @@ class Post extends Engine\Controller
 
 	public function getPostById($id)
 	{
-
 		$post = Repository\Post::getDetails((int)$id);
+		$allFiles = Repository\Post::getPostFiles($id);
+		$post['IMAGES'] = $allFiles['IMAGES'];
+		$post['FILES'] = $allFiles['FILES'];
 
 		$user = new User();
 		$post['USER'] = $user->getUserName((int)$post['USER_ID']);

@@ -92,4 +92,42 @@ class Post
 		]);
 	}
 
+	public static function getPostFiles($postId)
+	{
+		$result = PostFileTable::getList([
+			'select' => ['FILE_ID'],
+			'filter' => ['=POST_ID' => $postId]
+		])->fetchAll();
+
+		if (empty($result))
+		{
+			return [];
+		}
+
+		$fileId = [];
+		foreach ($result as $file)
+		{
+			$fileId[] = $file['FILE_ID'];
+		}
+
+		$result = \CFile::GetList(
+			['ID' => 'asc'],
+			['@ID' => $fileId]
+		);
+
+		$fileList = ['FILES' => [], 'IMAGES' => []];
+		while ($file = $result->Fetch())
+		{
+			if(\CFile::IsImage($file['FILE_NAME']))
+			{
+				$fileList['IMAGES'][] = $file;
+			}
+			else
+			{
+				$fileList['FILES'][] = \CFile::GetFileArray($file['ID']);
+			}
+		}
+
+		return $fileList;
+	}
 }
