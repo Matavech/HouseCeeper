@@ -46,7 +46,7 @@ class Post extends Engine\Controller
 			$result = Repository\Post::addPost($houseId, $userId, $postCaption, $postBody, $postTypeId);
 
 			if ($result->isSuccess()) {
-				if(!empty($files))
+				if($files['error'][0] === 0)
 				{
 					$postId = $result->getId();
 					Repository\File::addPostFiles($postId,$files, $result->getId());

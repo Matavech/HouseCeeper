@@ -44,9 +44,18 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 			<div class="file mt-5">
 				<label class="file-label">
-					<input type="file" name="files[]" multiple>
+					<input class="file-input" type="file" name="files[]" multiple>
+					<span class="file-cta">
+						<span class="file-icon">
+							<i class="fas fa-upload"></i>
+						</span><span class="file-label">
+							Выберите файлы...
+						</span>
+					</span>
 				</label>
-				<div class="input-file-list"></div>
+			</div>
+			<div class="container mt-5">
+				<div class="input-file-list columns is-multiline"></div>
 			</div>
 			<button class="button mt-5" type="submit">Добавить пост</button>
 		</form>

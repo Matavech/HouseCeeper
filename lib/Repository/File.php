@@ -33,7 +33,7 @@ class File
 			];
 
 			$res = \CFile::CheckFile($arrFile,
-				50*1024,
+				50*1024*1024,
 				self::ACCEPTED_MIME_TYPES
 			);
 
