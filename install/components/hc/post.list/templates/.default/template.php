@@ -78,19 +78,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<!---->
 		<!--		<a class="button is-dark" href="#">Перейти к обсуждению</a>-->
 
-		<?php foreach ($arResult['POSTS'] as $post) { ?>
+		<?php foreach ($arResult['POSTS'] as $post) { var_dump($arParams['housePath']); ?>
 			<section class="section post">
 				<h1 class="title">
 					<span class="tag is-medium" id="type">
 		  				<?= $post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] ?>
 					</span>
-					<a href="<?= $APPLICATION->sDocPath2 . '/post/' . $post['ID'] ?>"><?= htmlspecialcharsbx($post['TITLE']) ?></a>
+					<a href="/house/<?= $arParams['housePath'] . '/post/' . $post['ID'] ?>"><?= htmlspecialcharsbx($post['TITLE']) ?></a>
 				</h1>
 				<h2 class="subtitle">
 					<?= htmlspecialcharsbx($post['CONTENT']) ?>
 				</h2>
 				<h5>Опубликовано: <?= $post['DATETIME_CREATED'] ?></h5>
-				<a class="button is-dark" href="<?= $APPLICATION->sDocPath2 . '/post/' . $post['ID'] ?>">Перейти к обсуждению</a>
+				<a class="button is-dark" href="/house/<?= $arParams['housePath'] . '/post/' . $post['ID'] ?>">Перейти к обсуждению</a>
 			</section>
 		<?php } ?>
 	</div>
