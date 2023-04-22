@@ -49,7 +49,6 @@ class PostFileTable extends DataManager
 				'POST_ID',
 				[
 					'primary' => true,
-					'autocomplete' => true,
 					'title' => Loc::getMessage('POST_FILE_ENTITY_POST_ID_FIELD')
 				]
 			),
@@ -59,27 +58,17 @@ class PostFileTable extends DataManager
 				Join::on('this.POST_ID', 'ref.ID')
 			),
 			new StringField(
-				'FILE_PATH',
+				'FILE_ID',
 				[
-					'required' => true,
-					'validation' => [__CLASS__, 'validateFilePath'],
-					'title' => Loc::getMessage('POST_FILE_ENTITY_FILE_PATH_FIELD')
+					'primary' => true,
+					'title' => Loc::getMessage('POST_FILE_ENTITY_POST_ID_FIELD')
 				]
 			),
-		];
-	}
-
-	/**
-	 * Returns validators for FILE_PATH field.
-	 *
-	 * @return array
-	 */
-	public static function validateFilePath()
-	{
-		return [
-			new RegExpValidator('/^[a-z0-9+-]*$/'),
-			new LengthValidator(null, 50),
-			new UniqueValidator()
+			new Reference(
+				'FILE',
+				\CFile::class,
+				Join::on('this.FILE_ID', 'ref.ID')
+			),
 		];
 	}
 }

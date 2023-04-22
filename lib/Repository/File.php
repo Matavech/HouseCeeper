@@ -2,7 +2,9 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\Houseceeper\Model\BFileTable;
 use Hc\Houseceeper\Model\PostFileTable;
+use Hc\Houseceeper\Model\PostTable;
 
 class File
 {
@@ -31,7 +33,7 @@ class File
 			];
 
 			$res = \CFile::CheckFile($arrFile,
-				50,
+				50*1024,
 				self::ACCEPTED_MIME_TYPES
 			);
 
