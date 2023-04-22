@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	function handleFiles() {
 		const fileList = this.files;
+		fileListElement.innerHTML = '';
 
 		for (let i = 0; i < fileList.length; i++) {
 			const file = fileList[i];
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 				fileThumbnail.src = event.target.result;
 				fileName.textContent = file.name;
-				fileRemoveButton.textContent = 'Удалить';
+				//fileRemoveButton.textContent = 'Не прикреплять';
 
 				// Delete file from form
 
