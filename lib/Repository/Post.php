@@ -4,6 +4,7 @@ namespace Hc\Houseceeper\Repository;
 
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\HouseTable;
+use Hc\Houseceeper\Model\PostFileTable;
 use Hc\Houseceeper\Model\PostTable;
 use Hc\Houseceeper\Model\PostTypeTable;
 
@@ -78,5 +79,55 @@ class Post
 		}
 
 		return $result;
+	}
+
+	public static function addPost($houseId, $userId, $postCaption, $postBody, $postTypeId)
+	{
+		return PostTable::add([
+			'HOUSE_ID' => $houseId,
+			'USER_ID' => $userId,
+			'TITLE' => $postCaption,
+			'CONTENT' => $postBody,
+			'TYPE_ID' => $postTypeId,
+		]);
+	}
+
+	public static function getPostFiles($postId)
+	{
+		$result = PostFileTable::getList([
+			'select' => ['FILE_ID'],
+			'filter' => ['=POST_ID' => $postId]
+		])->fetchAll();
+
+		if (empty($result))
+		{
+			return [];
+		}
+
+		$fileId = [];
+		foreach ($result as $file)
+		{
+			$fileId[] = $file['FILE_ID'];
+		}
+
+		$result = \CFile::GetList(
+			['ID' => 'asc'],
+			['@ID' => $fileId]
+		);
+
+		$fileList = ['FILES' => [], 'IMAGES' => []];
+		while ($file = $result->Fetch())
+		{
+			if(\CFile::IsImage($file['FILE_NAME']))
+			{
+				$fileList['IMAGES'][] = $file;
+			}
+			else
+			{
+				$fileList['FILES'][] = \CFile::GetFileArray($file['ID']);
+			}
+		}
+
+		return $fileList;
 	}
 }

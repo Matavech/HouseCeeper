@@ -229,3 +229,20 @@ __projectorMigrate(3, function($updater, $DB){
 VALUES (2, 'discussion'),
        (3, 'unconfirmed');");
 });
+
+__projectorMigrate(4, function($updater, $DB){
+	$DB->query("DROP TABLE IF EXISTS hc_houseceeper_post_file;");
+	$DB->query("CREATE TABLE IF NOT EXISTS hc_houseceeper_post_file (
+POST_ID INT NOT NULL,
+FILE_ID INT NOT NULL,
+PRIMARY KEY (POST_ID, FILE_ID),
+FOREIGN KEY FK_PF_POST (POST_ID)
+    REFERENCES hc_houseceeper_post(ID)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+FOREIGN KEY FK_PF_FILE (FILE_ID)
+    REFERENCES b_file(ID)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);");
+});

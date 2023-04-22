@@ -19,14 +19,35 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</span>
 					<?= htmlspecialcharsbx($arResult['POST']['TITLE'])?>
 				</h1>
-				<h2 class="subtitle">
-					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
-				</h2>
+
 				<h5 >
 					Опубликовано: <?=$arResult['POST']['DATETIME_CREATED'] ?> <br>
 					Пользователь: <?= htmlspecialcharsbx($arResult['POST']['USER']['NAME'])?>
 					<?= htmlspecialcharsbx($arResult['POST']['USER']['LAST_NAME'])?>
 				</h5>
+
+				<h2 class="subtitle mt-5">
+					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
+				</h2>
+
+				<?php foreach ($arResult['POST']['IMAGES'] as $image) {
+					echo CFile::ShowImage($image['ID'], 400, 400, 'border=2px');
+				} ?>
+
+				<div>
+					<h5>
+						Прикрепленные файлы:
+					</h5>
+					<?php foreach ($arResult['POST']['FILES'] as $file) { ?>
+						<div>
+							<a href="<?= $file['SRC'] ?>" download="<?= $file['ORIGINAL_NAME'] ?>">
+								<i class="fas fa-file" aria-hidden="true"></i>
+								<?= $file['ORIGINAL_NAME'] ?>
+								<i class="fas fa-download" aria-hidden="true"></i>
+							</a>
+						</div>
+					<?php } ?>
+				</div>
 
 				<h1 class="title mt-5">Комментарии</h1>
 				<article class="media">

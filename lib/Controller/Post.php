@@ -35,6 +35,7 @@ class Post extends Engine\Controller
 		$postCaption = trim($request->getPost('post-caption'));
 		$postBody = trim($request->getPost('post-body'));
 		$postType = trim($request->getPost('post-type'));
+		$files = $request->getFileList()['files'];
 
 		global $USER;
 		$userId = $USER->GetID();
@@ -42,15 +43,14 @@ class Post extends Engine\Controller
 		$postTypeId = Repository\Post::getPostTypeId($postType);
 
 		if ($houseId && $postTypeId) {
-			$result = PostTable::add([
-				'HOUSE_ID' => $houseId,
-				'USER_ID' => $userId,
-				'TITLE' => $postCaption,
-				'CONTENT' => $postBody,
-				'TYPE_ID' => $postTypeId,
-			]);
+			$result = Repository\Post::addPost($houseId, $userId, $postCaption, $postBody, $postTypeId);
 
 			if ($result->isSuccess()) {
+				if($files['error'][0] === 0)
+				{
+					$postId = $result->getId();
+					Repository\File::addPostFiles($postId,$files, $result->getId());
+				}
 				//echo 'Post has been added successfully';
 				LocalRedirect('/');
 			} else {
@@ -66,8 +66,10 @@ class Post extends Engine\Controller
 
 	public function getPostById($id)
 	{
-
 		$post = Repository\Post::getDetails((int)$id);
+		$allFiles = Repository\Post::getPostFiles($id);
+		$post['IMAGES'] = $allFiles['IMAGES'];
+		$post['FILES'] = $allFiles['FILES'];
 
 		$user = new User();
 		$post['USER'] = $user->getUserName((int)$post['USER_ID']);
