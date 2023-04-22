@@ -35,9 +35,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				} ?>
 
 				<div>
+					<?php if (isset($arResult['POST']['FILES'])) : ?>
 					<h5>
 						Прикрепленные файлы:
 					</h5>
+					<?php endif; ?>
 					<?php foreach ($arResult['POST']['FILES'] as $file) { ?>
 						<div>
 							<a href="<?= $file['SRC'] ?>" download="<?= $file['ORIGINAL_NAME'] ?>">
