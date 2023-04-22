@@ -18,14 +18,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="media-content">
 		<div class="content">
 			<p>
-				<strong id="username"><?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?> <?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_LAST_NAME'] ?></strong> <small>Квартира 11, 29</small>
+				<strong id="username"><?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?> <?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_LAST_NAME'] ?></strong> <small>Квартира(ы) <?=implode(', ', \Hc\Houseceeper\Repository\House::getUserApartmentNumber($USER->GetID(), $_REQUEST['housePath']) )?></small>
 				<button onclick="replyToComment(<?=$arParams['COMMENT']['ID'] ?>, '<?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?>' )" class="button is-small">
 								<span class="icon">
 									<i class="fa-solid fa-reply"></i></a>
 								</span>
 				</button>
 				<br>
-				<small id="dateId"> <?= $arParams['COMMENT']['DATETIME_CREATED']->toString()?> </small>
+				<small id="dateId"> <?= $arParams['COMMENT']['DATETIME_CREATED']?> </small>
 				<br>
 				<?= $arParams['COMMENT']['CONTENT']?>
 			</p>

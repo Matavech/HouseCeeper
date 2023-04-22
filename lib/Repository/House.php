@@ -75,4 +75,24 @@ class House
 
 		return '/house/' . $uniquePath['UNIQUE_PATH'];
 	}
+
+	public static function  getUserApartmentNumber($userId, $housePath)
+	{
+		$query = HouseTable::query()
+			->setSelect(['ID'])
+			->setFilter(['UNIQUE_PATH' => $housePath]);
+		$houseId = $query->fetch();
+
+		$query = ApartmentUserTable::query()
+		->setSelect(['apartment.NUMBER'])
+		->setFilter(['USER_ID'=>$userId]);
+
+		$result = [];
+		foreach ($query->fetchAll() as $item)
+		{
+			$result[] = (int)$item['HC_HOUSECEEPER_MODEL_APARTMENT_USER_APARTMENT_NUMBER'];
+		}
+
+		return $result;
+	}
 }
