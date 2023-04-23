@@ -74,8 +74,7 @@ global $USER;
 
 			<div class="navbar-item">
 				<span class="tag has-background-grey-light is-large">
-					<?= htmlspecialcharsbx($USER->GetFullName()) ?>, квартира(ы)
-					<?=implode(', ', \Hc\Houseceeper\Repository\House::getUserApartmentNumber($USER->GetID(), $_REQUEST['housePath']) )?>
+					<?= htmlspecialcharsbx($USER->GetFullName()) ?>
 				</span>
 			</div>
 			<?php } ?>
