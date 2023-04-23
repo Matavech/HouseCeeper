@@ -48,20 +48,9 @@ global $USER;
 				Announcements
 			</a>
 
-			<div class="navbar-item has-dropdown is-hoverable">
-				<a class="navbar-link">
-					Information
-				</a>
-
-				<div class="navbar-dropdown">
-					<a class="navbar-item">
-						About house
-					</a>
-					<a class="navbar-item">
-						Useful links
-					</a>
-				</div>
-			</div>
+			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/about">
+				About house
+			</a>
 
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()) . '/add-post' ?>">
