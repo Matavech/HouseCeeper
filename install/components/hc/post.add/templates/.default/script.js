@@ -43,4 +43,22 @@ document.addEventListener("DOMContentLoaded", function() {
 			reader.readAsDataURL(file);
 		}
 	}
+
+	const form = document.querySelector('form');
+	form.addEventListener('submit', function(event) {
+		event.preventDefault();
+		const formData = new FormData(form);
+		const sizeInBytes = new Blob(Array.from(formData.values())).size;
+		const maxSizeInBytes = 50 * 1024 * 1024; // 50 МБ
+		if (sizeInBytes > maxSizeInBytes) {
+			event.preventDefault();
+			alert('Суммарный размер всех файлов не должен превышать 50 МБ');
+		}
+		const maxFilesCount = 10;
+		const files = inputElement.files;
+		if (files.length > maxFilesCount) {
+			event.preventDefault();
+			alert(`Выбрано слишком много файлов. Выберите не более ${maxFilesCount} файлов.`);
+		}
+	});
 });
