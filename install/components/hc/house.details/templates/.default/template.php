@@ -15,13 +15,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="content">
 
 		<form method="post" action="edit-house">
-			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?>>
+			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?> class="house-details-form">
 				<?php bitrix_sessid_post(); ?>
 
 				<div class="field mt-6">
 					<label class="label">Название</label>
 					<div class="control">
-						<input class="title input" type="text" name="house-name"
+						<input class="title input" type="text" name="house-name" style="cursor: text"
 							   value="<?= htmlspecialcharsbx($arResult['HOUSE']['NAME']) ?>">
 					</div>
 				</div>
@@ -30,31 +30,33 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<div class="field">
 					<label class="label">Техническая информация</label>
 					<div class="control">
-						<textarea class="input" name="info"> <?= $arResult['HOUSE']['INFO'] ?> </textarea>
+						<textarea class="input" name="info" style="cursor: text"> <?= $arResult['HOUSE']['INFO'] ?>  </textarea>
 					</div>
 				</div>
 				<div class="field">
 					<label class="label">Уникальный идентификатор</label>
 					<div class="control">
-						<input required class="input" type="text" value="<?= $arResult['HOUSE']['UNIQUE_PATH'] ?>"
+						<input required class="input" type="text" value="<?= $arResult['HOUSE']['UNIQUE_PATH'] ?> " style="cursor: text"
 							   name="unique-path">
 					</div>
 				</div>
 				<div class="field">
 					<label class="label">Кол-во квартир</label>
 					<div class="control">
-						<input required class="input" type="number" name="number-of-apartments" min="1"
+						<input required class="input" type="number" name="number-of-apartments" min="1" style="cursor: text"
 							   value="<?= $arResult['HOUSE']['NUMBER_OF_APARTMENT'] ?>">
 					</div>
 				</div>
 				<div class="field">
 					<label class="label">Адрес</label>
 					<div class="control">
-						<input required class="input" type="text" name="address"
+						<input required class="input" type="text" name="address" style="cursor: text"
 							   value="<?= $arResult['HOUSE']['ADDRESS'] ?>">
 					</div>
 				</div>
-				<button class="button" type="submit">Сохранить</button>
+				<?php if ($USER->IsAdmin()) { ?>
+					<button class="button" type="submit">Сохранить</button>
+				<?php } ?>
 			</fieldset>
 		</form>
 
