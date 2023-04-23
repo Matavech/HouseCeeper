@@ -53,6 +53,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()) || $USER->IsAdmin()) :?>
 				<a onclick="return confirm('Вы уверены, что хотите удалить эту публикацию?')" class="button is-danger" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete">Удалить публикацию</a>
 				<?php endif; ?>
+				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'discussion') :?>
 				<h1 class="title mt-5">Комментарии</h1>
 				<article class="media">
 
@@ -77,7 +78,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				</article>
 				<?php $comment = new \Hc\Houseceeper\Controller\Comment();
 				$comment->getComments($arResult['POST']['ID']);
-				?>
+				endif; ?>
 			</div>
 		</section>
 	</div>

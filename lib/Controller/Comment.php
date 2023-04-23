@@ -45,6 +45,12 @@ class Comment extends Controller
 
 	public function addComment(string $housePath,  int $postId)
 	{
+		$post = \Hc\Houseceeper\Repository\Post::getDetails($postId);
+		if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'announcement')
+		{
+			echo 'Каким-то образом вы смогли попытаться добавить комментарий к объявлению. Мы это предусмотрели, так нельзя';
+		}
+
 		$request = Context::getCurrent()->getRequest();
 		global $USER;
 
