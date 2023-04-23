@@ -12,50 +12,31 @@ class Post
 {
 	public static function getPage($navObject, string $housePath, ?string $postType): array
 	{
-		$query = HouseTable::query()
-			->setSelect(['ID'])
-			->setFilter([
-				'UNIQUE_PATH' => $housePath
-			]);
+		global $USER;
+		$seeUnconfirmed = $USER->IsAdmin() || User::isHeadman($USER->GetID());
 
-		$result = $query->fetch();
+		$query = PostTable::query()
+			->setSelect(['*', 'TYPE.NAME'])
+			->setFilter(['HOUSE.UNIQUE_PATH' => $housePath])
+			->setOrder(['DATETIME_CREATED' => 'DESC']);
 
-		if($result) {
-			$houseId = $result['ID'];
-			$navObject->setRecordCount(PostTable::getCount([
-				'HOUSE_ID' => $houseId,
-				$postType ? ['TYPE.NAME' => $postType] : ''
-			]));
-
-			if ($postType)
-			{
-				$postTypeId = PostTypeTable::query()
-					->setSelect(['ID'])
-					->setFilter(['NAME'=>$postType])
-					->fetch()['ID'];
-			}
-
-			// $result = PostTable::getList([
-			// 	'select' => ['*', 'TYPE.NAME'],
-			// 	'filter' => ['HOUSE_ID' => $houseId, 'TYPE_ID' => $postTypeId],
-			// 	'order' => ['DATETIME_CREATED' => 'DESC'],
-			// 	'offset' => $navObject->getOffset(),
-			// 	'limit' => $navObject->getLimit()
-			// ]);
-			//
-
-			$query = PostTable::query()
-				->setSelect(['*', 'TYPE.NAME'])
-				->setFilter(['HOUSE_ID' => $houseId])
-				->setOrder(['DATETIME_CREATED' => 'DESC'])
-				->setOffset($navObject->getOffset())
-				->setLimit($navObject->getLimit());
-			if ($postType)
-			{
-				$query->addFilter('TYPE_ID' , $postTypeId);
-			}
-			return $query->fetchAll();
+		if ($postType) {
+			$query->addFilter('TYPE.NAME', $postType);
 		}
+
+		if (!$seeUnconfirmed) {
+			$query->addFilter('!=TYPE.NAME', 'unconfirmed');
+		}
+
+		$navObject->setRecordCount(count($query->fetchAll()));
+
+		$query->setOffset($navObject->getOffset())
+			->setLimit($navObject->getLimit());
+
+		$result = $query->fetchAll();
+
+		if($result)
+			return $result;
 
 		LocalRedirect('/');
 	}
@@ -81,14 +62,13 @@ class Post
 		$query = PostTable::query()
 			->setSelect([
 				'*', 'TYPE.NAME', 'USER.IMAGE_PATH',
-							])
+			])
 			->setFilter([
 				'ID' => $id,
-						]);
+			]);
 
 		$result = $query->fetch();
-		if (!$result)
-		{
+		if (!$result) {
 			return false;
 		}
 
@@ -113,14 +93,12 @@ class Post
 			'filter' => ['=POST_ID' => $postId]
 		])->fetchAll();
 
-		if (empty($result))
-		{
+		if (empty($result)) {
 			return [];
 		}
 
 		$fileId = [];
-		foreach ($result as $file)
-		{
+		foreach ($result as $file) {
 			$fileId[] = $file['FILE_ID'];
 		}
 
@@ -130,14 +108,10 @@ class Post
 		);
 
 		$fileList = ['FILES' => [], 'IMAGES' => []];
-		while ($file = $result->Fetch())
-		{
-			if(\CFile::IsImage($file['FILE_NAME']))
-			{
+		while ($file = $result->Fetch()) {
+			if (\CFile::IsImage($file['FILE_NAME'])) {
 				$fileList['IMAGES'][] = $file;
-			}
-			else
-			{
+			} else {
 				$fileList['FILES'][] = \CFile::GetFileArray($file['ID']);
 			}
 		}
