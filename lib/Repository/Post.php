@@ -23,7 +23,8 @@ class Post
 		if($result) {
 			$houseId = $result['ID'];
 			$navObject->setRecordCount(PostTable::getCount([
-				'HOUSE_ID' => $houseId
+				'HOUSE_ID' => $houseId,
+				$postType ? ['TYPE.NAME' => $postType] : ''
 			]));
 
 			if ($postType)
