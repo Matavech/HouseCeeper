@@ -46,8 +46,6 @@ class Post extends Engine\Controller
 		$postBody = trim($request->getPost('post-body'));
 		$files = $request->getFileList()['files'];
 
-		var_dump($files);die();
-
 		global $USER;
 		$userId = $USER->GetID();
 		$houseId = Repository\House::getIdByPath($housePath);
