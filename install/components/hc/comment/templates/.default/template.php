@@ -35,7 +35,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<?php if ($USER->GetID()===$arParams['COMMENT']['USER_ID'] || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()) || $USER->IsAdmin()) : ?>
 	<form action="/house/<?=$_REQUEST['housePath']?>/post/<?=$_REQUEST['id']?>/deleteComment" method="post">
 		<input type="hidden" name="commentId" value="<?=$arParams['COMMENT']['ID']?>">
-		<button type="submit" class="button is-small">
+		<button  onclick="return confirm('Вы уверены, что хотите подтвердить этот комментарий?')" type="submit" class="button is-small">
 								<span class="icon">
 									<i class="fa-solid fa-xmark"></i>
 								</span>
