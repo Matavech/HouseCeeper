@@ -30,6 +30,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<textarea class="input" placeholder="" name="post-body"></textarea>
 				</div>
 			</div>
+			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) :?>
 			<div class="control">
 				<label class="label">Выберите тип поста</label>
 				<label class="radio">
@@ -41,6 +42,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					Обсуждение
 				</label>
 			</div>
+			<?php endif; ?>
 
 			<div class="file mt-5">
 				<label class="file-label">
@@ -57,7 +59,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="container mt-5">
 				<div class="input-file-list columns is-multiline"></div>
 			</div>
+			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) :?>
 			<button class="button mt-5" type="submit">Добавить пост</button>
+			<?php else : ?>
+			<button class="button mt-5" type="submit">Отправить заявку на создание</button>
+			<?php endif; ?>
 		</form>
 	</div>
 </div>

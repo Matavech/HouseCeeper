@@ -31,10 +31,18 @@ class Post extends Engine\Controller
 
 	public function addNewPostForHouse(string $housePath)
 	{
+		global $USER;
 		$request = Context::getCurrent()->getRequest();
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID()))
+		{
+			$postType = 'unconfirmed';
+		}
+		else
+		{
+			$postType = trim($request->getPost('post-type'));
+		}
 		$postCaption = trim($request->getPost('post-caption'));
 		$postBody = trim($request->getPost('post-body'));
-		$postType = trim($request->getPost('post-type'));
 		$files = $request->getFileList()['files'];
 
 		global $USER;
@@ -88,5 +96,20 @@ class Post extends Engine\Controller
 
 		PostTable::delete($id);
 		LocalRedirect('/house/' . $housePath);
+	}
+
+	public function confirmPost(string $housePath, int $id)
+	{
+		global $USER;
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID()))
+		{
+			echo ('Вам нельзя такое');
+			return;
+		}
+
+		$query = PostTable::getByPrimary($id)->fetchObject();
+		$query->set('TYPE_ID', 2);
+		$query->save();
+		LocalRedirect('/house/' . $housePath . '/post/' . $id);
 	}
 }

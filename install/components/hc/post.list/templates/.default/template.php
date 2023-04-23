@@ -79,6 +79,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<!--		<a class="button is-dark" href="#">Перейти к обсуждению</a>-->
 
 		<?php foreach ($arResult['POSTS'] as $post) { ?>
+			<?php if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'unconfirmed' &&
+				!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) continue ?>
 			<section class="section post">
 				<h1 class="title">
 					<span class="tag is-medium" id="type">

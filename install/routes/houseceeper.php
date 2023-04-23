@@ -89,6 +89,11 @@ return function (RoutingConfigurator $routes)
 		$post = new \Hc\Houseceeper\Controller\Post();
 		$post->deletePost($_REQUEST['housePath'], $_REQUEST['id']);
 	});
+	$routes->get('/house/{housePath}/post/{id}/confirm', function() {
+
+		$post = new \Hc\Houseceeper\Controller\Post();
+		$post->confirmPost($_REQUEST['housePath'], $_REQUEST['id']);
+	});
 	$routes->post('/house/{housePath}/post/{id}/deleteComment', function() {
 
 		$comment = new \Hc\Houseceeper\Controller\Comment();
