@@ -76,4 +76,17 @@ class Post extends Engine\Controller
 
 		return $post;
 	}
+
+	public function deletePost(string $housePath, int $id)
+	{
+		global $USER;
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID()))
+		{
+			echo ('Вам нельзя такое');
+			return;
+		}
+
+		PostTable::delete($id);
+		LocalRedirect('/house/' . $housePath);
+	}
 }

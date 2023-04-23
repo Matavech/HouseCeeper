@@ -29,17 +29,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<h2 class="subtitle mt-5">
 					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
 				</h2>
-
+				<?php if (isset($arResult['POST']['FILES'])) : ?>
+					<h5>
+						Прикрепленные файлы:
+					</h5>
+				<?php endif; ?>
 				<?php foreach ($arResult['POST']['IMAGES'] as $image) {
 					echo CFile::ShowImage($image['ID'], 400, 400, 'border=2px');
 				} ?>
 
 				<div>
-					<?php if (isset($arResult['POST']['FILES'])) : ?>
-					<h5>
-						Прикрепленные файлы:
-					</h5>
-					<?php endif; ?>
+
 					<?php foreach ($arResult['POST']['FILES'] as $file) { ?>
 						<div>
 							<a href="<?= $file['SRC'] ?>" download="<?= $file['ORIGINAL_NAME'] ?>">
@@ -50,7 +50,9 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 						</div>
 					<?php } ?>
 				</div>
-
+				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()) || $USER->IsAdmin()) :?>
+				<a onclick="return confirm('Вы уверены, что хотите удалить эту публикацию?')" class="button is-danger" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete">Удалить публикацию</a>
+				<?php endif; ?>
 				<h1 class="title mt-5">Комментарии</h1>
 				<article class="media">
 

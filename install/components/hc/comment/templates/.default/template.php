@@ -32,7 +32,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</div>
 	</div>
 
-	<?php if ($USER->GetID()===$arParams['COMMENT']['USER_ID'] || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) : ?>
+	<?php if ($USER->GetID()===$arParams['COMMENT']['USER_ID'] || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()) || $USER->IsAdmin()) : ?>
 	<form action="/house/<?=$_REQUEST['housePath']?>/post/<?=$_REQUEST['id']?>/deleteComment" method="post">
 		<input type="hidden" name="commentId" value="<?=$arParams['COMMENT']['ID']?>">
 		<button type="submit" class="button is-small">
