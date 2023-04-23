@@ -70,61 +70,74 @@ class House extends Engine\Controller
 		$headmanLogin = 			trim($request->getPost('headman-login'));
 		$headmanPassword = 			trim($request->getPost('headman-password'));
 
-		$result = HouseTable::add([
-			'NAME' => $houseName,
-			'ADDRESS' => $address,
-			'NUMBER_OF_APARTMENT' => $numberOfApart,
-			'UNIQUE_PATH' => $uniquePath,
-			'INFO' => $info
-		]);
+		if($headmanApartmentNumber > $numberOfApart){
+			echo 'Номер квартиры председателя не должен превышать общее кол-во квартир';
+			return;
+		}
 
-		if ($result->isSuccess()) {
-			//var_dump('house add success');
-			$houseId = $result->getId();
-			$headman = new \CUser();
-			$headmanId = $headman->Add([
-				'NAME' => $headmanName,
-				'LAST_NAME' => $headmanLastname,
-				'EMAIL' => $headmanEmail,
-				'LOGIN' => $headmanLogin,
-				'PASSWORD' => $headmanPassword,
-				'WORK_COMPANY' => 'HouseCeeper',
+		try {
+			\Bitrix\Main\Application::getConnection()->startTransaction();
+
+			$result = HouseTable::add([
+				'NAME' => $houseName,
+				'ADDRESS' => $address,
+				'NUMBER_OF_APARTMENT' => $numberOfApart,
+				'UNIQUE_PATH' => $uniquePath,
+				'INFO' => $info
 			]);
 
-			if ((int)$headmanId > 0) {
-				//var_dump('headmen profile add success');
-				$result = UserTable::add([
-					'ID' => $headmanId,
-					'ROLE_ID' => 2
+			if ($result->isSuccess()) {
+				$houseId = $result->getId();
+				$headman = new \CUser();
+				$headmanId = $headman->Add([
+					'NAME' => $headmanName,
+					'LAST_NAME' => $headmanLastname,
+					'EMAIL' => $headmanEmail,
+					'LOGIN' => $headmanLogin,
+					'PASSWORD' => $headmanPassword,
+					'WORK_COMPANY' => 'HouseCeeper',
 				]);
 
-				if ($result->isSuccess()) {
-					//var_dump('headmen add success');
-					$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH / 2));
-					$result = ApartmentTable::add([
-						'REG_KEY' => $regKey,
-						'NUMBER' => $headmanApartmentNumber,
-						'HOUSE_ID' => $houseId,
+				if ((int) $headmanId > 0) {
+					$result = UserTable::add([
+						'ID' => $headmanId,
+						'ROLE_ID' => 2
 					]);
 
 					if ($result->isSuccess()) {
-						//var_dump('apartment add success');
-						$apartId = $result->getId();
-						ApartmentUserTable::add([
-							'APARTMENT_ID' => $apartId,
-							'USER_ID' => $headmanId,
+						$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH / 2));
+						$result = ApartmentTable::add([
+							'REG_KEY' => $regKey,
+							'NUMBER' => $headmanApartmentNumber,
+							'HOUSE_ID' => $houseId,
 						]);
 
-						LocalRedirect('/');
+						if ($result->isSuccess()) {
+							$apartId = $result->getId();
+							ApartmentUserTable::add([
+								'APARTMENT_ID' => $apartId,
+								'USER_ID' => $headmanId,
+							]);
+
+							\Bitrix\Main\Application::getConnection()->commitTransaction();
+
+							LocalRedirect('/');
+						}
 					}
+				} else {
+					echo $headman->LAST_ERROR;
 				}
 			} else {
-				echo $headman->LAST_ERROR;
+				$errors = $result->getErrors();
+				foreach ($errors as $error) {
+					echo $error->getMessage() . "</br>";
+				}
 			}
-		}
-		$errors = $result->getErrors();
-		foreach ($errors as $error) {
-			echo $error->getMessage() . "</br>";
+
+			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
+		} catch (Exception $e) {
+			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
+			echo 'Произошла ошибка: ' . $e->getMessage();
 		}
 	}
 
