@@ -11,8 +11,11 @@ class Apartment extends Engine\Controller
 	protected const REG_KEY_LENGTH = 30;
 	public static function generateRegKey($houseId, $apartNumber)
 	{
-		// Checking rights
-		// W.I.P.
+		global $USER;
+		if (!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()))
+		{
+			LocalRedirect('/');
+		}
 
 		$query = HouseTable::getById($houseId);
 		$house = $query->fetch();

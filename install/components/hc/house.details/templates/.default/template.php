@@ -15,7 +15,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="content">
 
 		<form method="post" action="edit-house">
-			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?> class="house-details-form">
+			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?>>
 				<?php bitrix_sessid_post(); ?>
 
 				<div class="field mt-6">
@@ -60,6 +60,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</fieldset>
 		</form>
 
+		<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) { ?>
 		<form method="get">
 			<h3 class="title mt-6">
 				Получить ссылку-приглашение
@@ -75,6 +76,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<span id="invite-key" class="tag is-large has-background-white"></span>
 			<span id="invite-link" class="tag is-large has-background-white"></span>
 		</form>
+		<?php } ?>
 
 		<h3 class="title mt-6">
 			Председатели ТСЖ:
