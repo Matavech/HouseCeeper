@@ -13,10 +13,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="container is-max-desktop ">
 		<section class="section border-none has-background-grey-light mt-6">
 			<h1 class="title">Авторизация</h1>
-			<h2 class="subtitle">
-				Авторизация в дом <strong>г. Калининград, ул. Ленина, 13</strong>
 
-			</h2>
 		</section>
 
 		<form action="/login" method="post">
