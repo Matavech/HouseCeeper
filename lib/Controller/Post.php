@@ -12,13 +12,14 @@ use Hc\Houseceeper\Repository;
 
 class Post extends Engine\Controller
 {
-	protected const PROJECT_PER_PAGE = 3;
+	protected const POST_PER_PAGE = 5;
+	protected const MAX_FILE_COUNT = 10;
 
 	public function getListAction(string $housePath, ?string $postType): ?array
 	{
 		$navObject = new \Bitrix\Main\UI\PageNavigation('nav');
 		$navObject->allowAllRecords(false)
-			->setPageSize(self::PROJECT_PER_PAGE)
+			->setPageSize(self::POST_PER_PAGE)
 			->initFromUri();
 
 		$postList = Repository\Post::getPage($navObject, $housePath, $postType);
@@ -45,16 +46,24 @@ class Post extends Engine\Controller
 		$postBody = trim($request->getPost('post-body'));
 		$files = $request->getFileList()['files'];
 
+		var_dump($files);die();
+
 		global $USER;
 		$userId = $USER->GetID();
 		$houseId = Repository\House::getIdByPath($housePath);
 		$postTypeId = Repository\Post::getPostTypeId($postType);
 
+		if (count($files['name']) > self::MAX_FILE_COUNT)
+		{
+			echo 'Вы не можете загрузить более ' . self::MAX_FILE_COUNT . ' файлов';
+			return;
+		}
+
 		if ($houseId && $postTypeId) {
 			$result = Repository\Post::addPost($houseId, $userId, $postCaption, $postBody, $postTypeId);
 
 			if ($result->isSuccess()) {
-				if($files['error'][0] === 0)
+				if($files['error'][0] === 0) // Если хотя бы есть 1 файл
 				{
 					$postId = $result->getId();
 					Repository\File::addPostFiles($postId,$files, $result->getId());
