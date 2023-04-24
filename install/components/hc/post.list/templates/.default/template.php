@@ -83,10 +83,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) continue ?>
 			<section class="section post">
 				<h1 class="title">
+					<a href="/house/<?= $arParams['housePath'] . '/post/' . $post['ID'] ?>"><?= htmlspecialcharsbx($post['TITLE']) ?></a>
 					<span class="tag is-medium" id="type">
 		  				<?= $post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] ?>
 					</span>
-					<a href="/house/<?= $arParams['housePath'] . '/post/' . $post['ID'] ?>"><?= htmlspecialcharsbx($post['TITLE']) ?></a>
 				</h1>
 				<h2 class="subtitle">
 					<?= htmlspecialcharsbx($post['CONTENT']) ?>
