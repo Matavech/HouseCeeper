@@ -99,6 +99,11 @@ class HouseTable extends DataManager
 				PostTable::class,
 				'HOUSE'
 			),
+			new OneToMany(
+				'USERS',
+				BUserTable::class,
+				'HOUSE'
+			),
 		];
 	}
 

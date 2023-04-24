@@ -16,15 +16,17 @@ class User extends Controller
 	{
 		$request = Context::getCurrent()->getRequest();
 		$userId = 	trim($request->getPost('headman-id'));
+		$houseId = 	trim($request->getPost('house-id'));
 
-		\Hc\Houseceeper\Repository\User::deleteHeadman($userId);
+		\Hc\Houseceeper\Repository\User::deleteHeadman($userId, $houseId);
 	}
 
 	public function addHeadman()
 	{
 		$request = Context::getCurrent()->getRequest();
 		$userId = 	trim($request->getPost('user-id'));
+		$houseId = 	trim($request->getPost('house-id'));
 
-		\Hc\Houseceeper\Repository\User::addHeadman($userId);
+		\Hc\Houseceeper\Repository\User::addHeadman($userId, $houseId);
 	}
 }

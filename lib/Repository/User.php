@@ -2,9 +2,9 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\RoleTable;
-use Hc\Houseceeper\Model\UserTable;
 
 class User
 {
@@ -27,17 +27,17 @@ class User
 
 	public static function getHouseHeadmenList($houseId)
 	{
-		$result = UserTable::getList([
-				'select' => ['ID'],
+		$result = UserRoleTable::getList([
+				'select' => ['USER_ID'],
 				'filter' => [
-					'=APARTMENT.HOUSE_ID' => $houseId,
+					'=HOUSE_ID' => $houseId,
 					'=ROLE.NAME' => 'headman'
 				]
 			]
 		);
 		$headmenIdList = [];
 		foreach ($result->fetchAll() as $subarray) {
-			$headmenIdList[] = $subarray["ID"];
+			$headmenIdList[] = $subarray["USER_ID"];
 		}
 
 		if($headmenIdList){
@@ -51,17 +51,17 @@ class User
 
 	public static function getHouseUserList($houseId)
 	{
-		$result = UserTable::getList([
-				'select' => ['ID'],
+		$result = UserRoleTable::getList([
+				'select' => ['USER_ID'],
 				'filter' => [
-					'=APARTMENT.HOUSE_ID' => $houseId,
+					'=HOUSE_ID' => $houseId,
 					'=ROLE.NAME' => 'user'
 				]
 			]
 		);
 		$userIdList = [];
 		foreach ($result->fetchAll() as $subarray) {
-			$userIdList[] = $subarray["ID"];
+			$userIdList[] = $subarray["USER_ID"];
 		}
 
 		if($userIdList)
@@ -74,51 +74,50 @@ class User
 		}
 	}
 
-	public static function deleteHeadman($userId)
+	public static function deleteHeadman($userId, $houseId)
 	{
 		$roleId = RoleTable::getList([
 			'select' => ['ID'],
 			'filter' => ['=NAME' => 'user']
 		])->fetch()['ID'];
-		$result = UserTable::update($userId, [
-			'ROLE_ID' => $roleId
-		]);
-		if ($result->isSuccess())
-		{
-			LocalRedirect('about');
-		}
-		$errors = $result->getErrors();
-		foreach ($errors as $error) {
-			echo $error->getMessage() . "</br>";
-		}
+		$newHeadman = UserRoleTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'USER_ID' => $userId,
+				'HOUSE_ID' =>$houseId
+			]
+		])->fetchObject();
+		$newHeadman->setRoleId($roleId);
+		$newHeadman->save();
+
+		LocalRedirect('about');
 	}
 
-	public static function addHeadman($userId)
+	public static function addHeadman($userId, $houseId)
 	{
 		$roleId = RoleTable::getList([
 			'select' => ['ID'],
 			'filter' => ['=NAME' => 'headman']
 		])->fetch()['ID'];
-		$result = UserTable::update($userId, [
-			'ROLE_ID' => $roleId
-		]);
-		if ($result->isSuccess())
-		{
-			LocalRedirect('about');
-		}
-		$errors = $result->getErrors();
-		foreach ($errors as $error) {
-			echo $error->getMessage() . "</br>";
-		}
+		$newHeadman = UserRoleTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'USER_ID' => $userId,
+				'HOUSE_ID' =>$houseId
+				]
+		])->fetchObject();
+		$newHeadman->setRoleId($roleId);
+		$newHeadman->save();
+
+		LocalRedirect('about');
 	}
 
-	public static function isHeadman($userId)
+	public static function isHeadman($userId, $houseId)
 	{
-
-		$result = UserTable::query()
-			->setSelect(['role.NAME'])
-			->setFilter(['ID' => $userId]);
-		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_NAME'];
+		$result = UserRoleTable::query()
+			->setSelect(['ROLE.NAME'])
+			->setFilter(['USER_ID' => $userId, 'HOUSE_ID' => $houseId]);
+		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
 		
 		if ($role === 'headman')
 			return True;

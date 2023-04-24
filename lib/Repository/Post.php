@@ -10,14 +10,14 @@ use Hc\Houseceeper\Model\PostTypeTable;
 
 class Post
 {
-	public static function getPage($navObject, string $housePath, ?string $postType): array
+	public static function getPage($navObject, string $houseId, ?string $postType): array
 	{
 		global $USER;
-		$seeUnconfirmed = $USER->IsAdmin() || User::isHeadman($USER->GetID());
+		$seeUnconfirmed = $USER->IsAdmin() || User::isHeadman($USER->GetID(), $houseId);
 
 		$query = PostTable::query()
 			->setSelect(['*', 'TYPE.NAME'])
-			->setFilter(['HOUSE.UNIQUE_PATH' => $housePath])
+			->setFilter(['HOUSE.ID' => $houseId])
 			->setOrder(['DATETIME_CREATED' => 'DESC']);
 
 		if ($postType) {
@@ -61,7 +61,7 @@ class Post
 	{
 		$query = PostTable::query()
 			->setSelect([
-				'*', 'TYPE.NAME', 'USER.IMAGE_PATH',
+				'*', 'TYPE.NAME',
 			])
 			->setFilter([
 				'ID' => $id,

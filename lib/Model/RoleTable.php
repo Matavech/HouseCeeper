@@ -53,7 +53,7 @@ class RoleTable extends DataManager
 			),
 			new Reference(
 				'USER',
-				UserTable::class,
+				BUserTable::class,
 				Join::on('this.ID', 'ref.ROLE_ID')
 			),
 			new StringField(

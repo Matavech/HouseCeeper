@@ -50,7 +50,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 						</div>
 					<?php } ?>
 				</div>
-				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()) || $USER->IsAdmin()) :?>
+				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $this->arResult['HOUSE']['ID']) || $USER->IsAdmin()) :?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'unconfirmed') : ?>
 					<a onclick="return confirm('Вы уверены, что хотите подтвердить эту публикацию?')" class="button is-success" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/confirm">Подтвердить публикацию</a>
 				<?php endif; ?>

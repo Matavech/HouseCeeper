@@ -16,14 +16,14 @@ class Post extends Engine\Controller
 	protected const POST_PER_PAGE = 5;
 	protected const MAX_FILE_COUNT = 10;
 
-	public function getListAction(string $housePath, ?string $postType): ?array
+	public function getListAction(string $houseId, ?string $postType): ?array
 	{
 		$navObject = new \Bitrix\Main\UI\PageNavigation('nav');
 		$navObject->allowAllRecords(false)
 			->setPageSize(self::POST_PER_PAGE)
 			->initFromUri();
 
-		$postList = Repository\Post::getPage($navObject, $housePath, $postType);
+		$postList = Repository\Post::getPage($navObject, $houseId, $postType);
 
 		return [
 			'postList' => $postList,
@@ -34,8 +34,9 @@ class Post extends Engine\Controller
 	public function addNewPostForHouse(string $housePath)
 	{
 		global $USER;
+		$houseId = Repository\House::getIdByPath($housePath);
 		$request = Context::getCurrent()->getRequest();
-		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID()))
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID(), $houseId))
 		{
 			$postType = 'unconfirmed';
 		}
@@ -49,7 +50,6 @@ class Post extends Engine\Controller
 
 		global $USER;
 		$userId = $USER->GetID();
-		$houseId = Repository\House::getIdByPath($housePath);
 		$postTypeId = Repository\Post::getPostTypeId($postType);
 
 		if (count($files['name']) > self::MAX_FILE_COUNT)
@@ -96,7 +96,7 @@ class Post extends Engine\Controller
 	public function deletePost(string $housePath, int $id)
 	{
 		global $USER;
-		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID()))
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID(), Repository\House::getIdByPath($housePath)))
 		{
 			echo ('Вам нельзя такое');
 			return;
@@ -110,7 +110,7 @@ class Post extends Engine\Controller
 	public function confirmPost(string $housePath, int $id)
 	{
 		global $USER;
-		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID()))
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID(), Repository\House::getIdByPath($housePath)))
 		{
 			echo ('Вам нельзя такое');
 			return;

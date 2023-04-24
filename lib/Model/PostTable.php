@@ -80,7 +80,7 @@ class PostTable extends DataManager
 			),
 			new Reference(
 				'USER',
-				UserTable::class,
+				BUserTable::class,
 				Join::on('this.USER_ID', 'ref.ID')
 			),
 			new StringField(

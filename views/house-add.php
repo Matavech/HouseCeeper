@@ -10,6 +10,8 @@ if (!$USER->IsAdmin()){
 }
 $APPLICATION->SetTitle("HouseCeeper admin");
 
-$APPLICATION->IncludeComponent('hc:house.add', '', []);
+$APPLICATION->IncludeComponent('hc:house.add', '', [
+	'housePath' => $_REQUEST['housePath'],
+]);
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

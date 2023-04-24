@@ -60,7 +60,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</fieldset>
 		</form>
 
-		<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) { ?>
+		<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) { ?>
 		<form method="get">
 			<h3 class="title mt-6">
 				Получить ссылку-приглашение

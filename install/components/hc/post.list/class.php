@@ -11,7 +11,8 @@ class PostListComponent extends CBitrixComponent {
 	protected function fetchPostList()
 	{
 		$postList = new \Hc\Houseceeper\Controller\Post();
-		$list = $postList->getListAction($this->arParams['housePath'], $this->arParams['postType']);
+		$this->arResult['HOUSE']['ID'] = \Hc\Houseceeper\Repository\House::getIdByPath($this->arParams['housePath']);
+		$list = $postList->getListAction($this->arResult['HOUSE']['ID'], $this->arParams['postType']);
 		$this->arResult['POSTS'] = $list['postList'];
 		foreach ($this->arResult['POSTS'] as $key => $post)
 		{

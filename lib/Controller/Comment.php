@@ -85,6 +85,7 @@ class Comment extends Controller
 		{
 			$commentId = (int)Context::getCurrent()->getRequest()->getPost('commentId');
 		}
+		$houseId = (int)Context::getCurrent()->getRequest()->getPost('houseId');
 
 		$comment = CommentTable::getById($commentId)->fetch();
 		if (!$comment) {
@@ -92,7 +93,7 @@ class Comment extends Controller
 		}
 		if (!$ignoreCheck)
 		{
-			if (!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()) && $USER->GetID()!==$comment['USER_ID'])
+			if (!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $houseId) && $USER->GetID()!==$comment['USER_ID'])
 			{
 				echo ('Вы не являетесь автором этого комментария');
 				return;

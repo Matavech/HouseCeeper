@@ -12,7 +12,7 @@ class Apartment extends Engine\Controller
 	public static function generateRegKey($houseId, $apartNumber)
 	{
 		global $USER;
-		if (!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()))
+		if (!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $houseId))
 		{
 			LocalRedirect('/');
 		}
