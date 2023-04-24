@@ -3,6 +3,7 @@
 namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Context;
+use Bitrix\Main\DB\Exception;
 use Bitrix\Main\Engine;
 use Bitrix\Main\Error;
 use Bitrix\Main\Type\Date;
@@ -100,7 +101,8 @@ class Post extends Engine\Controller
 			echo ('Вам нельзя такое');
 			return;
 		}
-
+		$comment = new Comment();
+		$comment->deletePostComments($id);
 		PostTable::delete($id);
 		LocalRedirect('/house/' . $housePath);
 	}
@@ -115,6 +117,7 @@ class Post extends Engine\Controller
 		}
 
 		$query = PostTable::getByPrimary($id)->fetchObject();
+		$query->set('DATETIME_CREATED', new DateTime());
 		$query->set('TYPE_ID', 2);
 		$query->save();
 		LocalRedirect('/house/' . $housePath . '/post/' . $id);

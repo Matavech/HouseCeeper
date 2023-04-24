@@ -78,23 +78,60 @@ class Comment extends Controller
 		}
 	}
 
-	public function deleteComment(string $housePath, int $postId)
+	public function deleteComment(int $commentId = 0, bool $ignoreCheck = FALSE)
 	{
 		global $USER;
-		$commentId = (int)Context::getCurrent()->getRequest()->getPost('commentId');
+		if (!$commentId)
+		{
+			$commentId = (int)Context::getCurrent()->getRequest()->getPost('commentId');
+		}
 
 		$comment = CommentTable::getById($commentId)->fetch();
 		if (!$comment) {
 			LocalRedirect('/');
 		}
-
-		if (!$USER->IsAdmin() && $USER->GetID()!==$comment['USER_ID'])
+		if (!$ignoreCheck)
 		{
-			LocalRedirect('/');
+			if (!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID()) && $USER->GetID()!==$comment['USER_ID'])
+			{
+				echo ('Вы не являетесь автором этого комментария');
+				return;
+			}
 		}
 
+		$childComments = $this->findChildComments($commentId);
+
+		if ($childComments)
+		{
+			foreach ($childComments as $childComment)
+			{
+				$this->deleteComment($childComment['ID']);
+			}
+		}
 		CommentTable::delete($commentId);
 
-		LocalRedirect('/house/'. $housePath .  '/post/'. $postId);
+	}
+
+	public function findChildComments(int $commentId)
+	{
+		return CommentTable::query()
+					->setSelect(['ID'])
+					->setFilter(['PARENT_COMMENT_ID' => $commentId]);
+	}
+
+
+	public function deletePostComments(int $postId)
+	{
+		foreach( CommentTable::query()
+			->setSelect(['ID'])
+			->setFilter([
+				'POST_ID' => $postId,
+				'PARENT_COMMENT_ID' => NULL,
+						])
+			->fetchAll()
+		as $comment)
+		{
+			$this->deleteComment($comment['ID']);
+		}
 	}
 }

@@ -97,6 +97,6 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/house/{housePath}/post/{id}/deleteComment', function() {
 
 		$comment = new \Hc\Houseceeper\Controller\Comment();
-		$comment->deleteComment($_REQUEST['housePath'],$_REQUEST['id']);
+		$comment->deleteComment();
 	});
 };
