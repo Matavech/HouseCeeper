@@ -71,7 +71,7 @@ global $USER;
 			<div class="navbar-item">
 				<div class="buttons">
 					<a class="button is-link" href="/logout">
-						Logout
+						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_LOGOUT')?>
 					</a>
 				</div>
 			</div>

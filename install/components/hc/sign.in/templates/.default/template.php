@@ -41,8 +41,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="control mt-5">
-				<button class="button is-link" type="submit">Авторизоваться</button>
-				<span>Не зарегистрированы? </span> <a href="/sign-up">Зарегистрируйтесь</a>
+				<button class="button is-link" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNIN') ; ?></button>
+				<span><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_NOT_SIGNUP_YET')?></span> <a href="/sign-up"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP') ?></a>
 			</div>
 
 		</form>
