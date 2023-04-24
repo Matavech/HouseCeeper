@@ -18,7 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="media-content">
 		<div class="content">
 			<p>
-				<strong id="username"><?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?> <?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_LAST_NAME'] ?></strong> <small>Квартира(ы) <?=implode(', ', \Hc\Houseceeper\Repository\House::getUserApartmentNumber($USER->GetID(), $_REQUEST['housePath']) )?></small>
+				<strong id="username"><?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?> <?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_LAST_NAME'] ?></strong> <small> <?=$arParams['COMMENT']['USER_APARTMENT_NUMBER']?> <?=$arParams['COMMENT']['USER_APARTMENT']?></small>
 				<button onclick="replyToComment(<?=$arParams['COMMENT']['ID'] ?>, '<?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?>' )" class="button is-small">
 								<span class="icon">
 									<i class="fa-solid fa-reply"></i></a>

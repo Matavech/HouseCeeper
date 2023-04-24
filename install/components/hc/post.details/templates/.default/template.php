@@ -22,7 +22,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 				<h5 >
 					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_PUBLISHED')?>: <?=$arResult['POST']['DATETIME_CREATED'] ?> <br>
-					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_PUBLISHED')?>: <?= htmlspecialcharsbx($arResult['POST']['USER']['NAME'])?>
+					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_USER')?>: <?= htmlspecialcharsbx($arResult['POST']['USER']['NAME'])?>
 					<?= htmlspecialcharsbx($arResult['POST']['USER']['LAST_NAME'])?>
 				</h5>
 
@@ -31,7 +31,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				</h2>
 				<?php if (isset($arResult['POST']['FILES'])) : ?>
 					<h5>
-						Прикрепленные файлы:
+						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_ATTACHED_FILES')?>:
 					</h5>
 				<?php endif; ?>
 				<?php foreach ($arResult['POST']['IMAGES'] as $image) {
@@ -57,7 +57,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<a onclick="return confirm('Вы уверены, что хотите удалить эту публикацию?')" class="button is-danger" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_DELETE_PUBLICATION')?></a>
 				<?php endif; ?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'discussion') :?>
-				<h1 class="title mt-5">Комментарии</h1>
+				<h1 class="title mt-5"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_COMMENTS')?></h1>
 				<article class="media">
 
 					<div class="media-content">
@@ -65,14 +65,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 							<?php bitrix_sessid_post(); ?>
 							<div class="field">
 								<p class="control">
-									<textarea required class="textarea" id="inputComment" name="content" placeholder="Add a comment..."></textarea>
+									<textarea required class="textarea" id="inputComment" name="content" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_ADD_COMMENT')?>..."></textarea>
 								</p>
 								<input id="parentCommentId" type="hidden" name="parentId" value="">
 							</div>
 
 							<div class="level-left">
 								<div class="level-item">
-									<button class="button is-info" type="submit">Submit</button>
+									<button class="button is-info" type="submit"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SUBMIT')?></button>
 								</div>
 							</div>
 						</form>

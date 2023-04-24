@@ -37,24 +37,24 @@ global $USER;
 		<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
 		<div class="navbar-start">
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>">
-				Feed
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_FEED')?>
 			</a>
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/discussions">
-				Discussions
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_DISCUSSIONS')?>
 			</a>
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/announcements">
-				Announcements
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_ANNOUNCEMENTS')?>
 			</a>
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/about">
-				About house
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_ABOUT_HOUSE')?>
 			</a>
 
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()) . '/add-post' ?>">
-				New post
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_NEW_POST')?>
 			</a>
 
 		</div>
