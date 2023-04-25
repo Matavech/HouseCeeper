@@ -37,8 +37,7 @@ class Post
 
 		if($result)
 			return $result;
-
-		LocalRedirect('/');
+		return [];
 	}
 
 	public static function getPostTypeId(string $postType)

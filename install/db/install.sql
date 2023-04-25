@@ -28,12 +28,6 @@ CREATE TABLE IF NOT EXISTS hc_houseceeper_user (
     PRIMARY KEY (ID)
 );
 
-CREATE TABLE IF NOT EXISTS hc_houseceeper_apartment_user (
-    USER_ID INT NOT NULL,
-    APARTMENT_ID INT NOT NULL,
-    PRIMARY KEY (USER_ID, APARTMENT_ID)
-);
-
 CREATE TABLE IF NOT EXISTS hc_houseceeper_post_type (
     ID INT NOT NULL AUTO_INCREMENT,
     NAME VARCHAR(50) NOT NULL,
@@ -127,5 +121,3 @@ FROM hc_houseceeper_user u
          JOIN hc_houseceeper_apartment_user au ON au.USER_ID = u.ID
          JOIN hc_houseceeper_apartment a ON a.ID = au.APARTMENT_ID
          JOIN hc_houseceeper_house h ON h.ID = a.HOUSE_ID;
-
-DROP TABLE IF EXISTS hc_houseceeper_user;

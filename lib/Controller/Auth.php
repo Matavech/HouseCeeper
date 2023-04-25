@@ -5,6 +5,7 @@ use Bitrix\Main\Engine;
 use Bitrix\Main\Context;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
+use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\UserTable;
 
 class Auth extends Engine\Controller
@@ -47,10 +48,10 @@ class Auth extends Engine\Controller
 				$USER->Update($userId, [
 					"WORK_COMPANY" => 'HouseCeeper'
 				]);
-
-				$result = UserTable::add([
-					'ID' => $userId,
-					'ROLE_ID' => 3
+				$result = UserRoleTable::add([
+					'USER_ID' => $userId,
+					'ROLE_ID' => 3,
+					'HOUSE_ID' => $apartment['HOUSE_ID']
 				]);
 
 				if ($result->isSuccess()) {

@@ -8,6 +8,7 @@ use Bitrix\Main\Context;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\HouseTable;
+use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\UserTable;
 use Hc\Houseceeper\Repository;
 
@@ -99,9 +100,10 @@ class House extends Engine\Controller
 				]);
 
 				if ((int) $headmanId > 0) {
-					$result = UserTable::add([
-						'ID' => $headmanId,
-						'ROLE_ID' => 2
+					$result = UserRoleTable::add([
+						'USER_ID' => $headmanId,
+						'ROLE_ID' => 2,
+						'HOUSE_ID' => $houseId
 					]);
 
 					if ($result->isSuccess()) {

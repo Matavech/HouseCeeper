@@ -249,7 +249,6 @@ FOREIGN KEY FK_PF_FILE (FILE_ID)
 
 
 __projectorMigrate(5, function($updater, $DB){
-	return;
 	$DB->query("ALTER TABLE hc_houseceeper_user DROP FOREIGN KEY hc_houseceeper_user_ibfk_1;");
 	$DB->query("ALTER TABLE hc_houseceeper_user DROP FOREIGN KEY hc_houseceeper_user_ibfk_2;");
 	$DB->query("ALTER TABLE hc_houseceeper_user DROP COLUMN IMAGE_PATH;");
@@ -275,7 +274,7 @@ __projectorMigrate(5, function($updater, $DB){
     USER_ID INT NOT NULL,
     ROLE_ID INT NOT NULL,
     HOUSE_ID INT NOT NULL,
-    PRIMARY KEY (USER_ID, ROLE_ID, HOUSE_ID)
+    PRIMARY KEY (USER_ID, HOUSE_ID)
 );");
 	$DB->query("INSERT INTO hc_houseceeper_user_role (USER_ID, ROLE_ID, HOUSE_ID)
 SELECT u.ID, r.ID, h.ID
