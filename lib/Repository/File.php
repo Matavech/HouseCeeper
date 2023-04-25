@@ -2,9 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
-use Hc\Houseceeper\Model\BFileTable;
 use Hc\Houseceeper\Model\PostFileTable;
-use Hc\Houseceeper\Model\PostTable;
 
 class File
 {
@@ -19,18 +17,19 @@ class File
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 	];
 
-	public static function addPostFiles($postId, $files, $savePath)
+	public static function addPostFiles($postId, $files)
 	{
-		$count = count($files["name"]);
-		for ($i = 0; $i < $count; $i++) {
+		foreach ($files as $file) {
 			$arrFile = [
-				"name" => $files["name"][$i],
-				"size" => $files["size"][$i],
-				"type" => $files["type"][$i],
-				"tmp_name" => $files["tmp_name"][$i],
+				"name" => $file["name"],
+				"size" => $file["size"],
+				"type" => $file["type"],
+				"tmp_name" => \Bitrix\Main\Application::getDocumentRoot() . '/upload/tmp' . $file["tmp_name"],
 				"MODULE_ID" => "hc.houseceeper",
 				"del" => "N"
 			];
+
+			var_dump($arrFile);
 
 			$res = \CFile::CheckFile($arrFile,
 				50*1024*1024,
@@ -40,13 +39,15 @@ class File
 			if (strlen($res) > 0) {
 				var_dump($res);
 			} else {
-				$fileId = \CFile::SaveFile($arrFile, "post-files/{$savePath}");
-				$result = PostFileTable::add([
-					'POST_ID' => $postId,
-					'FILE_ID' => $fileId
-				]);
-				if (!$result) {
-					var_dump($result->getErrors());
+				$fileId = \CFile::SaveFile($arrFile, "post-files/{$postId}");
+				if ($fileId){
+					$result = PostFileTable::add([
+						'POST_ID' => $postId,
+						'FILE_ID' => $fileId
+					]);
+					if (!$result) {
+						var_dump($result->getErrors());
+					}
 				}
 			}
 		}

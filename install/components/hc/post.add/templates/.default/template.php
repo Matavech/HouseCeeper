@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * @var array $arResult
  * @var array $arParams
@@ -13,6 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="content">
 
 		<form method="post" action="/house/<?= $arParams['housePath'] ?>/add-post" enctype="multipart/form-data">
+
 			<?php bitrix_sessid_post(); ?>
 
 			<h1 class="title mt-6">
@@ -44,21 +46,35 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</div>
 			<?php endif; ?>
 
-			<div class="file mt-5">
-				<label class="file-label">
-					<input class="file-input" type="file" name="files[]" multiple>
-					<span class="file-cta">
-						<span class="file-icon">
-							<i class="fas fa-upload"></i>
-						</span><span class="file-label">
-							Выберите файлы...
-						</span>
-					</span>
-				</label>
-			</div>
-			<div class="container mt-5">
-				<div class="input-file-list columns is-multiline"></div>
-			</div>
+<!--			<div class="file mt-5">-->
+<!--				<label class="file-label">-->
+<!--					<input class="file-input" type="file" name="files[]" multiple>-->
+<!--					<span class="file-cta">-->
+<!--						<span class="file-icon">-->
+<!--							<i class="fas fa-upload"></i>-->
+<!--						</span><span class="file-label">-->
+<!--							Выберите файлы...-->
+<!--						</span>-->
+<!--					</span>-->
+<!--				</label>-->
+<!--			</div>-->
+
+				<?=\Bitrix\Main\UI\FileInput::createInstance([
+				"name" => "files[#IND#]",
+				"description" => true,
+				"upload" => true,
+				"allowUpload" => "A",
+				"medialib" => true,
+				"fileDialog" => true,
+				"delete" => true,
+				"maxCount" => 5,
+				"maxSize" => 50*1024*1024
+			])->show();
+			?>
+
+<!--			<div class="container mt-5">-->
+<!--				<div class="input-file-list columns is-multiline"></div>-->
+<!--			</div>-->
 			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) :?>
 			<button class="button mt-5" type="submit">Добавить пост</button>
 			<?php else : ?>

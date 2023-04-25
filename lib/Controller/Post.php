@@ -46,13 +46,13 @@ class Post extends Engine\Controller
 		}
 		$postCaption = trim($request->getPost('post-caption'));
 		$postBody = trim($request->getPost('post-body'));
-		$files = $request->getFileList()['files'];
+		$files = $request->getPost('files');
 
 		global $USER;
 		$userId = $USER->GetID();
 		$postTypeId = Repository\Post::getPostTypeId($postType);
 
-		if (count($files['name']) > self::MAX_FILE_COUNT)
+		if (count($files) > self::MAX_FILE_COUNT)
 		{
 			echo 'Вы не можете загрузить более ' . self::MAX_FILE_COUNT . ' файлов';
 			return;
@@ -62,10 +62,10 @@ class Post extends Engine\Controller
 			$result = Repository\Post::addPost($houseId, $userId, $postCaption, $postBody, $postTypeId);
 
 			if ($result->isSuccess()) {
-				if($files['error'][0] === 0) // Если хотя бы есть 1 файл
+				if(!is_null($files)) // Если хотя бы есть 1 файл
 				{
 					$postId = $result->getId();
-					Repository\File::addPostFiles($postId,$files, $result->getId());
+					Repository\File::addPostFiles($postId, $files);
 				}
 				//echo 'Post has been added successfully';
 				LocalRedirect('/');
