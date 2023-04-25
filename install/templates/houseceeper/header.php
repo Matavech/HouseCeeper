@@ -3,6 +3,7 @@
  * @var CMain $APPLICATION
  */
 global $USER;
+\Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
 ?><!doctype html>
 <html lang="<?= LANGUAGE_ID; ?>">
 <head>
@@ -37,24 +38,24 @@ global $USER;
 		<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
 		<div class="navbar-start">
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>">
-				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_FEED')?>
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_FEED')?>
 			</a>
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/discussions">
-				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_DISCUSSIONS')?>
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_DISCUSSIONS')?>
 			</a>
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/announcements">
-				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_ANNOUNCEMENTS')?>
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_ANNOUNCEMENTS')?>
 			</a>
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/about">
-				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_ABOUT_HOUSE')?>
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_ABOUT_HOUSE')?>
 			</a>
 
 
 			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()) . '/add-post' ?>">
-				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_NEW_POST')?>
+				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_NEW_POST')?>
 			</a>
 
 		</div>
@@ -71,7 +72,7 @@ global $USER;
 			<div class="navbar-item">
 				<div class="buttons">
 					<a class="button is-link" href="/logout">
-						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_LOGOUT')?>
+						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_LOGOUT')?>
 					</a>
 				</div>
 			</div>
