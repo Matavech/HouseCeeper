@@ -12,7 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <main class="has-background-success-light">
 	<div class="container is-max-desktop ">
 		<section class="section border-none has-background-grey-light mt-6">
-			<h1 class="title">Авторизация</h1>
+			<h1 class="title"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_AUTORIZATION') ; ?></h1>
 
 		</section>
 
@@ -20,7 +20,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="field mt-6">
-				<label class="label">Логин</label>
+				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_LOGIN') ; ?></label>
 				<div class="control has-icons-left has-icons-right">
 					<input required class="input " type="text" placeholder="Введите логин" name="login">
 					<span class="icon is-small is-left">
@@ -30,7 +30,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</div>
 
 			<div class="field">
-				<label class="label">Пароль</label>
+				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_PASSWORD') ; ?></label>
 				<div class="control has-icons-left has-icons-right">
 					<input required class="input " type="password" placeholder="Введите пароль" name="password">
 					<span class="icon is-small is-left">
@@ -41,8 +41,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="control mt-5">
-				<button class="button is-link" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNIN') ; ?></button>
-				<span><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_NOT_SIGNUP_YET')?></span> <a href="/sign-up"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP') ?></a>
+				<button class="button is-link" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_BUTTON') ; ?></button>
+				<span><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_NOT_REGISTERED') ; ?></span> <a href="/sign-up"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_SIGNUP') ; ?></a>
 			</div>
 
 		</form>

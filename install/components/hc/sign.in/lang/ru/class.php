@@ -1,0 +1,8 @@
+<?php
+
+$MESS['HC_HOUSECEEPER_SIGHIN_AUTORIZATION'] = 'Авторизация';
+$MESS['HC_HOUSECEEPER_SIGHIN_LOGIN'] = 'Логин';
+$MESS['HC_HOUSECEEPER_SIGHIN_PASSWORD'] = 'Пароль';
+$MESS['HC_HOUSECEEPER_SIGHIN_NOT_REGISTERED'] = 'Не зарегистрированы?';
+$MESS['HC_HOUSECEEPER_SIGHIN_SIGNUP'] = 'Зарегистрируйтесь!';
+$MESS['HC_HOUSECEEPER_SIGHIN_BUTTON'] = 'Авторизоваться';
