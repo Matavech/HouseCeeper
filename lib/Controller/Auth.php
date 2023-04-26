@@ -107,7 +107,7 @@ class Auth extends Engine\Controller
 			{
 				ShowMessage($errorMessage);
 			}
-			die('Что то пошло не так');
+
 		}
 		echo 'Неверный ключ';
 	}
