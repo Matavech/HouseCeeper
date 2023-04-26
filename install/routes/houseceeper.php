@@ -11,10 +11,8 @@ return function (RoutingConfigurator $routes)
 		if(!$USER->IsAuthorized()) {
 			LocalRedirect('/sign-in');
 		}
-		if($USER->IsAdmin()) {
-			LocalRedirect('/house-list');
-		}
-		LocalRedirect(\Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()));
+
+		LocalRedirect('/house-list');
 	});
 
 	$routes->get('/logout', function() {
