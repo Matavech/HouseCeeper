@@ -2,7 +2,7 @@
 
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\ModuleManager;
-
+define(__FILE__, '');
 Loc::loadMessages(__FILE__);
 
 class hc_houseceeper extends CModule
@@ -15,6 +15,7 @@ class hc_houseceeper extends CModule
 
 	public function __construct()
 	{
+		var_dump(Loc::getMessage('HC_HOUSECEEPER_MODULE_NAME'));
 		$arModuleVersion = [];
 		include(__DIR__ . '/version.php');
 

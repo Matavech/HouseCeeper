@@ -18,7 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="media-content">
 		<div class="content">
 			<p>
-				<strong id="username"><?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?> <?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_LAST_NAME'] ?></strong> <small>Квартира(ы) <?=implode(', ', \Hc\Houseceeper\Repository\House::getUserApartmentNumber($USER->GetID(), $_REQUEST['housePath']) )?></small>
+				<strong id="username"><?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?> <?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_LAST_NAME'] ?></strong> <small> <?=$arParams['COMMENT']['USER_APARTMENT_NUMBER']?> <?=$arParams['COMMENT']['USER_APARTMENT']?></small>
 				<button onclick="replyToComment(<?=$arParams['COMMENT']['ID'] ?>, '<?= $arParams['COMMENT']['HC_HOUSECEEPER_MODEL_COMMENT_USER_NAME'] ?>' )" class="button is-small">
 								<span class="icon">
 									<i class="fa-solid fa-reply"></i></a>
@@ -35,6 +35,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<?php if ($USER->GetID()===$arParams['COMMENT']['USER_ID'] || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID']) || $USER->IsAdmin()) : ?>
 	<form action="/house/<?=$_REQUEST['housePath']?>/post/<?=$_REQUEST['id']?>/deleteComment" method="post">
 		<input type="hidden" name="commentId" value="<?=$arParams['COMMENT']['ID']?>">
+		<button  onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_COMMENT_ARE_YOU_SURE_YOU_WANT_DELETE')?>')" type="submit" class="button is-small">
 		<input type="hidden" name="houseId" value="<?=$arResult['HOUSE']['ID']?>">
 		<button  onclick="return confirm('Вы уверены, что хотите удалить этот комментарий?')" type="submit" class="button is-small">
 								<span class="icon">

@@ -18,15 +18,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<a href="<?= '/house/' . $house['UNIQUE_PATH'] . '/about' ?>"><?= htmlspecialcharsbx($house['NAME']) ?></a>
 		</h1>
 		<h2 class="subtitle">
-			Адрес: <?= htmlspecialcharsbx($house['ADDRESS']) ?>
+			<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSELIST_ADDRESS')?>: <?= htmlspecialcharsbx($house['ADDRESS']) ?>
 		</h2>
-		<h5><?= $house['NUMBER_OF_APARTMENT'] ?> квартир</h5>
-		<a class="button is-dark" href="<?= '/house/' . $house['UNIQUE_PATH'] . '/about' ?>">Редактировать</a>
+		<h5><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSELIST_NUMBER_OF_APARTMENT')?>: <?= $house['NUMBER_OF_APARTMENT'] ?> </h5>
+		<a class="button is-dark" href="<?= '/house/' . $house['UNIQUE_PATH'] . '/about' ?>"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSELIST_REDACT')?></a>
 	</section>
 	<?php } ?>
 
 	<section class="section">
-		<a class="button" href="/add-house">Добавить дом</a>
+		<a class="button" href="/add-house"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSELIST_ADD_HOUSE')?></a>
 	</section>
 </div>
 </div>

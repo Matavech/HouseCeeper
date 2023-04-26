@@ -25,8 +25,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<h2 class="subtitle">
 					<?= htmlspecialcharsbx($post['CONTENT']) ?>
 				</h2>
-				<h5>Опубликовано: <?= $post['DATETIME_CREATED'] ?></h5>
-				<a class="button is-dark" href="/house/<?= $arParams['housePath'] . '/post/' . $post['ID'] ?>">Перейти к обсуждению</a>
+				<h5><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTLIST_PUBLISHED')?>: <?= $post['DATETIME_CREATED'] ?></h5>
+				<a class="button is-dark" href="/house/<?= $arParams['housePath'] . '/post/' . $post['ID'] ?>"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTLIST_GO_TO_DISCUSS')?> </a>
 			</section>
 		<?php } ?>
 	</div>
