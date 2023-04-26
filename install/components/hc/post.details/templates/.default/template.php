@@ -19,16 +19,21 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</span>
 					<?= htmlspecialcharsbx($arResult['POST']['TITLE'])?>
 				</h1>
-
-				<h5 >
-					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_PUBLISHED')?>: <?=$arResult['POST']['DATETIME_CREATED'] ?> <br>
-					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_USER')?>: <?= htmlspecialcharsbx($arResult['POST']['USER']['NAME'])?>
-					<?= htmlspecialcharsbx($arResult['POST']['USER']['LAST_NAME'])?>
-				</h5>
-
 				<h2 class="subtitle mt-5">
 					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
 				</h2>
+				<h5 >
+					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_PUBLISHED')?>: <?=$arResult['POST']['DATETIME_CREATED'] ?> <br>
+					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_USER')?>:
+					<?php if (\Hc\Houseceeper\Repository\User::isAdmin($arResult['POST']['USER_ID'])) : echo '<strong>'; ?>
+					<?php endif ?>
+					<?= htmlspecialcharsbx($arResult['POST']['USER']['NAME'])?>
+					<?= htmlspecialcharsbx($arResult['POST']['USER']['LAST_NAME'])?>
+					<?php if (\Hc\Houseceeper\Repository\User::isAdmin($arResult['POST']['USER_ID'])) : echo '</strong>'; ?>
+					<?php endif ?>
+				</h5>
+
+
 				<?php if (isset($arResult['POST']['FILES'])) : ?>
 					<h5>
 						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ATTACHED_FILES')?>:

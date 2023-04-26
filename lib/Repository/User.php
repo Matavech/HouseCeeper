@@ -10,13 +10,18 @@ class User
 {
 	public static function getName($id)
 	{
-		$query = BUserTable::query()
-						   ->setSelect(['NAME', 'LAST_NAME'])
-						   ->setFilter([
-								  'ID' => $id,
-								  ]);
-		$result = $query->fetch();
-
+		if (self::isAdmin($id))
+		{
+			$result['NAME'] = 'Управляющая Компания';
+			$result['LAST_NAME'] = '';
+		}
+		else
+		{
+			$query = BUserTable::query()->setSelect(['NAME', 'LAST_NAME'])->setFilter([
+																						  'ID' => $id,
+																					  ]);
+			$result = $query->fetch();
+		}
 		if ($result)
 		{
 			return $result;
@@ -119,8 +124,16 @@ class User
 			->setFilter(['USER_ID' => $userId, 'HOUSE_ID' => $houseId]);
 		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
 		
-		if ($role === 'headman')
-			return True;
-		return false;
+		return $role === 'headman';
+	}
+
+	public static function isAdmin($userId)
+	{
+		$result = UserRoleTable::query()
+							   ->setSelect(['ROLE.NAME'])
+							   ->setFilter(['USER_ID' => $userId]);
+		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
+
+		return $role === 'admin';
 	}
 }
