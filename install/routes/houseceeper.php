@@ -80,22 +80,22 @@ return function (RoutingConfigurator $routes)
 
 	$routes->get('/house/{housePath}/post/{id}', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'))->where('id', '[0-9]+');
 	$routes->post('/house/{housePath}/post/{id}', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$comment = new \Hc\Houseceeper\Controller\Comment();
 		$comment->addComment($_REQUEST['housePath'],$_REQUEST['id']);
 	});
 	$routes->get('/house/{housePath}/post/{id}/delete', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$post = new \Hc\Houseceeper\Controller\Post();
 		$post->deletePost($_REQUEST['housePath'], $_REQUEST['id']);
 	});
 	$routes->get('/house/{housePath}/post/{id}/confirm', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$post = new \Hc\Houseceeper\Controller\Post();
 		$post->confirmPost($_REQUEST['housePath'], $_REQUEST['id']);
 	});
 	$routes->post('/house/{housePath}/post/{id}/deleteComment', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$comment = new \Hc\Houseceeper\Controller\Comment();
 		$comment->deleteComment();
 		LocalRedirect('/house/' . $_REQUEST['housePath'] . '/post/' .$_REQUEST['id'] );
