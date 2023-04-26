@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\Houseceeper\Model\HouseTable;
 use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\RoleTable;
@@ -156,5 +157,22 @@ class User
 			return True;
 		}
 		return False;
+	}
+
+	public static function getUserHouses($userId)
+	{
+
+		$allHouses = HouseTable::query()
+			->setSelect(['ID'])
+			->fetchAll();
+
+		foreach ($allHouses as $house)
+		{
+			if (User::isAdmin($userId) || User::hasAccessToHouse($userId, $house['ID']))
+			{
+				$result[] = $house['ID'];
+			}
+		}
+		return $result;
 	}
 }
