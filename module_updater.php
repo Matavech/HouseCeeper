@@ -249,40 +249,39 @@ FOREIGN KEY FK_PF_FILE (FILE_ID)
 
 
 __projectorMigrate(5, function($updater, $DB){
-	$DB->query("ALTER TABLE hc_houseceeper_user DROP FOREIGN KEY hc_houseceeper_user_ibfk_1;");
-	$DB->query("ALTER TABLE hc_houseceeper_user DROP FOREIGN KEY hc_houseceeper_user_ibfk_2;");
-	$DB->query("ALTER TABLE hc_houseceeper_user DROP COLUMN IMAGE_PATH;");
-	$DB->query("ALTER TABLE hc_houseceeper_apartment_user DROP FOREIGN KEY hc_houseceeper_apartment_user_ibfk_1;");
-	$DB->query("ALTER TABLE hc_houseceeper_apartment_user DROP FOREIGN KEY hc_houseceeper_apartment_user_ibfk_2;");
-	$DB->query("ALTER TABLE hc_houseceeper_post DROP FOREIGN KEY hc_houseceeper_post_ibfk_1;");
-	$DB->query("ALTER TABLE hc_houseceeper_post DROP FOREIGN KEY hc_houseceeper_post_ibfk_2;");
-	$DB->query("ALTER TABLE hc_houseceeper_post_file DROP FOREIGN KEY hc_houseceeper_post_file_ibfk_1;");
-	$DB->query("ALTER TABLE hc_houseceeper_post_file DROP FOREIGN KEY hc_houseceeper_post_file_ibfk_2;");
-	$DB->query("ALTER TABLE hc_houseceeper_comment DROP FOREIGN KEY hc_houseceeper_comment_ibfk_1;");
-	$DB->query("ALTER TABLE hc_houseceeper_comment DROP FOREIGN KEY hc_houseceeper_comment_ibfk_2;");
-	$DB->query("ALTER TABLE hc_houseceeper_comment DROP FOREIGN KEY hc_houseceeper_comment_ibfk_3;");
-	$DB->query("ALTER TABLE hc_houseceeper_post_tag DROP FOREIGN KEY hc_houseceeper_post_tag_ibfk_1;");
-	$DB->query("ALTER TABLE hc_houseceeper_post_tag DROP FOREIGN KEY hc_houseceeper_post_tag_ibfk_2;");
-	$DB->query("ALTER TABLE hc_houseceeper_post add index IX_TITLE (TITLE);");
-	$DB->query("ALTER TABLE hc_houseceeper_post add index IX_HOUSE_ID (HOUSE_ID);");
-	$DB->query("ALTER TABLE hc_houseceeper_post add index IX_DATETIME_CREATED (DATETIME_CREATED);");
-	$DB->query("ALTER TABLE hc_houseceeper_post add index IX_TYPE_ID (TYPE_ID);");
-	$DB->query("ALTER TABLE hc_houseceeper_comment add index IX_POST_ID (POST_ID);");
-	$DB->query("ALTER TABLE hc_houseceeper_comment add index IX_DATETIME_CREATED (DATETIME_CREATED);");
-	$DB->query("ALTER TABLE hc_houseceeper_apartment add index IX_HOUSE_ID (HOUSE_ID);");
+	$updater->query("ALTER TABLE hc_houseceeper_user DROP FOREIGN KEY hc_houseceeper_user_ibfk_1;");
+	$updater->query("ALTER TABLE hc_houseceeper_user DROP FOREIGN KEY hc_houseceeper_user_ibfk_2;");
+	$updater->query("ALTER TABLE hc_houseceeper_apartment_user DROP FOREIGN KEY hc_houseceeper_apartment_user_ibfk_1;");
+	$updater->query("ALTER TABLE hc_houseceeper_apartment_user DROP FOREIGN KEY hc_houseceeper_apartment_user_ibfk_2;");
+	$updater->query("ALTER TABLE hc_houseceeper_post DROP FOREIGN KEY hc_houseceeper_post_ibfk_1;");
+	$updater->query("ALTER TABLE hc_houseceeper_post DROP FOREIGN KEY hc_houseceeper_post_ibfk_2;");
+	$updater->query("ALTER TABLE hc_houseceeper_post_file DROP FOREIGN KEY hc_houseceeper_post_file_ibfk_1;");
+	$updater->query("ALTER TABLE hc_houseceeper_post_file DROP FOREIGN KEY hc_houseceeper_post_file_ibfk_2;");
+	$updater->query("ALTER TABLE hc_houseceeper_comment DROP FOREIGN KEY hc_houseceeper_comment_ibfk_1;");
+	$updater->query("ALTER TABLE hc_houseceeper_comment DROP FOREIGN KEY hc_houseceeper_comment_ibfk_2;");
+	$updater->query("ALTER TABLE hc_houseceeper_comment DROP FOREIGN KEY hc_houseceeper_comment_ibfk_3;");
+	$updater->query("ALTER TABLE hc_houseceeper_post_tag DROP FOREIGN KEY hc_houseceeper_post_tag_ibfk_1;");
+	$updater->query("ALTER TABLE hc_houseceeper_post_tag DROP FOREIGN KEY hc_houseceeper_post_tag_ibfk_2;");
+	$updater->query("ALTER TABLE hc_houseceeper_post add index IX_TITLE (TITLE);");
+	$updater->query("ALTER TABLE hc_houseceeper_post add index IX_HOUSE_ID (HOUSE_ID);");
+	$updater->query("ALTER TABLE hc_houseceeper_post add index IX_DATETIME_CREATED (DATETIME_CREATED);");
+	$updater->query("ALTER TABLE hc_houseceeper_post add index IX_TYPE_ID (TYPE_ID);");
+	$updater->query("ALTER TABLE hc_houseceeper_comment add index IX_POST_ID (POST_ID);");
+	$updater->query("ALTER TABLE hc_houseceeper_comment add index IX_DATETIME_CREATED (DATETIME_CREATED);");
+	$updater->query("ALTER TABLE hc_houseceeper_apartment add index IX_HOUSE_ID (HOUSE_ID);");
 	$DB->query("CREATE TABLE IF NOT EXISTS hc_houseceeper_user_role(
     USER_ID INT NOT NULL,
     ROLE_ID INT NOT NULL,
     HOUSE_ID INT NOT NULL,
     PRIMARY KEY (USER_ID, HOUSE_ID)
 );");
-	$DB->query("INSERT INTO hc_houseceeper_user_role (USER_ID, ROLE_ID, HOUSE_ID)
+	$updater->query("INSERT INTO hc_houseceeper_user_role (USER_ID, ROLE_ID, HOUSE_ID)
 SELECT u.ID, r.ID, h.ID
 FROM hc_houseceeper_user u
     JOIN hc_houseceeper_role r ON u.ROLE_ID = r.ID
     JOIN hc_houseceeper_apartment_user au ON au.USER_ID = u.ID
     JOIN hc_houseceeper_apartment a ON a.ID = au.APARTMENT_ID
     JOIN hc_houseceeper_house h ON h.ID = a.HOUSE_ID");
-	$DB->query("DROP TABLE IF EXISTS hc_houseceeper_user;");
+	$updater->query("DROP TABLE IF EXISTS hc_houseceeper_user;");
 });
 
