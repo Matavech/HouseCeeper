@@ -60,8 +60,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<div class="input-file-list columns is-multiline"></div>
 			</div>
 			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) :?>
-			<button class="button mt-5" type="submit">Добавить пост</button>
-			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID())) :?>
 			<button class="button mt-5" type="submit"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_ADD_POST')?></button>
 			<?php else : ?>
 			<button class="button mt-5" type="submit"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_ADD_POST_REQUEST')?></button>
