@@ -29,10 +29,7 @@ class HouseDetailsComponent extends CBitrixComponent {
 					"NUMBER" => $apartment['NUMBER'],
 					"LINK" => $apartment['LINK'],
 					"USERS" => implode(', ', $apartment['USERS'])
-				],
-				'actions' => [ //Действия над ними
-
-				],
+				]
 			];
 		}
 	}

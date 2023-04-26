@@ -150,17 +150,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					[
 						'GRID_ID' => 'apartment_list',
 						'COLUMNS' => [
-							['id' => 'NUMBER', 'name' => 'Номер', 'sort' => 'NUMBER', 'default' => true],
-							['id' => 'USERS', 'name' => 'Жильцы', 'sort' => 'USERS', 'default' => true],
-							['id' => 'LINK', 'name' => 'Ссылка-приглашение', 'sort' => 'LINK', 'default' => true]
+							['id' => 'NUMBER', 'name' => 'Номер', 'default' => true],
+							['id' => 'USERS', 'name' => 'Жильцы', 'default' => true],
+							['id' => 'LINK', 'name' => 'Ссылка-приглашение', 'default' => true]
 						],
 						'ROWS' => $arResult['GRID_LIST'],
 						'SHOW_ROW_CHECKBOXES' => false,
 						'NAV_OBJECT' => $arResult['NAV_OBJECT'],
 						'AJAX_MODE' => 'Y',
 						'AJAX_ID' => \CAjax::getComponentID('bitrix:main.ui.grid', '.default', ''),
-						'SHOW_ROW_ACTIONS_MENU'     => true,
-						'SHOW_GRID_SETTINGS_MENU'   => true,
+						'SHOW_ROW_ACTIONS_MENU'     => false,
+						'SHOW_GRID_SETTINGS_MENU'   => false,
 						'SHOW_NAVIGATION_PANEL'     => true,
 						'SHOW_PAGINATION'           => true,
 						'SHOW_SELECTED_COUNTER'     => false,
