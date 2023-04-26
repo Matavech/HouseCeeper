@@ -9,7 +9,7 @@ global $USER;
 if (!$USER->IsAuthorized()){
 	LocalRedirect('/sign-in');
 }
-
+\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 $APPLICATION->IncludeComponent('hc:post.list', '', [
 	'housePath' => $_REQUEST['housePath'],
 	'postType' => 'discussion',

@@ -29,4 +29,24 @@ class User extends Controller
 
 		\Hc\Houseceeper\Repository\User::addHeadman($userId, $houseId);
 	}
+
+	public static function checkAccessToHouse()
+	{
+		$housePath = $_REQUEST['housePath'];
+		$houseId = \Hc\Houseceeper\Repository\House::getIdByPath($housePath);
+
+		if (!$houseId)
+		{
+			echo 'Дома '. $housePath . ' не существует!';
+			return;
+		}
+
+		global $USER;
+		$userId = $USER->GetID();
+
+		if (!\Hc\Houseceeper\Repository\User::hasAccessToHouse($userId, $houseId))
+		{
+			LocalRedirect('/');
+		}
+	}
 }

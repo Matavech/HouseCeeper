@@ -136,4 +136,25 @@ class User
 
 		return $role === 'admin';
 	}
+
+	public static function hasAccessToHouse($userId, $houseId)
+	{
+		if (self::isAdmin($userId))
+		{
+			return True;
+		}
+
+		$result = UserRoleTable::query()
+			->setSelect(['ROLE_ID'])
+			->setFilter([
+				'USER_ID' => $userId,
+				'HOUSE_ID' => $houseId,
+						])
+			->fetch();
+		if ($result)
+		{
+			return True;
+		}
+		return False;
+	}
 }
