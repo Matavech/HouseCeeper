@@ -117,7 +117,6 @@ class Post extends Engine\Controller
 			return;
 		}
 		Repository\File::deletePostFiles($id);
-		die();
 		$query = PostTable::getByPrimary($id)->fetchObject();
 		$query->set('DATETIME_CREATED', new DateTime());
 		$query->set('TYPE_ID', 2);
