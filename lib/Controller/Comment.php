@@ -106,18 +106,18 @@ class Comment extends Controller
 		{
 			foreach ($childComments as $childComment)
 			{
-				$this->deleteComment($childComment['ID']);
+				$this->deleteComment($childComment['ID'], TRUE);
 			}
 		}
 		CommentTable::delete($commentId);
-
 	}
 
 	public function findChildComments(int $commentId)
 	{
 		return CommentTable::query()
 					->setSelect(['ID'])
-					->setFilter(['PARENT_COMMENT_ID' => $commentId]);
+					->setFilter(['PARENT_COMMENT_ID' => $commentId])
+					->fetchAll();
 	}
 
 

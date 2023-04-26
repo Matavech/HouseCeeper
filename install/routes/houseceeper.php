@@ -98,5 +98,6 @@ return function (RoutingConfigurator $routes)
 
 		$comment = new \Hc\Houseceeper\Controller\Comment();
 		$comment->deleteComment();
+		LocalRedirect('/house/' . $_REQUEST['housePath'] . '/post/' .$_REQUEST['id'] );
 	});
 };

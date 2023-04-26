@@ -68,7 +68,7 @@ class Post extends Engine\Controller
 					Repository\File::addPostFiles($postId,$files, $result->getId());
 				}
 				//echo 'Post has been added successfully';
-				LocalRedirect('/');
+				LocalRedirect('/house/'.$housePath);
 			} else {
 				$errors = $result->getErrors();
 				foreach ($errors as $error) {
