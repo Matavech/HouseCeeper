@@ -65,7 +65,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				"medialib" => true,
 				"fileDialog" => true,
 				"delete" => true,
-				"maxCount" => 5,
+				"maxCount" => 10,
 				"maxSize" => 50*1024*1024
 			])->show();
 			?>
