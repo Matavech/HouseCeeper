@@ -24,6 +24,10 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/reg', function()  {
 		Hc\Houseceeper\Controller\Auth::signupUser();
 	});
+	$routes->get('/get-into', new PublicPageController('/local/modules/hc.houseceeper/views/get-into.php'));
+	$routes->post('/get-into', function() {
+		\Hc\Houseceeper\Controller\Auth::addUserToHouse();
+	});
 
 	$routes->get('/house-list', new PublicPageController('/local/modules/hc.houseceeper/views/house-list.php'));
 	$routes->get('/add-house', new PublicPageController('/local/modules/hc.houseceeper/views/house-add.php'));
