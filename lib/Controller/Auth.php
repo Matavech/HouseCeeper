@@ -6,7 +6,6 @@ use Bitrix\Main\Context;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\UserRoleTable;
-use Hc\Houseceeper\Model\UserTable;
 
 class Auth extends Engine\Controller
 {
@@ -38,12 +37,11 @@ class Auth extends Engine\Controller
 		$email =	trim($request->getPost('email'));
 		$key = 		trim($request->getPost('key'));
 
-		$apartment = Apartment::getApartmentFromKey($key);
+		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
 		if ($apartment) {
 			global $USER;
 			$resultMessage = $USER->Register($login, $name, $lastname, $password, $password, $email);
 			if ($resultMessage['TYPE'] === 'OK'){
-
 				$userId = $USER->GetID();
 				$USER->Update($userId, [
 					"WORK_COMPANY" => 'HouseCeeper'
@@ -51,15 +49,15 @@ class Auth extends Engine\Controller
 				$result = UserRoleTable::add([
 					'USER_ID' => $userId,
 					'ROLE_ID' => 3,
-					'HOUSE_ID' => $apartment['HOUSE_ID']
+					'HOUSE_ID' => $apartment->getHouseId(),
 				]);
 
 				if ($result->isSuccess()) {
-					$apartId = $apartment['ID'];
 					ApartmentUserTable::add([
-						'APARTMENT_ID' => $apartId,
+						'APARTMENT_ID' => $apartment->getId(),
 						'USER_ID' => $userId,
 					]);
+					\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
 					LocalRedirect('/');
 				}
 			} else {

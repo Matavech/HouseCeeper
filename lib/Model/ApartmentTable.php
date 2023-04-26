@@ -94,7 +94,7 @@ class ApartmentTable extends DataManager
 			(new ManyToMany(
 				'USER',
 				BUserTable::class
-			))->configureTableName('hc_houseceeper_apartment_user'),
+			))->configureTableName('b_user'),
 
 		];
 	}

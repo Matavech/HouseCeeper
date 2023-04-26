@@ -36,7 +36,7 @@ return function (RoutingConfigurator $routes)
 
 	$routes->get('/house/{housePath}/about', new PublicPageController('/local/modules/hc.houseceeper/views/house-details.php'));
 	$routes->get('/create-reg-link', function () {
-		echo \Hc\Houseceeper\Controller\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
+		echo \Hc\Houseceeper\Repository\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
 	});
 	$routes->post('/house/{housePath}/edit-house', function () {
 		global $USER;

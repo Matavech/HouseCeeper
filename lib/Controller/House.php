@@ -5,17 +5,18 @@ namespace Hc\Houseceeper\Controller;
 use Bitrix\Main\Engine;
 use Bitrix\Main\Error;
 use Bitrix\Main\Context;
+use Bitrix\Main\UI\PageNavigation;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\HouseTable;
 use Hc\Houseceeper\Model\UserRoleTable;
-use Hc\Houseceeper\Model\UserTable;
 use Hc\Houseceeper\Repository;
 
 class House extends Engine\Controller
 {
 	protected const HOUSE_PER_PAGE = 20;
 	protected const REG_KEY_LENGTH = 30;
+	protected const APARTMENT_PER_PAGE = 10;
 
 	public function getListAction(int $pageNumber = 1): ?array
 	{
@@ -37,15 +38,23 @@ class House extends Engine\Controller
 	{
 		$houseId = Repository\House::getIdByPath($housePath);
 		if ($houseId) {
+			$navObject = new PageNavigation('apartment_list');
+			$navObject->allowAllRecords(false)
+				->setPageSize(self::APARTMENT_PER_PAGE)
+				->initFromUri();
+
 			$houseDetails = Repository\House::getDetails($houseId);
 			$houseHeadmanList = Repository\User::getHouseHeadmenList($houseId);
 			$houseUserList = Repository\User::getHouseUserList($houseId);
+			$houseApartmentList = Repository\Apartment::getApartmentList($houseId, $navObject);
 			//$registeredCount = Repository\House::getRegisteredCount($houseId);
 
 			return [
 				'houseDetails' => $houseDetails,
 				'houseHeadmanList' => $houseHeadmanList,
 				'houseUserList' => $houseUserList,
+				'houseApartmentList' => $houseApartmentList,
+				'navObject' => $navObject,
 				//'registeredCount' => $registeredCount,
 			];
 		}

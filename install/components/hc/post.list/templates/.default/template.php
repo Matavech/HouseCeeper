@@ -35,11 +35,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<div class="pagination">
 			<?php $APPLICATION->IncludeComponent(
 				"bitrix:main.pagenavigation",
-				"",
+				"modern",
 					[
 						"NAV_OBJECT" => $arResult["NAV_OBJECT"],
 						"SEF_MODE" => "N",
-						"SHOW_ALWAYS" => "Y"
+						"SHOW_ALWAYS" => "Y",
+						"PAGE_WINDOW" => 3
 					],
 				false
 			); ?>

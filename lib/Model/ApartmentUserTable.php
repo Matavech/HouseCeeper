@@ -63,7 +63,7 @@ class ApartmentUserTable extends DataManager
 			new Reference(
 				'USER',
 				BUserTable::class,
-				Join::on('this.USER', 'ref.ID')
+				Join::on('this.USER_ID', 'ref.ID')
 			),
 		];
 	}
