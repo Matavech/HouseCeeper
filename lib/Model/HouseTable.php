@@ -89,6 +89,13 @@ class HouseTable extends DataManager
 					'title' => Loc::getMessage('HOUSE_ENTITY_UNIQUE_PATH_FIELD')
 				]
 			),
+			new StringField(
+				'INFO',
+				[
+					'validation' => [__CLASS__, 'validateInfo'],
+					'title' => Loc::getMessage('HOUSE_ENTITY_INFO_FIELD')
+				]
+			),
 			new OneToMany(
 				'APARTMENTS',
 				ApartmentTable::class,
@@ -154,6 +161,17 @@ class HouseTable extends DataManager
 			new LengthValidator(1, 50),
 			new RegExpValidator('/^[a-z0-9+-]*$/'),
 			new UniqueValidator()
+		];
+	}
+	/**
+	 * Returns validators for ADDRESS field.
+	 *
+	 * @return array
+	 */
+	public static function validateInfo()
+	{
+		return [
+			new LengthValidator(null, 1000),
 		];
 	}
 }
