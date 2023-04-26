@@ -103,6 +103,7 @@ class Post extends Engine\Controller
 		}
 		$comment = new Comment();
 		$comment->deletePostComments($id);
+		Repository\File::deletePostFiles($id);
 		PostTable::delete($id);
 		LocalRedirect('/house/' . $housePath);
 	}
@@ -115,7 +116,8 @@ class Post extends Engine\Controller
 			echo ('Вам нельзя такое');
 			return;
 		}
-
+		Repository\File::deletePostFiles($id);
+		die();
 		$query = PostTable::getByPrimary($id)->fetchObject();
 		$query->set('DATETIME_CREATED', new DateTime());
 		$query->set('TYPE_ID', 2);

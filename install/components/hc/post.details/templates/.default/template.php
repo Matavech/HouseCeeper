@@ -50,7 +50,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 						</div>
 					<?php } ?>
 				</div>
-				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $this->arResult['HOUSE']['ID']) || $USER->IsAdmin()) :?>
+				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['POST']['HOUSE_ID']) || $USER->IsAdmin()) :?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'unconfirmed') : ?>
 					<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_CONFIRM_PUBLICATION')?>?')" class="button is-success" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/confirm"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_CONFIRM_PUBLICATION')?></a>
 				<?php endif; ?>

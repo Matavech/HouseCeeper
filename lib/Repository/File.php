@@ -39,7 +39,14 @@ class File
 			if (strlen($res) > 0) {
 				var_dump($res);
 			} else {
-				$fileId = \CFile::SaveFile($arrFile, "post-files/{$postId}");
+				$fileId = \CFile::SaveFile(
+					$arrFile,
+					"post-files/{$postId}",
+					'',
+					'',
+					'',
+					false
+				);
 				if ($fileId){
 					$result = PostFileTable::add([
 						'POST_ID' => $postId,
@@ -51,5 +58,21 @@ class File
 				}
 			}
 		}
+	}
+
+	public static function deletePostFiles($postId)
+	{
+		$query = PostFileTable::getList([
+			'select' => ['*'],
+			'filter' => ['POST_ID' => $postId]
+		])->fetchCollection();
+
+		foreach ($query as $obj)
+		{
+			\CFile::Delete($obj->getFileId());
+			$obj->delete();
+		}
+
+		\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/post-files/' . $postId);
 	}
 }
