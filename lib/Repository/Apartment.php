@@ -7,6 +7,7 @@ use Bitrix\Main\UI\PageNavigation;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\HouseTable;
+use Hc\Houseceeper\Model\UserRoleTable;
 
 class Apartment
 {
@@ -91,27 +92,29 @@ class Apartment
 		}
 
 		$userList = ApartmentUserTable::getList([
-			'select' => ['APARTMENT_ID', 'USER.NAME', 'USER.LAST_NAME'],
+			'select' => ['APARTMENT_ID', 'USER.NAME', 'USER.LAST_NAME', 'USER.ID'],
 			'filter' => ['@APARTMENT_ID' => $apartmentIdList]
 		])->fetchAll();
 
-		$concatResult = [];
-
-		foreach ($apartmentList->fetchAll() as $apartment) {
-			$apartmentId = $apartment['ID'];
-			$concatResult[$apartmentId]['NUMBER'] = $apartment['NUMBER'];
-			$concatResult[$apartmentId]['LINK'] = 'bitrix.dev.bx/sign-up?key=' . $apartment['REG_KEY'];
+		$userIdList = [];
+		foreach ($userList as $user) {
+			$userIdList[] = $user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_ID'];
 		}
 
-		foreach ($userList as $user){
-			$apartmentId = $user['APARTMENT_ID'];
-			$concatResult[$apartmentId]['USERS'][] =
-				$user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_NAME'] . ' ' .
-				$user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_LAST_NAME'];
-		}
+		$userRoleList = UserRoleTable::getList([
+			'select' => ['ROLE.NAME', 'USER_ID'],
+			'filter' => ['@USER_ID' => $userIdList]
+		])->fetchAll();
 
+		$userList = array_map(function ($user, $userRole) {
+			if ($user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_ID'] == $userRole['USER_ID']) {
+				return array_merge($user, $userRole);
+			}
+		}, $userList, $userRoleList);
 
-
-		return $concatResult;
+		return [
+			'userList' => $userList,
+			'apartmentList' => $apartmentList->fetchAll()
+		];
 	}
 }

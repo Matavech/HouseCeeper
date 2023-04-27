@@ -29,4 +29,15 @@ class User extends Controller
 
 		\Hc\Houseceeper\Repository\User::addHeadman($userId, $houseId);
 	}
+
+	public function removeUserFormHouse()
+	{
+		$request = Context::getCurrent()->getRequest();
+		$userId = 	trim($request->getPost('user-id'));
+		$houseId = 	trim($request->getPost('house-id'));
+		$apartmentId = trim($request->getPost('apartment-id'));
+
+		\Hc\Houseceeper\Repository\User::removeUserFormHouse($userId, $houseId, $apartmentId);
+		LocalRedirect('about');
+	}
 }

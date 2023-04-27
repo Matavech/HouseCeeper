@@ -42,11 +42,11 @@ class House extends Engine\Controller
 			$navObject->allowAllRecords(false)
 				->setPageSize(self::APARTMENT_PER_PAGE)
 				->initFromUri();
-
 			$houseDetails = Repository\House::getDetails($houseId);
 			$houseHeadmanList = Repository\User::getHouseHeadmenList($houseId);
 			$houseUserList = Repository\User::getHouseUserList($houseId);
-			$houseApartmentList = Repository\Apartment::getApartmentList($houseId, $navObject);
+			$apartment = new Apartment();
+			$houseApartmentList = $apartment->getApartmentList($houseId, $navObject);
 			//$registeredCount = Repository\House::getRegisteredCount($houseId);
 
 			return [

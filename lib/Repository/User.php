@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\RoleTable;
@@ -122,5 +123,24 @@ class User
 		if ($role === 'headman')
 			return True;
 		return false;
+	}
+
+	public static function removeUserFormHouse($userId, $houseId, $apartmentId)
+	{
+		$userRole = UserRoleTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'USER_ID' => $userId,
+				'HOUSE_ID' => $houseId
+			]
+		])->fetchObject()->delete();
+
+		$apartmentUser = ApartmentUserTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'USER_ID' => $userId,
+				'APARTMENT_ID' => $apartmentId
+			]
+		])->fetchObject()->delete();
 	}
 }

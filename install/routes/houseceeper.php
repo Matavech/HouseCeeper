@@ -65,6 +65,15 @@ return function (RoutingConfigurator $routes)
 		$user = new \Hc\Houseceeper\Controller\User();
 		$user->deleteHeadman();
 	});
+	$routes->post('/house/{housePath}/remove-user', function () {
+		global $USER;
+		if(!$USER->IsAdmin())
+		{
+			LocalRedirect('/house/{housePath}/about');
+		}
+		$user = new \Hc\Houseceeper\Controller\User();
+		$user->removeUserFormHouse();
+	});
 
 	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));
 	$routes->post('/house/{housePath}/add-post', function() {

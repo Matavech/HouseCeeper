@@ -23,14 +23,28 @@ class HouseDetailsComponent extends CBitrixComponent {
 
 	public function prepareGridList($houseApartmentList){
 		$this->arResult['GRID_LIST'] = [];
-		foreach ($houseApartmentList as $apartment) {
+		foreach ($houseApartmentList as $id => $apartment) {
 			$this->arResult['GRID_LIST'][] = [
-				'data' => [ //Данные ячеек
+				'data' => [
 					"NUMBER" => $apartment['NUMBER'],
 					"LINK" => $apartment['LINK'],
-					"USERS" => implode(', ', $apartment['USERS'])
+					"USERS" => ($apartment['USERS'] ? $this->prepareUserList($apartment['USERS'], $id) : '')
 				]
 			];
 		}
+	}
+
+	public function prepareUserList($userList, $apartmentId)
+	{
+		global $APPLICATION;
+		ob_start();
+		$APPLICATION->IncludeComponent('hc:apartment.user.list', '', [
+			'USER_LIST' => $userList,
+			'HOUSE_ID' => $this->arResult['HOUSE']['ID'],
+			'APARTMENT_ID' => $apartmentId
+		]);
+		$html = ob_get_contents();
+		ob_end_clean();
+		return $html;
 	}
 }
