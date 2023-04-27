@@ -18,7 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</h2>
 	</section>
 	<h2 class="subtitle">
-		<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_IF_YOU_WANT_NEW_HOUSE')?>, <a href="/get-into"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_PRESS_HERE')?></a>
+		<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_IF_YOU_WANT_NEW_HOUSE')?>, <a href="/get-into?key=<?= $arParams['key'] ?>"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_PRESS_HERE')?></a>
 	</h2>
 
 	<form action="/reg" method="post">
