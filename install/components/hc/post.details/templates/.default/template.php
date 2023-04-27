@@ -6,9 +6,11 @@
  * @var CMain $APPLICATION
  */
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+\Bitrix\Main\UI\Extension::load('hc.hc-constantmanager');
 ?>
 
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
+
 <main>
 	<div class="container mt-5 mb-5">
 		<section class="hero post">
@@ -91,24 +93,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</section>
 	</div>
 </main>
-<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		let posts = document.querySelectorAll(".post");
-
-		posts.forEach(function(post) {
-			let typeElement = post.querySelector("#type");
-			let typeText = typeElement.textContent.trim();
-
-			if (typeText.trim() === '<?=\Hc\HouseCeeper\Constant\PostType::HC_HOUSECEEPER_POSTTYPE_ANNOUNCEMENT?>') {
-				typeElement.textContent = 'Объявление';
-				typeElement.classList.add('is-warning');
-			} else if (typeText.trim() === '<?=\Hc\HouseCeeper\Constant\PostType::HC_HOUSECEEPER_POSTTYPE_DISCUSSION?>') {
-				typeElement.textContent = 'Обсуждение';
-				typeElement.classList.add('is-primary');
-			} else if (typeText.trim() === '<?=\Hc\HouseCeeper\Constant\PostType::HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED?>') {
-				typeElement.textContent = 'Неподтвержден';
-				typeElement.classList.add('is-danger');
-			}
-		});
-	});
-</script>
+<script></script>
