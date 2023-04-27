@@ -77,9 +77,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<p class="help "><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_IF_YOU_HAVENT_KEY')?></p>
 			</div>
 		</div>
-		<div class="control mt-5">
-			<button class="button is-link" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_BUTTON')?></button>
-			<span><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHUP_SIGNIN_ALREADY')?></span> <a href="/sign-in"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHUP_SIGNIN')?></a>
+		<div class="buttons mt-5">
+			<button class="button is-link is-centered" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_BUTTON')?></button>
+			<div class="mb-2">
+				<span><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHUP_SIGNIN_ALREADY')?></span> <a href="/sign-in"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHUP_SIGNIN')?></a>
+			</div>
 		</div>
 
 	</form>

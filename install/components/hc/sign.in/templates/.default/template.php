@@ -41,8 +41,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="control mt-5">
-				<button class="button is-link" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_BUTTON') ; ?></button>
-				<span><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_NOT_REGISTERED') ; ?></span> <a href="/sign-up"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_SIGNUP') ; ?></a>
+				<div class="buttons">
+					<button class="button is-link" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_BUTTON') ; ?></button>
+					<div class="mb-2">
+						<span><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_NOT_REGISTERED') ; ?></span> <a href="/sign-up"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_SIGNUP') ; ?></a>
+					</div>
+				</div>
 			</div>
 
 		</form>
