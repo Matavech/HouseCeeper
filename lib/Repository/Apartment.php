@@ -96,22 +96,6 @@ class Apartment
 			'filter' => ['@APARTMENT_ID' => $apartmentIdList]
 		])->fetchAll();
 
-		$userIdList = [];
-		foreach ($userList as $user) {
-			$userIdList[] = $user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_ID'];
-		}
-
-		$userRoleList = UserRoleTable::getList([
-			'select' => ['ROLE.NAME', 'USER_ID'],
-			'filter' => ['@USER_ID' => $userIdList]
-		])->fetchAll();
-
-		$userList = array_map(function ($user, $userRole) {
-			if ($user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_ID'] == $userRole['USER_ID']) {
-				return array_merge($user, $userRole);
-			}
-		}, $userList, $userRoleList);
-
 		return [
 			'userList' => $userList,
 			'apartmentList' => $apartmentList->fetchAll()

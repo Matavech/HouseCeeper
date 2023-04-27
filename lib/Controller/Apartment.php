@@ -27,7 +27,7 @@ class Apartment extends Engine\Controller
 				$concatResult[$apartmentId]['USERS'][] = [
 					'FULL_NAME' => $user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_NAME'] . ' ' .
 						$user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_LAST_NAME'],
-					'ROLE' => $user['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'],
+
 					'ID' => $user['HC_HOUSECEEPER_MODEL_APARTMENT_USER_USER_ID']
 				];
 			}

@@ -14,7 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<?php foreach ($arParams['USER_LIST'] as $user) { ?>
 			<tr>
 				<th style="width: 45px">
-					<?php if ($user['ROLE'] === 'headman') { ?>
+					<?php if (\Hc\Houseceeper\Repository\User::isHeadman($user['ID'], $arParams['HOUSE_ID'])) { ?>
 						<i class="fa-solid fa-building-user"></i>
 					<?php } else { ?>
 						<i class="fa-solid fa-user"></i>
@@ -24,7 +24,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<?= $user['FULL_NAME'] ?>
 				</td>
 				<td style="width: 250px">
-					<?php if ($user['ROLE'] === 'headman') { ?>
+					<?php if (\Hc\Houseceeper\Repository\User::isHeadman($user['ID'], $arParams['HOUSE_ID'])) { ?>
 						<form method="post" action="delete-headman">
 							<input type="hidden" name="house-id" value="<?= $arParams['HOUSE_ID'] ?>">
 							<input type="hidden" name="headman-id" value="<?= $user['ID'] ?>">

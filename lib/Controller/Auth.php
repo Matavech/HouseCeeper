@@ -74,7 +74,7 @@ class Auth extends Engine\Controller
 		$password = trim($request->getPost('password'));
 		$key = 		trim($request->getPost('key'));
 
-		$apartment = Apartment::getApartmentFromKey($key);
+		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
 		if ($apartment)
 		{
 			global $USER;
@@ -89,11 +89,11 @@ class Auth extends Engine\Controller
 				$result = UserRoleTable::add([
 												 'USER_ID' => $userId,
 												 'ROLE_ID' => 3,
-												 'HOUSE_ID' => $apartment['HOUSE_ID']
+												 'HOUSE_ID' => $apartment->getHouseId()
 											 ]);
 
 				if ($result->isSuccess()) {
-					$apartId = $apartment['ID'];
+					$apartId = $apartment->getId();
 					ApartmentUserTable::add([
 												'APARTMENT_ID' => $apartId,
 												'USER_ID' => $userId,

@@ -30,7 +30,7 @@ class User extends Controller
 		\Hc\Houseceeper\Repository\User::addHeadman($userId, $houseId);
 	}
 
-	public function removeUserFormHouse()
+	public function removeUserFromHouse()
 	{
 		$request = Context::getCurrent()->getRequest();
 		$userId = 	trim($request->getPost('user-id'));

@@ -74,7 +74,7 @@ return function (RoutingConfigurator $routes)
 			LocalRedirect('/house/{housePath}/about');
 		}
 		$user = new \Hc\Houseceeper\Controller\User();
-		$user->removeUserFormHouse();
+		$user->removeUserFromHouse();
 	});
 
 	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));

@@ -2,9 +2,11 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\RoleTable;
+use Hc\Houseceeper\Model\HouseTable;
 
 class User
 {
