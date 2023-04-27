@@ -5,7 +5,6 @@ class PostDetailsComponent extends CBitrixComponent {
 	{
 		$this->arResult['HOUSE']['ID'] = \Hc\Houseceeper\Repository\House::getIdByPath($this->arParams['housePath']);
 		$this->arResult['FILES'] = $this->prepareFileInput();
-		\Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
 		$this->includeComponentTemplate();
 	}
 

@@ -30,7 +30,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 								<input type="hidden" name="house-id" value="<?= $arParams['HOUSE_ID'] ?>">
 								<input type="hidden" name="headman-id" value="<?= $user['ID'] ?>">
 								<button type="submit"
-										class="button is-warning "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_WITHDRAW_AUTHORITY') ?>
+										class="button is-warning "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_WITHDRAW_AUTHORITY') ?>
 								</button>
 							</form>
 						<?php } else { ?>
@@ -38,7 +38,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 								<input type="hidden" name="house-id" value="<?= $arParams['HOUSE_ID'] ?>">
 								<input type="hidden" name="user-id" value="<?= $user['ID'] ?>">
 								<button type="submit"
-										class="button is-primary "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_ADD_HEADMAN') ?>
+										class="button is-primary "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_ADD_HEADMAN') ?>
 								</button>
 							</form>
 						<?php } ?>
@@ -49,7 +49,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 							<input type="hidden" name="user-id" value="<?= $user['ID'] ?>">
 							<input type="hidden" name="apartment-id" value="<?= $arParams['APARTMENT_ID'] ?>">
 							<button type="submit"
-									class="button is-danger "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_REMOVE_USER') ?>
+									class="button is-danger "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_REMOVE_USER') ?>
 							</button>
 						</form>
 					</td>
