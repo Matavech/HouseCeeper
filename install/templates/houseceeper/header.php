@@ -3,7 +3,7 @@
  * @var CMain $APPLICATION
  */
 global $USER;
-\Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
+$housePath = extractValueFromLink($_SERVER['REQUEST_URI']);
 ?><!doctype html>
 <html lang="<?= LANGUAGE_ID; ?>">
 <head>
@@ -37,24 +37,24 @@ global $USER;
 	<div id="navbarBasicExample" class="navbar-menu">
 		<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
 		<div class="navbar-start">
-			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>">
+			<a class="navbar-item" href="<?= $housePath?>">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_FEED')?>
 			</a>
 
-			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/discussions">
+			<a class="navbar-item" href="/house/<?= $housePath?>/discussions">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_DISCUSSIONS')?>
 			</a>
 
-			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/announcements">
+			<a class="navbar-item" href="<?= $housePath?>/announcements">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_ANNOUNCEMENTS')?>
 			</a>
 
-			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID())?>/about">
+			<a class="navbar-item" href="<?= $housePath?>/about">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_ABOUT_HOUSE')?>
 			</a>
 
 
-			<a class="navbar-item" href="<?= \Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()) . '/add-post' ?>">
+			<a class="navbar-item" href="<?=$housePath . '/add-post' ?>">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_NEW_POST')?>
 			</a>
 

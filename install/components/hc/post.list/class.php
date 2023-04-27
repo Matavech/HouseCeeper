@@ -4,7 +4,6 @@ class PostListComponent extends CBitrixComponent {
 
 	public function executeComponent()
 	{
-		\Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
 		$this->fetchPostList();
 		$this->includeComponentTemplate();
 	}
