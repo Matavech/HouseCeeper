@@ -45,16 +45,16 @@ $housePath = extractValueFromLink($_SERVER['REQUEST_URI']);
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_DISCUSSIONS')?>
 			</a>
 
-			<a class="navbar-item" href="<?= $housePath?>/announcements">
+			<a class="navbar-item" href="/house/<?= $housePath?>/announcements">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_ANNOUNCEMENTS')?>
 			</a>
 
-			<a class="navbar-item" href="<?= $housePath?>/about">
+			<a class="navbar-item" href="/house/<?= $housePath?>/about">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_ABOUT_HOUSE')?>
 			</a>
 
 
-			<a class="navbar-item" href="<?=$housePath . '/add-post' ?>">
+			<a class="navbar-item" href="/house/<?=$housePath?>/add-post">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_NEW_POST')?>
 			</a>
 
