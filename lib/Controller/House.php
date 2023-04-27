@@ -116,17 +116,34 @@ class House extends Engine\Controller
 					]);
 
 					if ($result->isSuccess()) {
-						$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH / 2));
-						$result = ApartmentTable::add([
-							'REG_KEY' => $regKey,
-							'NUMBER' => $headmanApartmentNumber,
-							'HOUSE_ID' => $houseId,
-						]);
+//						$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH / 2));
+//						$result = ApartmentTable::add([
+//							'REG_KEY' => $regKey,
+//							'NUMBER' => $headmanApartmentNumber,
+//							'HOUSE_ID' => $houseId,
+//						]);
+
+						$apartmentList = [];
+						for($i = 1; $i <= $numberOfApart; $i++){
+							$apartmentList[] = [
+								'NUMBER' => $i,
+								'HOUSE_ID' => $houseId,
+								'REG_KEY' => bin2hex(random_bytes(self::REG_KEY_LENGTH / 2))
+							];
+						}
+						$result = ApartmentTable::addMulti($apartmentList);
 
 						if ($result->isSuccess()) {
-							$apartId = $result->getId();
+							$headmanApartment = ApartmentTable::getList([
+								'select' => ['*'],
+								'filter' => [
+									'NUMBER' => $headmanApartmentNumber,
+									'HOUSE_ID' => $houseId
+								]
+							])->fetchObject();
+
 							ApartmentUserTable::add([
-								'APARTMENT_ID' => $apartId,
+								'APARTMENT_ID' => $headmanApartment->getId(),
 								'USER_ID' => $headmanId,
 							]);
 
