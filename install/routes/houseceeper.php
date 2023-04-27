@@ -11,10 +11,8 @@ return function (RoutingConfigurator $routes)
 		if(!$USER->IsAuthorized()) {
 			LocalRedirect('/sign-in');
 		}
-		if($USER->IsAdmin()) {
-			LocalRedirect('/house-list');
-		}
-		LocalRedirect(\Hc\Houseceeper\Repository\House::getUserHousePath($USER->GetID()));
+
+		LocalRedirect('/house-list');
 	});
 
 	$routes->get('/logout', function() {
@@ -25,6 +23,10 @@ return function (RoutingConfigurator $routes)
 	});
 	$routes->post('/reg', function()  {
 		Hc\Houseceeper\Controller\Auth::signupUser();
+	});
+	$routes->get('/get-into', new PublicPageController('/local/modules/hc.houseceeper/views/get-into.php'));
+	$routes->post('/get-into', function() {
+		\Hc\Houseceeper\Controller\Auth::addUserToHouse();
 	});
 
 	$routes->get('/house-list', new PublicPageController('/local/modules/hc.houseceeper/views/house-list.php'));
@@ -89,22 +91,22 @@ return function (RoutingConfigurator $routes)
 
 	$routes->get('/house/{housePath}/post/{id}', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'))->where('id', '[0-9]+');
 	$routes->post('/house/{housePath}/post/{id}', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$comment = new \Hc\Houseceeper\Controller\Comment();
 		$comment->addComment($_REQUEST['housePath'],$_REQUEST['id']);
 	});
 	$routes->get('/house/{housePath}/post/{id}/delete', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$post = new \Hc\Houseceeper\Controller\Post();
 		$post->deletePost($_REQUEST['housePath'], $_REQUEST['id']);
 	});
 	$routes->get('/house/{housePath}/post/{id}/confirm', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$post = new \Hc\Houseceeper\Controller\Post();
 		$post->confirmPost($_REQUEST['housePath'], $_REQUEST['id']);
 	});
 	$routes->post('/house/{housePath}/post/{id}/deleteComment', function() {
-
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$comment = new \Hc\Houseceeper\Controller\Comment();
 		$comment->deleteComment();
 		LocalRedirect('/house/' . $_REQUEST['housePath'] . '/post/' .$_REQUEST['id'] );

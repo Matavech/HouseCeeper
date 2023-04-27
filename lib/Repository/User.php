@@ -2,7 +2,6 @@
 
 namespace Hc\Houseceeper\Repository;
 
-use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\RoleTable;
@@ -11,13 +10,18 @@ class User
 {
 	public static function getName($id)
 	{
-		$query = BUserTable::query()
-						   ->setSelect(['NAME', 'LAST_NAME'])
-						   ->setFilter([
-								  'ID' => $id,
-								  ]);
-		$result = $query->fetch();
-
+		if (self::isAdmin($id))
+		{
+			$result['NAME'] = 'Управляющая Компания';
+			$result['LAST_NAME'] = '';
+		}
+		else
+		{
+			$query = BUserTable::query()->setSelect(['NAME', 'LAST_NAME'])->setFilter([
+																						  'ID' => $id,
+																					  ]);
+			$result = $query->fetch();
+		}
 		if ($result)
 		{
 			return $result;
@@ -120,9 +124,55 @@ class User
 			->setFilter(['USER_ID' => $userId, 'HOUSE_ID' => $houseId]);
 		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
 		
-		if ($role === 'headman')
+		return $role === 'headman';
+	}
+
+	public static function isAdmin($userId)
+	{
+		$result = UserRoleTable::query()
+							   ->setSelect(['ROLE.NAME'])
+							   ->setFilter(['USER_ID' => $userId]);
+		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
+
+		return $role === 'admin';
+	}
+
+	public static function hasAccessToHouse($userId, $houseId)
+	{
+		if (self::isAdmin($userId))
+		{
 			return True;
-		return false;
+		}
+
+		$result = UserRoleTable::query()
+			->setSelect(['ROLE_ID'])
+			->setFilter([
+				'USER_ID' => $userId,
+				'HOUSE_ID' => $houseId,
+						])
+			->fetch();
+		if ($result)
+		{
+			return True;
+		}
+		return False;
+	}
+
+	public static function getUserHouses($userId)
+	{
+
+		$allHouses = HouseTable::query()
+			->setSelect(['ID'])
+			->fetchAll();
+
+		foreach ($allHouses as $house)
+		{
+			if (User::isAdmin($userId) || User::hasAccessToHouse($userId, $house['ID']))
+			{
+				$result[] = $house['ID'];
+			}
+		}
+		return $result;
 	}
 
 	public static function removeUserFormHouse($userId, $houseId, $apartmentId)

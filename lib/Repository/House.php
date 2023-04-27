@@ -16,10 +16,16 @@ class House
 		} else {
 			$offset = 0;
 		}
+		global $USER;
+		$accessedHouses = User::getUserHouses($USER->GetID());
 
-		$houseList = HouseTable::getList()->fetchAll();
-
-		return $houseList;
+		$query = HouseTable::query()
+			->setSelect(['*']);
+		if ($accessedHouses)
+		{
+			$query->setFilter(['ID' => $accessedHouses]);
+		}
+		return $query->fetchAll();
 	}
 
 	public static function getDetails(string $houseId)

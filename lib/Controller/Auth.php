@@ -67,6 +67,54 @@ class Auth extends Engine\Controller
 		echo 'Неверный ключ';
 	}
 
+	public static function addUserToHouse()
+	{
+		$request = Context::getCurrent()->getRequest();
+		$login = 	trim($request->getPost('login'));
+		$password = trim($request->getPost('password'));
+		$key = 		trim($request->getPost('key'));
+
+		$apartment = Apartment::getApartmentFromKey($key);
+		if ($apartment)
+		{
+			global $USER;
+			if (!is_object($USER))
+			{
+				$USER = new \CUser();
+			}
+			$errorMessage = $USER->Login($login, $password, "Y");
+			if (is_bool($errorMessage) && $errorMessage)
+			{
+				$userId = $USER->GetID();
+				$result = UserRoleTable::add([
+												 'USER_ID' => $userId,
+												 'ROLE_ID' => 3,
+												 'HOUSE_ID' => $apartment['HOUSE_ID']
+											 ]);
+
+				if ($result->isSuccess()) {
+					$apartId = $apartment['ID'];
+					ApartmentUserTable::add([
+												'APARTMENT_ID' => $apartId,
+												'USER_ID' => $userId,
+											]);
+					LocalRedirect('/');
+				}
+			}
+			else
+			{
+				ShowMessage($errorMessage);
+			}
+
+		}
+		echo 'Неверный ключ';
+	}
+
+	public static function OnAfterUserLoginHandler(&$fields)
+	{
+
+	}
+
 	public static function logout() {
 		global $USER;
 		$USER->Logout();

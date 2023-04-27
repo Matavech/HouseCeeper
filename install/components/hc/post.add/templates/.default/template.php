@@ -57,18 +57,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <!--				</label>-->
 <!--			</div>-->
 
-				<?=\Bitrix\Main\UI\FileInput::createInstance([
-				"name" => "files[#IND#]",
-				"description" => true,
-				"upload" => true,
-				"allowUpload" => "A",
-				"medialib" => true,
-				"fileDialog" => true,
-				"delete" => true,
-				"maxCount" => 10,
-				"maxSize" => 50*1024*1024
-			])->show();
-			?>
+				<?=$arResult['FILES']->show(); ?>
 
 <!--			<div class="container mt-5">-->
 <!--				<div class="input-file-list columns is-multiline"></div>-->

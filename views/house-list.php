@@ -4,11 +4,8 @@
  */
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-global $USER;
-if (!$USER->IsAdmin()){
-	LocalRedirect('/sign-in');
-}
-$APPLICATION->SetTitle("HouseCeeper admin");
+
+$APPLICATION->SetTitle("HouseCeeper");
 
 $APPLICATION->IncludeComponent('hc:house.list', '', []);
 
