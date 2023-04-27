@@ -84,63 +84,69 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			</form>
 		<?php } ?>
 
-		<h3 class="title mt-6">
-			<?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_HEADMANS') ?>
-		</h3>
-		<div class='container'>
-			<div class="columns is-multiline">
-				<?php foreach ($arResult['HEADMEN_LIST'] as $headman) { ?>
-					<div class="card column is-3">
-						<div class="card-header">
-							<p class="card-header-title">
-								<?= htmlspecialcharsbx($headman['NAME']) ?>
-								<?= htmlspecialcharsbx($headman['LAST_NAME']) ?>
-							</p>
-						</div>
-						<p class="card-content subtitle is-6"><?= $headman['EMAIL'] ?></p>
-						<?php if ($USER->IsAdmin()) { ?>
-							<div class="card-footer">
-								<form method="post" action="delete-headman" class="card-footer-item">
-									<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?>>
-										<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
-										<input type="hidden" name="headman-id" value="<?= $headman['ID'] ?>">
-										<button type="submit"
-												class="button is-danger "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_WITHDRAW_AUTHORITY') ?></button>
-									</fieldset>
-								</form>
-							</div>
-						<?php } ?>
-					</div>
-				<?php } ?>
-
-				<?php if ($USER->IsAdmin()) { ?>
-					<div class="card column is-3">
-						<div class="card-header">
-							<p class="card-header-title"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_ADD_HEADMAN') ?></p>
-						</div>
-						<div class="card-content">
-							<?php foreach ($arResult['USER_LIST'] as $user) { ?>
-								<p>
-								<form method="post" action="add-headman"
-									  class="is-flex is-justify-content-space-between">
-									<div>
-										<?= htmlspecialcharsbx($user['NAME']) ?>
-										<?= htmlspecialcharsbx($user['LAST_NAME']) ?>
-									</div>
-									<fieldset>
-										<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
-										<input type="hidden" name="user-id" value="<?= $user['ID'] ?>">
-										<button type="submit"
-												class="button is-primary "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_CHOSE') ?></button>
-									</fieldset>
-								</form>
-								</p>
-							<?php } ?>
-						</div>
-					</div>
-				<?php } ?>
-			</div>
-		</div>
+		<!--		<h3 class="title mt-6">-->
+		<!--			--><?php //= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_HEADMANS') ?>
+		<!--		</h3>-->
+		<!--		<div class='container'>-->
+		<!--			<div class="columns is-multiline">-->
+		<!--				--><?php //foreach ($arResult['HEADMEN_LIST'] as $headman) { ?>
+		<!--					<div class="card column is-3">-->
+		<!--						<div class="card-header">-->
+		<!--							<p class="card-header-title">-->
+		<!--								--><?php //= htmlspecialcharsbx($headman['NAME']) ?>
+		<!--								--><?php //= htmlspecialcharsbx($headman['LAST_NAME']) ?>
+		<!--							</p>-->
+		<!--						</div>-->
+		<!--						<p class="card-content subtitle is-6">--><?php //= $headman['EMAIL'] ?><!--</p>-->
+		<!--						--><?php //if ($USER->IsAdmin()) { ?>
+		<!--							<div class="card-footer">-->
+		<!--								<form method="post" action="delete-headman" class="card-footer-item">-->
+		<!--									<fieldset --><?php //= $USER->IsAdmin() ? '' : 'disabled' ?>
+		<!--										<input type="hidden" name="house-id" value="-->
+		<?php //= $arResult['HOUSE']['ID'] ?><!--">-->
+		<!--										<input type="hidden" name="headman-id" value="-->
+		<?php //= $headman['ID'] ?><!--">-->
+		<!--										<button type="submit"-->
+		<!--												class="button is-danger ">-->
+		<?php //= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_WITHDRAW_AUTHORITY') ?><!--</button>-->
+		<!--									</fieldset>-->
+		<!--								</form>-->
+		<!--							</div>-->
+		<!--						--><?php //} ?>
+		<!--					</div>-->
+		<!--				--><?php //} ?>
+		<!---->
+		<!--				--><?php //if ($USER->IsAdmin()) { ?>
+		<!--					<div class="card column is-3">-->
+		<!--						<div class="card-header">-->
+		<!--							<p class="card-header-title">-->
+		<?php //= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_ADD_HEADMAN') ?><!--</p>-->
+		<!--						</div>-->
+		<!--						<div class="card-content">-->
+		<!--							--><?php //foreach ($arResult['USER_LIST'] as $user) { ?>
+		<!--								<p>-->
+		<!--								<form method="post" action="add-headman"-->
+		<!--									  class="is-flex is-justify-content-space-between">-->
+		<!--									<div>-->
+		<!--										--><?php //= htmlspecialcharsbx($user['NAME']) ?>
+		<!--										--><?php //= htmlspecialcharsbx($user['LAST_NAME']) ?>
+		<!--									</div>-->
+		<!--									<fieldset>-->
+		<!--										<input type="hidden" name="house-id" value="-->
+		<?php //= $arResult['HOUSE']['ID'] ?><!--">-->
+		<!--										<input type="hidden" name="user-id" value="-->
+		<?php //= $user['ID'] ?><!--">-->
+		<!--										<button type="submit"-->
+		<!--												class="button is-primary ">-->
+		<?php //= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_CHOSE') ?><!--</button>-->
+		<!--									</fieldset>-->
+		<!--								</form>-->
+		<!--								</p>-->
+		<!--							--><?php //} ?>
+		<!--						</div>-->
+		<!--					</div>-->
+		<!--				--><?php //} ?>
+		<!--			</div>-->
 
 		<div class="mt-6">
 			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) {
@@ -159,27 +165,27 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 						'NAV_OBJECT' => $arResult['NAV_OBJECT'],
 						'AJAX_MODE' => 'Y',
 						'AJAX_ID' => \CAjax::getComponentID('bitrix:main.ui.grid', '.default', ''),
-						'SHOW_ROW_ACTIONS_MENU'     => false,
-						'SHOW_GRID_SETTINGS_MENU'   => false,
-						'SHOW_NAVIGATION_PANEL'     => true,
-						'SHOW_PAGINATION'           => true,
-						'SHOW_SELECTED_COUNTER'     => false,
-						'SHOW_TOTAL_COUNTER'        => false,
-						'SHOW_PAGESIZE'             => true,
-						'SHOW_ACTION_PANEL'         => false,
+						'SHOW_ROW_ACTIONS_MENU' => false,
+						'SHOW_GRID_SETTINGS_MENU' => false,
+						'SHOW_NAVIGATION_PANEL' => true,
+						'SHOW_PAGINATION' => true,
+						'SHOW_SELECTED_COUNTER' => false,
+						'SHOW_TOTAL_COUNTER' => false,
+						'SHOW_PAGESIZE' => true,
+						'SHOW_ACTION_PANEL' => false,
 
-						'ALLOW_COLUMNS_SORT'        => false,
-						'ALLOW_COLUMNS_RESIZE'      => true,
-						'ALLOW_HORIZONTAL_SCROLL'   => false,
-						'ALLOW_SORT'                => false,
-						'ALLOW_PIN_HEADER'          => true,
-						'AJAX_OPTION_HISTORY'       => 'N'
+						'ALLOW_COLUMNS_SORT' => false,
+						'ALLOW_COLUMNS_RESIZE' => true,
+						'ALLOW_HORIZONTAL_SCROLL' => false,
+						'ALLOW_SORT' => false,
+						'ALLOW_PIN_HEADER' => true,
+						'AJAX_OPTION_HISTORY' => 'N'
 					]
 				);
 
 			} ?>
 		</div>
-
-
 	</div>
+
+</div>
 </div>
