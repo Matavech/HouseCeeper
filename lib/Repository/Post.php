@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\HouseCeeper\Constant\PostType;
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\HouseTable;
 use Hc\Houseceeper\Model\PostFileTable;
@@ -25,7 +26,7 @@ class Post
 		}
 
 		if (!$seeUnconfirmed) {
-			$query->addFilter('!=TYPE.NAME', 'unconfirmed');
+			$query->addFilter('!=TYPE.NAME', PostType::HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED);
 		}
 
 		$navObject->setRecordCount(count($query->fetchAll()));

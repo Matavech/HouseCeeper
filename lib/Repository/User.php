@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\HouseCeeper\Constant\Role;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\UserRoleTable;
 use Hc\Houseceeper\Model\BUserTable;
@@ -38,7 +39,7 @@ class User
 				'select' => ['USER_ID'],
 				'filter' => [
 					'=HOUSE_ID' => $houseId,
-					'=ROLE.NAME' => 'headman'
+					'=ROLE.NAME' => Role::HC_HOUSECEEPER_ROLE_HEADMAN
 				]
 			]
 		);
@@ -62,7 +63,7 @@ class User
 				'select' => ['USER_ID'],
 				'filter' => [
 					'=HOUSE_ID' => $houseId,
-					'=ROLE.NAME' => 'user'
+					'=ROLE.NAME' => Role::HC_HOUSECEEPER_ROLE_USER
 				]
 			]
 		);
@@ -85,7 +86,7 @@ class User
 	{
 		$roleId = RoleTable::getList([
 			'select' => ['ID'],
-			'filter' => ['=NAME' => 'user']
+			'filter' => ['=NAME' => Role::HC_HOUSECEEPER_ROLE_USER]
 		])->fetch()['ID'];
 		$newHeadman = UserRoleTable::getList([
 			'select' => ['*'],
@@ -104,7 +105,7 @@ class User
 	{
 		$roleId = RoleTable::getList([
 			'select' => ['ID'],
-			'filter' => ['=NAME' => 'headman']
+			'filter' => ['=NAME' => Role::HC_HOUSECEEPER_ROLE_HEADMAN]
 		])->fetch()['ID'];
 		$newHeadman = UserRoleTable::getList([
 			'select' => ['*'],
@@ -126,7 +127,7 @@ class User
 			->setFilter(['USER_ID' => $userId, 'HOUSE_ID' => $houseId]);
 		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
 		
-		return $role === 'headman';
+		return $role === Role::HC_HOUSECEEPER_ROLE_HEADMAN;
 	}
 
 	public static function isAdmin($userId)
@@ -136,7 +137,7 @@ class User
 							   ->setFilter(['USER_ID' => $userId]);
 		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
 
-		return $role === 'admin';
+		return $role === Role::HC_HOUSECEEPER_ROLE_ADMIN;
 	}
 
 	public static function hasAccessToHouse($userId, $houseId)

@@ -13,7 +13,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <div class="container">
 	<div class="content">
 		<?php foreach ($arResult['POSTS'] as $post) { ?>
-			<?php if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'unconfirmed' &&
+			<?php if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === \Hc\HouseCeeper\Constant\PostType::HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED &&
 				!$USER->IsAdmin() && !\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) continue ?>
 			<section class="section post">
 				<h1 class="title">

@@ -12,7 +12,7 @@ if (!$USER->IsAuthorized()){
 \Hc\Houseceeper\Controller\User::checkAccessToHouse();
 $APPLICATION->IncludeComponent('hc:post.list', '', [
 	'housePath' => $_REQUEST['housePath'],
-	'postType' => 'announcement',
+	'postType' => \Hc\HouseCeeper\Constant\PostType::HC_HOUSECEEPER_POSTTYPE_ANNOUNCEMENT,
 ]);
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

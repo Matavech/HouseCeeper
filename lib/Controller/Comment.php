@@ -4,6 +4,7 @@ namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Context;
 use Bitrix\Main\Engine\Controller;
+use Hc\HouseCeeper\Constant\PostType;
 use Hc\Houseceeper\Model\CommentTable;
 class Comment extends Controller
 {
@@ -46,7 +47,7 @@ class Comment extends Controller
 	public function addComment(string $housePath,  int $postId)
 	{
 		$post = \Hc\Houseceeper\Repository\Post::getDetails($postId);
-		if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'announcement')
+		if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === PostType::HC_HOUSECEEPER_POSTTYPE_ANNOUNCEMENT)
 		{
 			echo 'Каким-то образом вы смогли попытаться добавить комментарий к объявлению. Мы это предусмотрели, так нельзя';
 		}

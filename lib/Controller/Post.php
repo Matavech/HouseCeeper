@@ -8,6 +8,7 @@ use Bitrix\Main\Engine;
 use Bitrix\Main\Error;
 use Bitrix\Main\Type\Date;
 use Bitrix\Main\Type\DateTime;
+use Hc\HouseCeeper\Constant\PostType;
 use Hc\Houseceeper\Model\PostTable;
 use Hc\Houseceeper\Repository;
 
@@ -38,7 +39,7 @@ class Post extends Engine\Controller
 		$request = Context::getCurrent()->getRequest();
 		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID(), $houseId))
 		{
-			$postType = 'unconfirmed';
+			$postType = PostType::HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED;
 		}
 		else
 		{
