@@ -21,7 +21,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_HOUSE_NAME')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" placeholder="дом" name="house-name">
+					<input required pattern=".*\S+.*" class="input" type="text" placeholder="дом" name="house-name">
 				</div>
 			</div>
 			<div class="field">
@@ -33,19 +33,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_UNIQ_ID')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" placeholder="dom1" name="unique-path">
+					<input required pattern=".*\S+.*" class="input" type="text" placeholder="dom1" name="unique-path">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_NUMBER_OF_APARTMENT')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" min="1" type="number" name="number-of-apartments">
+					<input required pattern=".*\S+.*" class="input" min="1" type="number" name="number-of-apartments">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_ADDRESS')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" name="address">
+					<input required pattern=".*\S+.*" class="input" type="text" name="address">
 				</div>
 			</div>
 			<h1 class="title">
@@ -54,19 +54,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_NAME')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" name="headman-name">
+					<input required pattern=".*\S+.*" class="input" type="text" name="headman-name">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_LAST_NAME')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" name="headman-lastname">
+					<input required pattern=".*\S+.*" class="input" type="text" name="headman-lastname">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_EMAIL')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="email" name="headman-email">
+					<input required pattern=".*\S+.*" class="input" type="email" name="headman-email">
 				</div>
 			</div>
 			<div class="field">
@@ -78,13 +78,13 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_LOGIN')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" name="headman-login">
+					<input required pattern=".*\S+.*" class="input" type="text" name="headman-login">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_PASSWORD')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="password" name="headman-password">
+					<input required pattern=".*\S+.*" class="input" type="password" name="headman-password">
 				</div>
 			</div>
 			<button class="button" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_ADD_HOUSE')?></button>
