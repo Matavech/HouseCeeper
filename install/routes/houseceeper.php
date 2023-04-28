@@ -29,6 +29,41 @@ return function (RoutingConfigurator $routes)
 		\Hc\Houseceeper\Controller\Auth::addUserToHouse();
 	});
 
+	$routes->get('/profile', new PublicPageController('/local/modules/hc.houseceeper/views/user-profile.php'));
+	// $routes->post('/profile/changePassword', function() {
+	// 	$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+	// 	$userLogin = $request->getPost('userLogin');
+	// 	$oldPassword = trim($request->getPost('oldPassword'));
+	// 	$newPassword = trim($request->getPost('newPassword'));
+	// 	$confirmPassword = trim($request->getPost('confirmPassword'));
+	// 	\Hc\Houseceeper\Controller\Auth::changePassword($userLogin, $oldPassword, $newPassword, $confirmPassword);
+	// });
+	$routes->post('/profile/changeGeneral', function(){
+		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+		$userName = trim($request->getPost('userName'));
+		$userLastName = trim($request->getPost('userLastName'));
+		$userLogin = trim($request->getPost('userLogin'));
+		if (\Hc\Houseceeper\Controller\User::changeUserGeneralInfo($userName, $userLastName, $userLogin))
+		{
+			LocalRedirect('/profile');
+		}
+	});
+
+	$routes->post('/profile/leaveApartment', function(){
+		global $USER;
+		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+		$userId = $USER->GetId();
+		$apartmentId = trim($request->getPost('apartmentId'));
+
+		\Hc\Houseceeper\Controller\User::deleteUserFromApartment($userId, $apartmentId);
+		if (!\Hc\Houseceeper\Repository\User::hasApartments($userId))
+		{
+			die('you havent apartments');
+		}
+		LocalRedirect('/profile');
+
+	});
+
 	$routes->get('/house-list', new PublicPageController('/local/modules/hc.houseceeper/views/house-list.php'));
 	$routes->get('/add-house', new PublicPageController('/local/modules/hc.houseceeper/views/house-add.php'));
 	$routes->post('/add-house', function () {

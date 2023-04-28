@@ -34,4 +34,5 @@ class Apartment extends Engine\Controller
 
 			return $concatResult;
 		}
+
 }

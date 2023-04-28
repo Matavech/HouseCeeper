@@ -147,4 +147,13 @@ class Apartment
 			->setOrder(['NUMBER' => 'DESC'])->fetchObject();
 		return $apartment->getNumber();
 	}
+
+	public static function getHouseIdByApartmentId($apartmentId)
+	{
+		return ApartmentTable::query()
+							 ->setSelect(['HOUSE_ID'])
+							 ->setFilter(['ID' => $apartmentId])
+							 ->fetch()['HOUSE_ID'];
+
+	}
 }

@@ -33,6 +33,18 @@ class User
 		return false;
 	}
 
+	public static function hasApartments($userId)
+	{
+		$result = ApartmentUserTable::query()
+			->setFilter(['USER_ID' => $userId])
+			->fetch();
+		if (!$result)
+		{
+			return False;
+		}
+		return True;
+	}
+
 	public static function getHouseHeadmenList($houseId)
 	{
 		$result = UserRoleTable::getList([
@@ -182,7 +194,11 @@ class User
 				'USER_ID' => $userId,
 				'HOUSE_ID' => $houseId
 			]
-		])->fetchObject()->delete();
+		])->fetchObject();
+		if ($userRole)
+		{
+			$userRole->delete();
+		}
 
 		$apartmentUser = ApartmentUserTable::getList([
 			'select' => ['*'],
@@ -190,7 +206,16 @@ class User
 				'USER_ID' => $userId,
 				'APARTMENT_ID' => $apartmentId
 			]
-		])->fetchObject()->delete();
+		])->fetchObject();
+		if ($apartmentUser) {
+			$apartmentUser->delete();
+		}
+
+		if (!User::hasApartments($userId))
+		{
+
+		}
+
 	}
 
 	public static function setRole($userId, $houseId, $roleId)
@@ -230,5 +255,46 @@ class User
 
 		ShowMessage($resultMessage);
 		return false;
+	}
+
+	public static function changeInfo($userName, $userLastName, $newLogin, $userLogin)
+	{
+		return BUserTable::query()
+			->setSelect(['*'])
+			->setFilter(['LOGIN' => $userLogin])
+			->fetchObject()
+			->setName($userName)
+			->setLastName($userLastName)
+			->setLogin($newLogin)
+			->save()->getErrorMessages();
+	}
+
+	public static function checkLoginExists($login)
+	{
+		$result = BUserTable::query()
+			->setSelect(['ID'])
+			->setFilter(['LOGIN' => $login])
+			->fetch();
+		if ($result)
+		{
+			return False;
+		}
+		return True;
+	}
+
+	public static function leaveApartment($userId, $apartmentId)
+	{
+		self::findUserApartment($userId, $apartmentId)
+			->delete();
+	}
+
+	public static function findUserApartment($userId, $apartmentId)
+	{
+		return ApartmentUserTable::query()
+			->setFilter([
+				'USER_ID' => $userId,
+				'APARTMENT_ID' => $apartmentId
+						])
+			->fetchObject();
 	}
 }

@@ -35,7 +35,7 @@ $housePath = extractValueFromLink($_SERVER['REQUEST_URI']);
 
 
 	<div id="navbarBasicExample" class="navbar-menu">
-		<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
+		<?php if ($housePath) { ?>
 		<div class="navbar-start">
 			<a class="navbar-item" href="/house/<?= $housePath?>">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_FEED')?>
@@ -61,7 +61,6 @@ $housePath = extractValueFromLink($_SERVER['REQUEST_URI']);
 		</div>
 
 		<div class="navbar-end">
-
 			<div class="navbar-item">
 				<span class="tag has-background-grey-light is-large">
 					<?= htmlspecialcharsbx($USER->GetFullName()) ?>
@@ -69,11 +68,15 @@ $housePath = extractValueFromLink($_SERVER['REQUEST_URI']);
 			</div>
 			<?php } ?>
 			<?php if ($USER->IsAuthorized()) { ?>
-			<div class="navbar-item">
-				<div class="buttons">
-					<a class="button is-link" href="/logout">
+			<div class="navbar-item is-right">
+				<div class="buttons has-addons">
+					<a class="button is-link" href="/profile">
+						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_GO_TO_PROFILE')?>
+					</a>
+					<a class="button is-white" href="/logout">
 						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_LOGOUT')?>
 					</a>
+
 				</div>
 			</div>
 			<?php } ?>

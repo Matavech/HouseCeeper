@@ -91,7 +91,10 @@ class House
 
 		$query = ApartmentUserTable::query()
 		->setSelect(['apartment.NUMBER'])
-		->setFilter(['USER_ID'=>$userId]);
+		->setFilter([
+			'USER_ID'=>$userId,
+			'apartment.HOUSE_ID' => $houseId,
+					]);
 
 		$result = [];
 		foreach ($query->fetchAll() as $item)
@@ -124,4 +127,15 @@ class House
 			'INFO' => $info
 		]);
 	}
+
+	public static function getPathById($houseId)
+	{
+		return HouseTable::query()
+			->setSelect(['UNIQUE_PATH'])
+			->setFilter(['ID'=>$houseId])
+			->fetch()['UNIQUE_PATH'];
+
+	}
+
+
 }

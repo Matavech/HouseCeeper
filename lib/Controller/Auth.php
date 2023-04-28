@@ -3,6 +3,7 @@ namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Engine;
 use Bitrix\Main\Context;
+use Bitrix\Main\Security\Password;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\UserRoleTable;
@@ -15,7 +16,6 @@ class Auth extends Engine\Controller
 		$password = trim($request->getPost('password'));
 
 		global $USER;
-
 		if (!is_object($USER))
 			$USER = new \CUser();
 
@@ -27,6 +27,27 @@ class Auth extends Engine\Controller
 			ShowMessage($errorMessage);
 		}
 	}
+
+	// public static function changePassword($userLogin, $oldPassword, $newPassword, $confirmPassword)
+	// {
+	// 		global $USER;
+	// 		if (!is_object($USER))
+	// 		{
+	// 			$USER = new \CUser();
+	// 		}
+	// 		$USER->Login($userLogin, $oldPassword, "Y");
+	// 		$userId = $USER->GetID();
+	// 		if ($userId)
+	// 		{
+	// 			var_dump($USER->ChangePassword($userLogin, $checkword, $newPassword, $confirmPassword)); die;
+	//
+	// 				$USER->Login($userLogin, $newPassword);
+	// 				LocalRedirect('/');
+	//
+	// 			echo 'something wrong';
+	// 		}
+	//
+	// }
 
 	public static function signupUser() {
 		$request = Context::getCurrent()->getRequest();
@@ -80,11 +101,6 @@ class Auth extends Engine\Controller
 		} else {
 			echo 'Неверный ключ';
 		}
-	}
-
-	public static function OnAfterUserLoginHandler(&$fields)
-	{
-
 	}
 
 	public static function logout() {
