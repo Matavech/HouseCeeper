@@ -178,6 +178,16 @@ class House extends Engine\Controller
 		$address = 					trim($request->getPost('address'));
 		$info = 					trim($request->getPost('info'));
 
+		$apartment = ApartmentTable::query()
+			->setSelect(['*'])
+			->setFilter(['HOUSE_ID' => $houseId])
+			->setOrder(['NUMBER' => 'DESC'])->fetchObject();
+
+		if ($apartment->getNumber() < $numberOfApart){
+			echo 'Новое количество квартир не должно быть меньшее чем максимальный номер существующей квартиры';
+			return;
+		}
+
 		$result = HouseTable::update($houseId, [
 			'NAME' => $houseName,
 			'ADDRESS' => $address,
