@@ -15,7 +15,7 @@ function db(): Connection
 }
 
 function extractValueFromLink($link) {
-	$pattern = '/^\/house\/([a-z0-9-]+)(?:\/|$)/';
+	$pattern = '/\/\w+\/(\w+)/';
 	if (preg_match($pattern, $link, $matches)) {
 		return $matches[1];
 	} else {
