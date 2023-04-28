@@ -122,7 +122,7 @@ class User
 			->setSelect(['ROLE.NAME'])
 			->setFilter(['USER_ID' => $userId, 'HOUSE_ID' => $houseId]);
 		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
-		
+
 		return $role === Role::HC_HOUSECEEPER_ROLE_HEADMAN;
 	}
 
@@ -191,5 +191,44 @@ class User
 				'APARTMENT_ID' => $apartmentId
 			]
 		])->fetchObject()->delete();
+	}
+
+	public static function setRole($userId, $houseId, $roleId)
+	{
+		$userRole = UserRoleTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'HOUSE_ID' => $houseId,
+				'USER_ID' => $userId
+			]
+		])->fetchObject();
+
+		if($userRole){
+			$userRole->set('ROLE_ID', $roleId);
+			$userRole->save();
+		} else {
+			$result = UserRoleTable::add([
+				'USER_ID' => $userId,
+				'ROLE_ID' => $roleId,
+				'HOUSE_ID' => $houseId,
+			]);
+			return $result;
+		}
+	}
+
+	public static function registerUser($login, $name, $lastname, $password, $email)
+	{
+		global $USER;
+		$resultMessage = $USER->Register($login, $name, $lastname, $password, $password, $email);
+		if ($resultMessage['TYPE'] === 'OK') {
+			$userId = $USER->GetID();
+			$USER->Update($userId, [
+				"WORK_COMPANY" => 'HouseCeeper'
+			]);
+			return $USER->GetID();
+		}
+
+		ShowMessage($resultMessage);
+		return false;
 	}
 }

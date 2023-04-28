@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Bitrix\Main\Type\DateTime;
 use Hc\HouseCeeper\Constant\PostType;
 use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\HouseTable;
@@ -117,5 +118,16 @@ class Post
 		}
 
 		return $fileList;
+	}
+
+	public static function acceptPost($postId)
+	{
+		$query = PostTable::getByPrimary($postId)
+			->fetchObject();
+		if($query){
+			$query->set('DATETIME_CREATED', new DateTime())
+				->set('TYPE_ID', 2)
+				->save();
+		}
 	}
 }

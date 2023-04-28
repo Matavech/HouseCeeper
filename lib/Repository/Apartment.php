@@ -101,4 +101,50 @@ class Apartment
 			'apartmentList' => $apartmentList->fetchAll()
 		];
 	}
+
+	public static function addUser($apartmentId, $userId)
+	{
+		ApartmentUserTable::add([
+			'APARTMENT_ID' => $apartmentId,
+			'USER_ID' => $userId,
+		]);
+	}
+
+	public static function addApartments($houseId, $numberFrom, $numberTo)
+	{
+		$apartmentList = [];
+		for($i = $numberFrom; $i <= $numberTo; $i++){
+			$apartmentList[] = [
+				'NUMBER' => $i,
+				'HOUSE_ID' => $houseId,
+				'REG_KEY' => bin2hex(random_bytes(self::REG_KEY_LENGTH / 2))
+			];
+		}
+		return ApartmentTable::addMulti($apartmentList);
+	}
+
+	public static function getApartmentIdFromNumber($number, $houseId)
+	{
+		$apartment = ApartmentTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'HOUSE_ID' => $houseId,
+				'NUMBER' => $number
+			]
+		])->fetchObject();
+		if ($apartment) {
+			return $apartment->getId();
+		}
+
+		return false;
+	}
+
+	public static function getMaxApartmentNumber($houseId)
+	{
+		$apartment = ApartmentTable::query()
+			->setSelect(['*'])
+			->setFilter(['HOUSE_ID' => $houseId])
+			->setOrder(['NUMBER' => 'DESC'])->fetchObject();
+		return $apartment->getNumber();
+	}
 }

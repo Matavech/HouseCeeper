@@ -10,16 +10,7 @@ class Comment extends Controller
 {
 	public function getComments(int $postId = 0, int $level = 0, int $maxLevel = 3, string $order = 'DESC', int $parentId = NULL)
 	{
-		$result = CommentTable::query()
-			->setSelect(['*', 'user.NAME', 'user.LAST_NAME'])
-			->setFilter([
-				'POST_ID' => $postId,
-				'PARENT_COMMENT_ID' => $parentId,
-						])
-			->setOrder([
-				'DATETIME_CREATED' => 'DESC',
-					   ])
-			->fetchAll();
+		$result = \Hc\Houseceeper\Repository\Comment::getCommentList($postId, $parentId);
 		if ($result)
 		{
 			foreach ($result as $comment)
@@ -101,7 +92,7 @@ class Comment extends Controller
 			}
 		}
 
-		$childComments = $this->findChildComments($commentId);
+		$childComments = \Hc\Houseceeper\Repository\Comment::getChildComments($commentId);
 
 		if ($childComments)
 		{
@@ -113,25 +104,10 @@ class Comment extends Controller
 		CommentTable::delete($commentId);
 	}
 
-	public function findChildComments(int $commentId)
-	{
-		return CommentTable::query()
-					->setSelect(['ID'])
-					->setFilter(['PARENT_COMMENT_ID' => $commentId])
-					->fetchAll();
-	}
-
-
 	public function deletePostComments(int $postId)
 	{
-		foreach( CommentTable::query()
-			->setSelect(['ID'])
-			->setFilter([
-				'POST_ID' => $postId,
-				'PARENT_COMMENT_ID' => NULL,
-						])
-			->fetchAll()
-		as $comment)
+		$commentList = \Hc\Houseceeper\Repository\Comment::getMainComments($postId);
+		foreach($commentList as $comment)
 		{
 			$this->deleteComment($comment['ID']);
 		}

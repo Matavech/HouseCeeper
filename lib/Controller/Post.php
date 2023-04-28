@@ -117,11 +117,7 @@ class Post extends Engine\Controller
 			echo ('Вам нельзя такое');
 			return;
 		}
-		Repository\File::deletePostFiles($id);
-		$query = PostTable::getByPrimary($id)->fetchObject();
-		$query->set('DATETIME_CREATED', new DateTime());
-		$query->set('TYPE_ID', 2);
-		$query->save();
+		Repository\Post::acceptPost($id);
 		LocalRedirect('/house/' . $housePath . '/post/' . $id);
 	}
 }

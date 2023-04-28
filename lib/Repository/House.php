@@ -101,4 +101,27 @@ class House
 
 		return $result;
 	}
+
+	public static function addHouse($houseName, $address, $numberOfApart, $uniquePath, $info)
+	{
+		$result = HouseTable::add([
+				'NAME' => $houseName,
+				'ADDRESS' => $address,
+				'NUMBER_OF_APARTMENT' => $numberOfApart,
+				'UNIQUE_PATH' => $uniquePath,
+				'INFO' => $info
+		]);
+		return $result->getId();
+	}
+
+	public static function updateHouse($houseId, $houseName, $address, $numberOfApart, $uniquePath, $info)
+	{
+		return HouseTable::update($houseId, [
+			'NAME' => $houseName,
+			'ADDRESS' => $address,
+			'NUMBER_OF_APARTMENT' => $numberOfApart,
+			'UNIQUE_PATH' => $uniquePath,
+			'INFO' => $info
+		]);
+	}
 }

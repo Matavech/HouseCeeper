@@ -38,33 +38,19 @@ class Auth extends Engine\Controller
 		$key = 		trim($request->getPost('key'));
 
 		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
-		if ($apartment) {
-			global $USER;
-			$resultMessage = $USER->Register($login, $name, $lastname, $password, $password, $email);
-			if ($resultMessage['TYPE'] === 'OK'){
-				$userId = $USER->GetID();
-				$USER->Update($userId, [
-					"WORK_COMPANY" => 'HouseCeeper'
-				]);
-				$result = UserRoleTable::add([
-					'USER_ID' => $userId,
-					'ROLE_ID' => 3,
-					'HOUSE_ID' => $apartment->getHouseId(),
-				]);
-
-				if ($result->isSuccess()) {
-					ApartmentUserTable::add([
-						'APARTMENT_ID' => $apartment->getId(),
-						'USER_ID' => $userId,
-					]);
-					\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
-					LocalRedirect('/');
-				}
-			} else {
-				ShowMessage($resultMessage);
+		if ($apartment)
+		{
+			$userId = \Hc\Houseceeper\Repository\User::registerUser($login, $name, $lastname, $password, $email);
+			if ($userId)
+			{
+				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), 3);
+				\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
+				\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
+				LocalRedirect('/');
 			}
+		} else {
+			echo 'Неверный ключ';
 		}
-		echo 'Неверный ключ';
 	}
 
 	public static function addUserToHouse()
@@ -83,31 +69,17 @@ class Auth extends Engine\Controller
 				$USER = new \CUser();
 			}
 			$errorMessage = $USER->Login($login, $password, "Y");
-			if (is_bool($errorMessage) && $errorMessage)
+			$userId = $USER->GetID();
+			if ($userId)
 			{
-				$userId = $USER->GetID();
-				$result = UserRoleTable::add([
-												 'USER_ID' => $userId,
-												 'ROLE_ID' => 3,
-												 'HOUSE_ID' => $apartment->getHouseId()
-											 ]);
-
-				if ($result->isSuccess()) {
-					$apartId = $apartment->getId();
-					ApartmentUserTable::add([
-												'APARTMENT_ID' => $apartId,
-												'USER_ID' => $userId,
-											]);
-					LocalRedirect('/');
-				}
+				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), 3);
+				\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
+				\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
+				LocalRedirect('/');
 			}
-			else
-			{
-				ShowMessage($errorMessage);
-			}
-
+		} else {
+			echo 'Неверный ключ';
 		}
-		echo 'Неверный ключ';
 	}
 
 	public static function OnAfterUserLoginHandler(&$fields)

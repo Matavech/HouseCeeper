@@ -63,10 +63,6 @@ class House extends Engine\Controller
 
 	public function addNewHouse()
 	{
-//		if (!check_bitrix_sessid()) {
-//			LocalRedirect('/');
-//		}
-
 		$request = Context::getCurrent()->getRequest();
 		$houseName = 				trim($request->getPost('house-name'));
 		$uniquePath = 				trim($request->getPost('unique-path'));
@@ -88,77 +84,23 @@ class House extends Engine\Controller
 		try {
 			\Bitrix\Main\Application::getConnection()->startTransaction();
 
-			$result = HouseTable::add([
-				'NAME' => $houseName,
-				'ADDRESS' => $address,
-				'NUMBER_OF_APARTMENT' => $numberOfApart,
-				'UNIQUE_PATH' => $uniquePath,
-				'INFO' => $info
-			]);
+			$houseId = Repository\House::addHouse($houseName, $address, $numberOfApart, $uniquePath, $info);
 
-			if ($result->isSuccess()) {
-				$houseId = $result->getId();
-				$headman = new \CUser();
-				$headmanId = $headman->Add([
-					'NAME' => $headmanName,
-					'LAST_NAME' => $headmanLastname,
-					'EMAIL' => $headmanEmail,
-					'LOGIN' => $headmanLogin,
-					'PASSWORD' => $headmanPassword,
-					'WORK_COMPANY' => 'HouseCeeper',
-				]);
+			Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
 
-				if ((int) $headmanId > 0) {
-					$result = UserRoleTable::add([
-						'USER_ID' => $headmanId,
-						'ROLE_ID' => 2,
-						'HOUSE_ID' => $houseId
-					]);
+			if($houseId){
+				$headmanId = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
 
-					if ($result->isSuccess()) {
-//						$regKey = bin2hex(random_bytes(self::REG_KEY_LENGTH / 2));
-//						$result = ApartmentTable::add([
-//							'REG_KEY' => $regKey,
-//							'NUMBER' => $headmanApartmentNumber,
-//							'HOUSE_ID' => $houseId,
-//						]);
+				if($headmanId){
+					Repository\User::setRole($headmanId, $houseId, 2);
+					$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
 
-						$apartmentList = [];
-						for($i = 1; $i <= $numberOfApart; $i++){
-							$apartmentList[] = [
-								'NUMBER' => $i,
-								'HOUSE_ID' => $houseId,
-								'REG_KEY' => bin2hex(random_bytes(self::REG_KEY_LENGTH / 2))
-							];
-						}
-						$result = ApartmentTable::addMulti($apartmentList);
+					if($apartmentId){
+						Repository\Apartment::addUser($apartmentId, $headmanId);
 
-						if ($result->isSuccess()) {
-							$headmanApartment = ApartmentTable::getList([
-								'select' => ['*'],
-								'filter' => [
-									'NUMBER' => $headmanApartmentNumber,
-									'HOUSE_ID' => $houseId
-								]
-							])->fetchObject();
-
-							ApartmentUserTable::add([
-								'APARTMENT_ID' => $headmanApartment->getId(),
-								'USER_ID' => $headmanId,
-							]);
-
-							\Bitrix\Main\Application::getConnection()->commitTransaction();
-
-							LocalRedirect('/');
-						}
+						\Bitrix\Main\Application::getConnection()->commitTransaction();
+						LocalRedirect('/');
 					}
-				} else {
-					echo $headman->LAST_ERROR;
-				}
-			} else {
-				$errors = $result->getErrors();
-				foreach ($errors as $error) {
-					echo $error->getMessage() . "</br>";
 				}
 			}
 
@@ -178,23 +120,12 @@ class House extends Engine\Controller
 		$address = 					trim($request->getPost('address'));
 		$info = 					trim($request->getPost('info'));
 
-		$apartment = ApartmentTable::query()
-			->setSelect(['*'])
-			->setFilter(['HOUSE_ID' => $houseId])
-			->setOrder(['NUMBER' => 'DESC'])->fetchObject();
-
-		if ($apartment->getNumber() < $numberOfApart){
+		if (Repository\Apartment::getMaxApartmentNumber($houseId) < $numberOfApart){
 			echo 'Новое количество квартир не должно быть меньшее чем максимальный номер существующей квартиры';
 			return;
 		}
 
-		$result = HouseTable::update($houseId, [
-			'NAME' => $houseName,
-			'ADDRESS' => $address,
-			'NUMBER_OF_APARTMENT' => $numberOfApart,
-			'UNIQUE_PATH' => $uniquePath,
-			'INFO' => $info
-		]);
+		$result = Repository\House::updateHouse($houseId, $houseName, $address, $numberOfApart, $uniquePath, $info);
 
 		if ($result->isSuccess())
 		{
