@@ -12,7 +12,7 @@ use Hc\Houseceeper\Model\PostTypeTable;
 
 class Post
 {
-	public static function getPage($navObject, string $houseId, ?string $postType): array
+	public static function getPage($navObject, string $houseId, ?string $postType, $search): array
 	{
 		global $USER;
 		$seeUnconfirmed = $USER->IsAdmin() || User::isHeadman($USER->GetID(), $houseId);
@@ -28,6 +28,10 @@ class Post
 
 		if (!$seeUnconfirmed) {
 			$query->addFilter('!=TYPE.NAME', PostType::HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED);
+		}
+
+		if ($search){
+			$query->addFilter('%TITLE', $search);
 		}
 
 		$navObject->setRecordCount(count($query->fetchAll()));

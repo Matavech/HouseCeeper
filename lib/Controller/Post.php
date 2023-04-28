@@ -17,14 +17,14 @@ class Post extends Engine\Controller
 	protected const POST_PER_PAGE = 5;
 	protected const MAX_FILE_COUNT = 10;
 
-	public function getListAction(string $houseId, ?string $postType): ?array
+	public function getListAction(string $houseId, ?string $postType, ?string $search): ?array
 	{
 		$navObject = new \Bitrix\Main\UI\PageNavigation('nav');
 		$navObject->allowAllRecords(false)
 			->setPageSize(self::POST_PER_PAGE)
 			->initFromUri();
 
-		$postList = Repository\Post::getPage($navObject, $houseId, $postType);
+		$postList = Repository\Post::getPage($navObject, $houseId, $postType, trim($search));
 
 		return [
 			'postList' => $postList,

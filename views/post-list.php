@@ -14,6 +14,7 @@ if (!$USER->IsAuthorized()){
 
 $APPLICATION->IncludeComponent('hc:post.list', '', [
 	'housePath' => $_REQUEST['housePath'],
+	'search' => $_REQUEST['search']
 ]);
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
