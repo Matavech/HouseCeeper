@@ -97,8 +97,6 @@ class User
 		])->fetchObject();
 		$newHeadman->setRoleId($roleId);
 		$newHeadman->save();
-
-		LocalRedirect('about');
 	}
 
 	public static function addHeadman($userId, $houseId)
@@ -116,8 +114,6 @@ class User
 		])->fetchObject();
 		$newHeadman->setRoleId($roleId);
 		$newHeadman->save();
-
-		LocalRedirect('about');
 	}
 
 	public static function isHeadman($userId, $houseId)

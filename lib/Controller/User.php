@@ -19,6 +19,7 @@ class User extends Controller
 		$houseId = 	trim($request->getPost('house-id'));
 
 		\Hc\Houseceeper\Repository\User::deleteHeadman($userId, $houseId);
+		LocalRedirect('about');
 	}
 
 	public function addHeadman()
@@ -28,6 +29,7 @@ class User extends Controller
 		$houseId = 	trim($request->getPost('house-id'));
 
 		\Hc\Houseceeper\Repository\User::addHeadman($userId, $houseId);
+		LocalRedirect('about');
 	}
 
 	public function removeUserFromHouse()

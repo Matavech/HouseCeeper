@@ -11,6 +11,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <div class="table-container">
 	<table class="table">
 		<tbody>
+		<form></form>
 		<?php foreach ($arParams['USER_LIST'] as $user) { ?>
 			<tr>
 				<th style="width: 45px">
