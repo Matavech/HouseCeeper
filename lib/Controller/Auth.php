@@ -56,11 +56,15 @@ class Auth extends Engine\Controller
 		if (is_bool($errorMessage) && $errorMessage) {
 			if ($newPassword === $confirmPassword){
 				$user = new \CUser();
-				$user->update($USER->GetID(), [
+				$result = $user->update($USER->GetID(), [
 					'PASSWORD' => $newPassword,
 					'CONFIRM_PASSWORD' => $confirmPassword
 				]);
-				LocalRedirect('/profile');
+				if ($result) {
+					LocalRedirect('/profile');
+				} else {
+					echo $user->LAST_ERROR;
+				}
 			} else {
 				echo 'Пароли не совпадают';
 			}
