@@ -53,14 +53,8 @@ return function (RoutingConfigurator $routes)
 		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
 		$userId = $USER->GetId();
 		$apartmentId = trim($request->getPost('apartmentId'));
-
-		\Hc\Houseceeper\Controller\User::deleteUserFromApartment($userId, $apartmentId);
-		if (!\Hc\Houseceeper\Repository\User::hasApartments($userId))
-		{
-			die('you havent apartments');
-		}
-		LocalRedirect('/profile');
-
+		$houseId = trim($request->getPost('houseId'));
+		\Hc\Houseceeper\Controller\User::removeUserFromApartment($userId, $apartmentId, $houseId);
 	});
 
 	$routes->get('/house-list', new PublicPageController('/local/modules/hc.houseceeper/views/house-list.php'));
@@ -102,13 +96,8 @@ return function (RoutingConfigurator $routes)
 		$user->deleteHeadman();
 	});
 	$routes->post('/house/{housePath}/remove-user', function () {
-		global $USER;
-		if(!$USER->IsAdmin())
-		{
-			LocalRedirect('/house/{housePath}/about');
-		}
 		$user = new \Hc\Houseceeper\Controller\User();
-		$user->removeUserFromHouse();
+		$user->removeUserFromApartmentAdmin();
 	});
 
 	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));

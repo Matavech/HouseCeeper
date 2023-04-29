@@ -33,10 +33,13 @@ class User
 		return false;
 	}
 
-	public static function hasApartments($userId)
+	public static function hasApartments($userId, $houseId)
 	{
 		$result = ApartmentUserTable::query()
-			->setFilter(['USER_ID' => $userId])
+			->setFilter([
+				'USER_ID' => $userId,
+				'APARTMENT.HOUSE_ID' => $houseId
+			])
 			->fetch();
 		if (!$result)
 		{
@@ -186,20 +189,8 @@ class User
 		return $result;
 	}
 
-	public static function removeUserFormHouse($userId, $houseId, $apartmentId)
+	public static function removeUserFromApartment($userId, $apartmentId)
 	{
-		$userRole = UserRoleTable::getList([
-			'select' => ['*'],
-			'filter' => [
-				'USER_ID' => $userId,
-				'HOUSE_ID' => $houseId
-			]
-		])->fetchObject();
-		if ($userRole)
-		{
-			$userRole->delete();
-		}
-
 		$apartmentUser = ApartmentUserTable::getList([
 			'select' => ['*'],
 			'filter' => [
@@ -210,12 +201,6 @@ class User
 		if ($apartmentUser) {
 			$apartmentUser->delete();
 		}
-
-		if (!User::hasApartments($userId))
-		{
-
-		}
-
 	}
 
 	public static function setRole($userId, $houseId, $roleId)
@@ -282,10 +267,17 @@ class User
 		return True;
 	}
 
-	public static function leaveApartment($userId, $apartmentId)
+	public static function removeUserFromHouse($userId, $houseId)
 	{
-		self::findUserApartment($userId, $apartmentId)
-			->delete();
+		$userRole = UserRoleTable::query()
+			->setFilter([
+				'USER_ID' => $userId,
+				'HOUSE_ID' => $houseId
+			])
+			->fetchObject();
+		if($userRole){
+			$userRole->delete();
+		}
 	}
 
 	public static function findUserApartment($userId, $apartmentId)
@@ -296,5 +288,20 @@ class User
 				'APARTMENT_ID' => $apartmentId
 						])
 			->fetchObject();
+	}
+
+	public static function getUserRole($userId, $houseId)
+	{
+		$roleId = UserRoleTable::query()
+			->setSelect(['*'])
+			->setFilter([
+				'USER_ID' => $userId,
+				'HOUSE_ID' => $houseId
+			])->fetchObject()->getRoleId();
+		if ($roleId) {
+			return $roleId;
+		}
+
+		return 3;
 	}
 }

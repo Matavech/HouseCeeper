@@ -33,15 +33,40 @@ class User extends Controller
 		LocalRedirect('about');
 	}
 
-	public function removeUserFromHouse()
+	public function removeUserFromApartmentAdmin()
 	{
-		$request = Context::getCurrent()->getRequest();
-		$userId = 	trim($request->getPost('user-id'));
-		$houseId = 	trim($request->getPost('house-id'));
-		$apartmentId = trim($request->getPost('apartment-id'));
+		global $USER;
+		if($USER->IsAdmin())
+		{
+			$request = Context::getCurrent()->getRequest();
+			$userId = 	trim($request->getPost('user-id'));
+			$apartmentId = trim($request->getPost('apartment-id'));
+			$houseId = trim($request->getPost('house-id'));
 
-		\Hc\Houseceeper\Repository\User::removeUserFormHouse($userId, $houseId, $apartmentId);
+			\Hc\Houseceeper\Repository\User::removeUserFromApartment($userId, $apartmentId);
+
+			if (!\Hc\Houseceeper\Repository\User::hasApartments($userId, $houseId))
+			{
+				\Hc\Houseceeper\Repository\User::removeUserFromHouse($userId, $houseId);
+			}
+		}
 		LocalRedirect('about');
+	}
+
+	public static function removeUserFromApartment($userId, $apartmentId, $houseId)
+	{
+		if (!self::checkAccessToApartment($userId, $apartmentId))
+		{
+			echo 'Вы не являетесь жильцом этой квартиры!';
+			return;
+		}
+
+		\Hc\Houseceeper\Repository\User::removeUserFromApartment($userId, $apartmentId);
+		if (!\Hc\Houseceeper\Repository\User::hasApartments($userId, $houseId))
+		{
+			\Hc\Houseceeper\Repository\User::removeUserFromHouse($userId, $houseId);
+		}
+		LocalRedirect('/profile');
 	}
 
 	public static function checkAccessToHouse()
@@ -112,24 +137,4 @@ class User extends Controller
 
 		return $errorMessage;
 	}
-
-	public static function deleteUserFromApartment($userId, $apartmentId)
-	{
-		if (!self::checkAccessToApartment($userId, $apartmentId))
-		{
-			echo 'Вы не являетесь жильцом этой квартиры!';
-			return;
-		}
-
-		$houseId = \Hc\Houseceeper\Repository\Apartment::getHouseIdByApartmentId($apartmentId);
-		$housePath = \Hc\Houseceeper\Repository\House::getPathById($houseId);
-		$apartments =  \Hc\Houseceeper\Repository\House::getUserApartmentNumber($userId, $housePath);
-		if (count($apartments)===1)
-		{
-			\Hc\Houseceeper\Repository\User::removeUserFormHouse($userId, $houseId, $apartments[0]);
-			return;
-		}
-		\Hc\Houseceeper\Repository\User::leaveApartment($userId, $apartmentId);
-	}
-
 }

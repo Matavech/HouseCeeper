@@ -113,7 +113,8 @@ class Auth extends Engine\Controller
 			$userId = $USER->GetID();
 			if ($userId)
 			{
-				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), 3);
+				$userRole = \Hc\Houseceeper\Repository\User::getUserRole($userId, $apartment->getHouseId());
+				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), $userRole);
 				\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
 				\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
 				LocalRedirect('/');

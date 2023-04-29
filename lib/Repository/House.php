@@ -24,8 +24,9 @@ class House
 		if ($accessedHouses)
 		{
 			$query->setFilter(['ID' => $accessedHouses]);
+			return $query->fetchAll();
 		}
-		return $query->fetchAll();
+		return [];
 	}
 
 	public static function getDetails(string $houseId)

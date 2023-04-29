@@ -54,6 +54,7 @@
 					<?php foreach ($house['APARTMENTS'] as $key => $apartment)  : ?>
 					<div class="buttons">
 							<form action="/profile/leaveApartment" method="post" class="mt-3">
+								<input type="hidden" name="houseId" value="<?=$house['ID']?>">
 								<input type="hidden" name="apartmentId" value="<?=$apartment?>">
 								<div class="buttons has-addons">
 									<button class="button is-black disabled" disabled>
