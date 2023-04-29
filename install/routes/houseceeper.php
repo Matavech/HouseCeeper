@@ -30,14 +30,13 @@ return function (RoutingConfigurator $routes)
 	});
 
 	$routes->get('/profile', new PublicPageController('/local/modules/hc.houseceeper/views/user-profile.php'));
-	// $routes->post('/profile/changePassword', function() {
-	// 	$request = \Bitrix\Main\Context::getCurrent()->getRequest();
-	// 	$userLogin = $request->getPost('userLogin');
-	// 	$oldPassword = trim($request->getPost('oldPassword'));
-	// 	$newPassword = trim($request->getPost('newPassword'));
-	// 	$confirmPassword = trim($request->getPost('confirmPassword'));
-	// 	\Hc\Houseceeper\Controller\Auth::changePassword($userLogin, $oldPassword, $newPassword, $confirmPassword);
-	// });
+	 $routes->post('/profile/changePassword', function() {
+	 	$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+	 	$oldPassword = trim($request->getPost('oldPassword'));
+	 	$newPassword = trim($request->getPost('newPassword'));
+	 	$confirmPassword = trim($request->getPost('confirmPassword'));
+	 	\Hc\Houseceeper\Controller\Auth::changePassword($oldPassword, $newPassword, $confirmPassword);
+	 });
 	$routes->post('/profile/changeGeneral', function(){
 		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
 		$userName = trim($request->getPost('userName'));

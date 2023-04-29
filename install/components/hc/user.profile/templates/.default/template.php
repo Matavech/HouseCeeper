@@ -36,8 +36,7 @@
 			<input type="password" class="input" name="newPassword" required>
 			<h2>Повторите пароль</h2>
 			<input type="password" class="input" name="confirmPassword" required>
-			<input type="hidden" name="userLogin" value="<?= $USER->GetLogin() ?>">
-			<button class="button is-success mt-3" disabled type="submit">Change password</button>
+			<button class="button is-success mt-3" type="submit">Change password</button>
 		</form>
 
 			</div>

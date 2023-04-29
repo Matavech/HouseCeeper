@@ -28,26 +28,46 @@ class Auth extends Engine\Controller
 		}
 	}
 
-	// public static function changePassword($userLogin, $oldPassword, $newPassword, $confirmPassword)
-	// {
-	// 		global $USER;
-	// 		if (!is_object($USER))
-	// 		{
-	// 			$USER = new \CUser();
-	// 		}
-	// 		$USER->Login($userLogin, $oldPassword, "Y");
-	// 		$userId = $USER->GetID();
-	// 		if ($userId)
-	// 		{
-	// 			var_dump($USER->ChangePassword($userLogin, $checkword, $newPassword, $confirmPassword)); die;
-	//
-	// 				$USER->Login($userLogin, $newPassword);
-	// 				LocalRedirect('/');
-	//
-	// 			echo 'something wrong';
-	// 		}
-	//
-	// }
+//	 public static function changePassword($userLogin, $oldPassword, $newPassword, $confirmPassword)
+//	 {
+//	 		global $USER;
+//	 		if (!is_object($USER))
+//	 		{
+//	 			$USER = new \CUser();
+//	 		}
+//	 		$USER->Login($userLogin, $oldPassword, "Y");
+//	 		$userId = $USER->GetID();
+//	 		if ($userId)
+//	 		{
+//	 			var_dump($USER->ChangePassword($userLogin, $checkword, $newPassword, $confirmPassword)); die;
+//
+//	 				$USER->Login($userLogin, $newPassword);
+//	 				LocalRedirect('/');
+//
+//	 			echo 'something wrong';
+//	 		}
+//
+//	 }
+
+	public static function changePassword($oldPassword, $newPassword, $confirmPassword)
+	{
+		global $USER;
+		$errorMessage = $USER->Login($USER->GetLogin(), $oldPassword);
+		if (is_bool($errorMessage) && $errorMessage) {
+			if ($newPassword === $confirmPassword){
+				$user = new \CUser();
+				$user->update($USER->GetID(), [
+					'PASSWORD' => $newPassword,
+					'CONFIRM_PASSWORD' => $confirmPassword
+				]);
+				LocalRedirect('/profile');
+			} else {
+				echo 'Пароли не совпадают';
+			}
+		} else {
+			echo 'Неверный старый пароль';
+		}
+	}
 
 	public static function signupUser() {
 		$request = Context::getCurrent()->getRequest();
