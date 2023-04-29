@@ -56,6 +56,13 @@ return function (RoutingConfigurator $routes)
 		$houseId = trim($request->getPost('houseId'));
 		\Hc\Houseceeper\Controller\User::removeUserFromApartment($userId, $apartmentId, $houseId);
 	});
+	$routes->post('/profile/leaveHouse', function(){
+		global $USER;
+		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+		$userId = $USER->GetId();
+		$houseId = trim($request->getPost('houseId'));
+		\Hc\Houseceeper\Controller\User::removeuserFromHouse($userId, $houseId);
+	});
 
 	$routes->get('/house-list', new PublicPageController('/local/modules/hc.houseceeper/views/house-list.php'));
 	$routes->get('/add-house', new PublicPageController('/local/modules/hc.houseceeper/views/house-add.php'));

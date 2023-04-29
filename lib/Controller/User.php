@@ -69,6 +69,16 @@ class User extends Controller
 		LocalRedirect('/profile');
 	}
 
+	public static function removeuserFromHouse($userId, $houseId)
+	{
+		if(\Hc\Houseceeper\Repository\User::hasApartments($userId, $houseId))
+		{
+			\Hc\Houseceeper\Repository\User::removeUserFromAllApartments($userId, $houseId);
+		}
+		\Hc\Houseceeper\Repository\User::removeUserFromHouse($userId, $houseId);
+		LocalRedirect('/profile');
+	}
+
 	public static function checkAccessToHouse()
 	{
 		$housePath = $_REQUEST['housePath'];

@@ -304,4 +304,17 @@ class User
 
 		return 3;
 	}
+
+	public static function removeUserFromAllApartments($userId, $houseId)
+	{
+		$apartments = ApartmentUserTable::query()
+			->setSelect(['*'])
+			->setFilter([
+				'USER_ID' => $userId,
+				'APARTMENT.HOUSE_ID' => $houseId
+			])->fetchCollection();
+		foreach ($apartments as $apartment) {
+			$apartment->delete();
+		}
+	}
 }

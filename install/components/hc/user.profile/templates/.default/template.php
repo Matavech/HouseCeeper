@@ -68,7 +68,7 @@
 					</div>
 					<?php endforeach; ?>
 				</h2>
-				<form action="profile?leaveHouse" method="post">
+				<form action="/profile/leaveHouse" method="post">
 					<input type="hidden" name="houseId" value="<?=$house['ID']?>">
 					<button class="button is-danger" type="submit">Покинуть дом</button>
 				</form>
