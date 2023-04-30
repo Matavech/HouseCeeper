@@ -327,4 +327,14 @@ class User
 			->setFilter(['ID'=>$userId])
 			->fetch()['PERSONAL_PHOTO'];
 	}
+
+	public static function setAvatar($userId, $fileId)
+	{
+		$user = BUserTable::getById($userId)->fetchObject();
+		$user->set('PERSONAL_PHOTO', $fileId);
+		if (!$user->save()->isSuccess())
+		{
+			return False;
+		}
+	}
 }

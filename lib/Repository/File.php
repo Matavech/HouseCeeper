@@ -110,29 +110,37 @@ class File
 			'BX_RESIZE_IMAGE_EXACT'
 				  );
 
+		$fileId = self::saveAvatar($userId, $arrFile);
+		if ($fileId)
+		{
+			self::deleteAvatar($userId);
+		}
+		if (!User::setAvatar($userId, $fileId))
+		{
+			return false;
+		}
+	}
+
+	public static function saveAvatar($userId, $file)
+	{
 		$fileId = \CFile::SaveFile(
-			$arrFile,
+			$file,
 			"user-avatars/{$userId}",
 			'',
 			'',
 			'',
 			false
 		);
+		return $fileId;
+	}
 
-		if ($fileId)
-		{
-			$oldAvatarId = User::getUserAvatarId($userId);
+	public static function deleteAvatar($userId)
+	{
+		$oldAvatarId = User::getUserAvatarId($userId);
 
-			if ($oldAvatarId) {
-				$oldAvatar = \CFile::GetByID($oldAvatarId);
-				\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/' . $oldAvatar->arResult[0]['SUBDIR']);
-			}
-			$user = BUserTable::getById($userId)->fetchObject();
-			$user->set('PERSONAL_PHOTO', $fileId);
-			if (!$user->save()->isSuccess())
-			{
-				return 'error';
-			}
+		if ($oldAvatarId) {
+			$oldAvatar = \CFile::GetByID($oldAvatarId);
+			\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/' . $oldAvatar->arResult[0]['SUBDIR']);
 		}
 	}
 }
