@@ -128,6 +128,11 @@ class User extends Controller
 			return;
 		}
 		global $USER;
+		if (strlen($userName) > 20 || strlen($userLastName) > 20)
+		{
+			echo 'Имя и фамилия не могут быть длиннее 20 символов';
+			return;
+		}
 		if ($USER->GetLogin()!==$userLogin && \CUser::GetByLogin($userLogin) && !\Hc\Houseceeper\Repository\User::checkLoginExists($userLogin))
 			{
 				echo 'Логин занят';
