@@ -111,4 +111,21 @@ return function (RoutingConfigurator $routes)
 		$comment->deleteComment();
 		LocalRedirect('/house/' . $_REQUEST['housePath'] . '/post/' .$_REQUEST['id'] );
 	});
+
+	$routes->get('/house/{housePath}/post/{id}/edit', new PublicPageController('/local/modules/hc.houseceeper/views/post-edit.php'));
+	$routes->post('/house/{housePath}/post/{id}/edit', function(){
+		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+		$postCaption = $request->getPost('post-caption');
+		$postContent = $request->getPost('post-body');
+		$postType = $request->getPost('post-type');
+		$result = \Hc\Houseceeper\Controller\Post::update($_REQUEST['id'], $postCaption, $postContent, $postType);
+		if ($result===true)
+		{
+			LocalRedirect('/house/'.$_REQUEST['housePath'].'/post/'.$_REQUEST['id']);
+		}
+		foreach ($result as $error)
+		{
+			echo $error;
+		}
+	});
 };

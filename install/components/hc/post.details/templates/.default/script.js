@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 				if (typeText.trim() === types.HC_HOUSECEEPER_POSTTYPE_ANNOUNCEMENT) {
 					typeElement.textContent = 'Объявление';
-					typeElement.classList.add('is-success');
+					typeElement.classList.add('is-warning');
 				} else if (typeText.trim() === types.HC_HOUSECEEPER_POSTTYPE_DISCUSSION) {
 					typeElement.textContent = 'Обсуждение';
-					typeElement.classList.add('is-success');
+					typeElement.classList.add('is-primary');
 				} else if (typeText.trim() === types.HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED) {
 					typeElement.textContent = 'Неподтвержден';
-					typeElement.classList.add('is-success');
+					typeElement.classList.add('is-danger');
 				}
 			});
 		});

@@ -62,6 +62,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_CONFIRM_PUBLICATION')?>?')" class="button is-success" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/confirm"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_CONFIRM_PUBLICATION')?></a>
 				<?php endif; ?>
 				<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_DELETE_PUBLICATION')?>')" class="button is-danger" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_DELETE_PUBLICATION')?></a>
+					<a href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/edit" class="button is-success">Редактировать</a>
 				<?php endif; ?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'discussion') :?>
 				<h1 class="title mt-5"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_COMMENTS')?></h1>
@@ -93,4 +94,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</section>
 	</div>
 </main>
-<script></script>
+

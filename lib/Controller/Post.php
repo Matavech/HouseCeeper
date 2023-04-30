@@ -120,4 +120,44 @@ class Post extends Engine\Controller
 		Repository\Post::acceptPost($id);
 		LocalRedirect('/house/' . $housePath . '/post/' . $id);
 	}
+
+	public function update($postId, $postTitle, $postContent, $postType)
+	{
+		$postId = (int)$postId;
+		$postTitle = trim($postTitle);
+		$postContent = trim($postContent);
+		$postType = trim($postType);
+
+		if (!$postTitle || !$postType)
+		{
+			echo 'Не введены обязательные поля';
+			return;
+		}
+		$post = Repository\Post::getDetails($postId);
+		if (!$post)
+		{
+			echo 'Пост не найден';
+			return;
+		}
+		global $USER;
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetId(), $postId))
+		{
+			echo 'Вам нельзя';
+			return;
+		}
+
+		$postTypeId = Repository\Post::getPostTypeId($postType);
+		if (!$postTypeId)
+		{
+			echo 'Недопустимый тип поста';
+			return;
+		}
+
+		$result = Repository\Post::updateGeneral($postId, $postTitle, $postContent, $postTypeId);
+		if ($result->isSuccess())
+		{
+			return True;
+		}
+		return $result->getErrorMessages();
+	}
 }

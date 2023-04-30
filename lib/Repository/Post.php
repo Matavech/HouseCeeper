@@ -134,4 +134,14 @@ class Post
 				->save();
 		}
 	}
+
+	public static function updateGeneral($postId, $postTitle, $postContent, $postTypeId)
+	{
+		$post = PostTable::getById($postId)->fetchObject();
+		$post
+			->setTitle($postTitle)
+			->setContent($postContent)
+			->setTypeId($postTypeId);
+		return $post->save();
+	}
 }
