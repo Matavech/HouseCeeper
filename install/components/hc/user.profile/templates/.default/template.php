@@ -30,6 +30,17 @@
 
 
 			</div>
+			<div class="column mr-5">
+				<h1 class="has-text-primary-dark">Аватарка</h1>
+					<h2>Текущий аватар</h2>
+					<figure class="media is-left">
+						<?= CFile::ShowImage($arResult['USER']['AVATAR'], 300, 300, 'border=2px'); ?>
+					</figure>
+				<button class="button is-success mt-3 js-modal-trigger" data-target="modal-js-example">
+					Изменить фотографию
+				</button>
+
+			</div>
 			<div class="column ml-5">
 				<h1 class="has-text-primary-dark">Изменение пароля</h1>
 				<form action="/profile/changePassword" method="post">
@@ -80,4 +91,17 @@
 			<?php endforeach; ?>
 		<?php endif ?>
 	</div>
+</div>
+<div id="modal-js-example" class="modal">
+	<form action="profile/changeAvatar" method="post">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<div class="box">
+				<?= $arResult['FILES']->show(); ?>
+				<div class="buttons mt-3">
+					<button class="button is-success" type="submit">Сохранить</button>
+				</div>
+			</div>
+		</div>
+	</form>
 </div>

@@ -48,6 +48,8 @@ class User
 		return True;
 	}
 
+
+
 	public static function getHouseHeadmenList($houseId)
 	{
 		$result = UserRoleTable::getList([
@@ -316,5 +318,13 @@ class User
 		foreach ($apartments as $apartment) {
 			$apartment->delete();
 		}
+	}
+
+	public static function getUserAvatarId($userId)
+	{
+		return BUserTable::query()
+			->setSelect(['PERSONAL_PHOTO'])
+			->setFilter(['ID'=>$userId])
+			->fetch()['PERSONAL_PHOTO'];
 	}
 }

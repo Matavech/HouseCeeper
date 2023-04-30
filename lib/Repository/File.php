@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Hc\Houseceeper\Model\BUserTable;
 use Hc\Houseceeper\Model\PostFileTable;
 
 class File
@@ -15,6 +16,10 @@ class File
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		'application/vnd.ms-powerpoint',
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+	];
+
+	protected const ACCEPTED_AVATAR_TYPES = [
+		'image/',
 	];
 
 	public static function addPostFiles($postId, $files)
@@ -74,5 +79,60 @@ class File
 		}
 
 		\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/post-files/' . $postId);
+	}
+
+	public static function changeAvatar($userId, $file)
+	{
+		$arrFile = [
+			"name" => $file["name"],
+			"size" => $file["size"],
+			"type" => $file["type"],
+			"tmp_name" => \Bitrix\Main\Application::getDocumentRoot() . '/upload/tmp' . $file["tmp_name"],
+			"MODULE_ID" => "hc.houseceeper",
+			"del" => "N"
+		];
+
+
+		$error = \CFile::CheckFile($arrFile,
+								 10*1024*1024,
+								 self::ACCEPTED_AVATAR_TYPES
+		);
+		if ($error)
+		{
+			return $error;
+		}
+		\CFile::ResizeImage(
+			$arrFile,
+			[
+				'width' => 300,
+				'height' => 300
+			],
+			'BX_RESIZE_IMAGE_EXACT'
+				  );
+
+		$fileId = \CFile::SaveFile(
+			$arrFile,
+			"user-avatars/{$userId}",
+			'',
+			'',
+			'',
+			false
+		);
+
+		if ($fileId)
+		{
+			$oldAvatarId = User::getUserAvatarId($userId);
+
+			if ($oldAvatarId) {
+				$oldAvatar = \CFile::GetByID($oldAvatarId);
+				\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/' . $oldAvatar->arResult[0]['SUBDIR']);
+			}
+			$user = BUserTable::getById($userId)->fetchObject();
+			$user->set('PERSONAL_PHOTO', $fileId);
+			if (!$user->save()->isSuccess())
+			{
+				return 'error';
+			}
+		}
 	}
 }

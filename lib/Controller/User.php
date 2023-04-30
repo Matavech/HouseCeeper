@@ -147,4 +147,10 @@ class User extends Controller
 
 		return $errorMessage;
 	}
+
+	public static function getUserAvatar($userId)
+	{
+		$fileId = \Hc\Houseceeper\Repository\User::getUserAvatarId($userId);
+		return $fileId;
+	}
 }

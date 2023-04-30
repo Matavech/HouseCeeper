@@ -47,6 +47,23 @@ return function (RoutingConfigurator $routes)
 			LocalRedirect('/profile');
 		}
 	});
+	$routes->post('/profile/changeAvatar', function(){
+		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+		$file = $request->getPost('files');
+		if (!$file)
+		{
+			LocalRedirect('/profile');
+		}
+
+		global $USER;
+		$error = \Hc\Houseceeper\Repository\File::changeAvatar($USER->GetId(), $file[0]);
+		if ($error)
+		{
+			echo $error;
+			return;
+		}
+		LocalRedirect('/profile');
+	});
 
 	$routes->post('/profile/leaveApartment', function(){
 		global $USER;

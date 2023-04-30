@@ -6,6 +6,7 @@ class UserProfileComponent extends CBitrixComponent
 	{
 		$this->fetchUser();
 		$this->fetchHouses();
+		$this->arResult['FILES'] = $this->prepareFileInput();
 		$this->includeComponentTemplate();
 	}
 
@@ -13,6 +14,8 @@ class UserProfileComponent extends CBitrixComponent
 	{
 		global $USER;
 		$this->arResult['USER'] = \Hc\Houseceeper\Controller\User::getUserGeneral($USER);
+		$this->arResult['USER']['AVATAR'] = \Hc\Houseceeper\Controller\User::getUserAvatar($USER->GetID());
+
 	}
 	protected function fetchHouses()
 	{
@@ -27,5 +30,21 @@ class UserProfileComponent extends CBitrixComponent
 			}
 		}
 		$this->arResult['HOUSES'] = $houses;
+	}
+
+	protected function prepareFileInput()
+	{
+		return \Bitrix\Main\UI\FileInput::createInstance(
+			[
+				"name" => "files[#IND#]",
+				"description" => true,
+				"upload" => true,
+				"allowUpload" => "A",
+				"medialib" => true,
+				"fileDialog" => true,
+				"delete" => true,
+				"maxCount" => 1,
+				"maxSize" => 10*1024*1024
+			]);
 	}
 }
