@@ -15,6 +15,19 @@ global $USER;
 
 <div class="content">
 
+	<?php if(!$arResult['HOUSE']) : ?>
+		<section class="hero is-danger mt-5">
+			<div class="hero-body">
+				<p class="title">
+					Вы не зарегистрированы ни в одном доме
+				</p>
+				<p class="subtitle">
+					Если Ваш дом подключен к этой системе, обратитесь к председателю ТСЖ за кодом доступа.
+					<br>
+					Если у Вас есть код, <a href="/get-into" class="is-underlined has-text-weight-bold">Добавьте дом в этот профиль</a>
+				</p>
+			</div>
+		</section>
 	<?php foreach ($arResult['HOUSE'] as $house) {?>
 
 		<section class="section">
@@ -36,6 +49,7 @@ global $USER;
 		<div class="buttons is-centered">
 			<a class="button is-large" href="/add-house"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSELIST_ADD_HOUSE')?></a>
 		</div>
+	<?php endif; ?>
 	<?php endif; ?>
 </div>
 </div>
