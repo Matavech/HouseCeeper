@@ -337,4 +337,17 @@ class User
 			return False;
 		}
 	}
+
+	public static function deleteAvatar($userId)
+	{
+		$photo = BUserTable::query()
+			->setSelect(['PERSONAL_PHOTO'])
+			->setFilter(['ID' => $userId])
+			->fetchObject();
+		if ($photo)
+		{
+			$photo->set('PERSONAL_PHOTO' , NULL)->save();
+		}
+
+	}
 }

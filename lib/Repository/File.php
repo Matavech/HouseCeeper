@@ -18,7 +18,7 @@ class File
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 	];
 
-	protected const ACCEPTED_AVATAR_TYPES = [
+	public const ACCEPTED_AVATAR_TYPES = [
 		'image/',
 	];
 
@@ -81,46 +81,6 @@ class File
 		\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/post-files/' . $postId);
 	}
 
-	public static function changeAvatar($userId, $file)
-	{
-		$arrFile = [
-			"name" => $file["name"],
-			"size" => $file["size"],
-			"type" => $file["type"],
-			"tmp_name" => \Bitrix\Main\Application::getDocumentRoot() . '/upload/tmp' . $file["tmp_name"],
-			"MODULE_ID" => "hc.houseceeper",
-			"del" => "N"
-		];
-
-
-		$error = \CFile::CheckFile($arrFile,
-								 10*1024*1024,
-								 self::ACCEPTED_AVATAR_TYPES
-		);
-		if ($error)
-		{
-			return $error;
-		}
-		\CFile::ResizeImage(
-			$arrFile,
-			[
-				'width' => 300,
-				'height' => 300
-			],
-			'BX_RESIZE_IMAGE_EXACT'
-				  );
-
-		$fileId = self::saveAvatar($userId, $arrFile);
-		if ($fileId)
-		{
-			self::deleteAvatar($userId);
-		}
-		if (!User::setAvatar($userId, $fileId))
-		{
-			return false;
-		}
-	}
-
 	public static function saveAvatar($userId, $file)
 	{
 		$fileId = \CFile::SaveFile(
@@ -134,13 +94,12 @@ class File
 		return $fileId;
 	}
 
-	public static function deleteAvatar($userId)
+	public static function deleteFile($id)
 	{
-		$oldAvatarId = User::getUserAvatarId($userId);
-
-		if ($oldAvatarId) {
-			$oldAvatar = \CFile::GetByID($oldAvatarId);
-			\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/' . $oldAvatar->arResult[0]['SUBDIR']);
+		$file = \CFile::GetByID($id);
+		if ($file)
+		{
+			\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/' . $file->arResult[0]['SUBDIR']);
 		}
 	}
 }

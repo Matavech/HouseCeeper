@@ -33,12 +33,23 @@
 			<div class="column mr-5">
 				<h1 class="has-text-primary-dark">Аватарка</h1>
 					<h2>Текущий аватар</h2>
+				<?php if(!$arResult['USER']['AVATAR']) : ?>
+				<p>Не задан</p>
+					<button class="button is-success mt-3 js-modal-trigger" data-target="modal-js-example">
+						Добавить аватар
+					</button>
+				<?php else: ?>
+
 					<figure class="media is-left">
 						<?= CFile::ShowImage($arResult['USER']['AVATAR'], 300, 300, 'border=2px'); ?>
 					</figure>
 				<button class="button is-success mt-3 js-modal-trigger" data-target="modal-js-example">
-					Изменить фотографию
+					Изменить аватар
 				</button>
+					<a class="button is-danger mt-3" href="profile/deleteAvatar" >
+						Удалить аватар
+					</a>
+				<?php endif; ?>
 
 			</div>
 			<div class="column ml-5">

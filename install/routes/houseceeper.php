@@ -56,7 +56,7 @@ return function (RoutingConfigurator $routes)
 		}
 
 		global $USER;
-		$error = \Hc\Houseceeper\Repository\File::changeAvatar($USER->GetId(), $file[0]);
+		$error = \Hc\Houseceeper\Controller\File::changeAvatar($USER->GetId(), $file[0]);
 		if ($error)
 		{
 			echo $error;
@@ -64,6 +64,12 @@ return function (RoutingConfigurator $routes)
 		}
 		LocalRedirect('/profile');
 	});
+	$routes->get('/profile/deleteAvatar', function () {
+		global $USER;
+		\Hc\Houseceeper\Controller\File::deleteAvatar($USER->GetId());
+		LocalRedirect('/profile');
+	});
+
 
 	$routes->post('/profile/leaveApartment', function(){
 		global $USER;
