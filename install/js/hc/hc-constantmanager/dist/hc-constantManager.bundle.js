@@ -14,7 +14,19 @@ this.hc = this.hc || {};
 	    key: "getPostConstants",
 	    value: function getPostConstants() {
 	      return new Promise(function (resolve, reject) {
-	        BX.ajax.runAction('hc:houseceeper.PostType.getTypesInJson').then(function (responce) {
+	        BX.ajax.runAction('hc:houseceeper.PostType.getTypes').then(function (responce) {
+	          resolve(responce);
+	        })["catch"](function (error) {
+	          console.log(error);
+	          reject(error);
+	        });
+	      });
+	    }
+	  }, {
+	    key: "getPostConstantsRu",
+	    value: function getPostConstantsRu() {
+	      return new Promise(function (resolve, reject) {
+	        BX.ajax.runAction('hc:houseceeper.PostType.getTypesRuLang').then(function (responce) {
 	          resolve(responce);
 	        })["catch"](function (error) {
 	          console.log(error);
