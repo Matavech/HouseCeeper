@@ -37,6 +37,11 @@ class Auth extends Engine\Controller
 		$email =	trim($request->getPost('email'));
 		$key = 		trim($request->getPost('key'));
 
+		if (strlen($name) > 20 || strlen($lastname) > 20)
+		{
+			echo 'Имя и фамилия не могут быть длиннее 20 символов';
+			return;
+		}
 		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
 		if ($apartment)
 		{
