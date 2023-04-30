@@ -35,7 +35,7 @@ $housePath = extractValueFromLink($_SERVER['REQUEST_URI']);
 
 
 	<div id="navbarBasicExample" class="navbar-menu">
-		<?php if ($USER->IsAuthorized() && !$USER->IsAdmin()) { ?>
+		<?php if ($housePath) { ?>
 		<div class="navbar-start">
 			<a class="navbar-item" href="/house/<?= $housePath?>">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_FEED')?>
