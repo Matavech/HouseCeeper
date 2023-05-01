@@ -39,6 +39,7 @@ You probably want to make following symlinks:
 
 ```
 local/components/hc -> local/modules/hc.houseceeper/install/components/hc
+local/components/js -> local/modules/hc.houseceeper/install/components/js
 local/templates/houseceeper -> local/modules/hc.houseceeper/install/templates/houseceeper
 local/routes/houseceeper.php -> local/modules/hc.houseceeper/install/routes/houseceeper.php
 ```
