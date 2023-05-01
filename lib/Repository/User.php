@@ -299,9 +299,9 @@ class User
 			->setFilter([
 				'USER_ID' => $userId,
 				'HOUSE_ID' => $houseId
-			])->fetchObject()->getRoleId();
+			])->fetchObject();
 		if ($roleId) {
-			return $roleId;
+			return $roleId->getRoleId();
 		}
 
 		return 3;

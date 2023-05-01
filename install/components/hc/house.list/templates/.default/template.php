@@ -28,6 +28,7 @@ global $USER;
 				</p>
 			</div>
 		</section>
+	<?php endif; ?>
 	<?php foreach ($arResult['HOUSE'] as $house) {?>
 
 		<section class="section">
@@ -49,7 +50,6 @@ global $USER;
 		<div class="buttons is-centered">
 			<a class="button is-large" href="/add-house"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSELIST_ADD_HOUSE')?></a>
 		</div>
-	<?php endif; ?>
 	<?php endif; ?>
 </div>
 </div>
