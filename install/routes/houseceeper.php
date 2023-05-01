@@ -37,16 +37,19 @@ return function (RoutingConfigurator $routes)
 	 	$confirmPassword = trim($request->getPost('confirmPassword'));
 	 	\Hc\Houseceeper\Controller\Auth::changePassword($oldPassword, $newPassword, $confirmPassword);
 	 });
-	$routes->post('/profile/changeGeneral', function(){
-		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
-		$userName = trim($request->getPost('userName'));
-		$userLastName = trim($request->getPost('userLastName'));
-		$userLogin = trim($request->getPost('userLogin'));
-		if (\Hc\Houseceeper\Controller\User::changeUserGeneralInfo($userName, $userLastName, $userLogin))
-		{
-			LocalRedirect('/profile');
-		}
-	});
+	// $routes->post('/profile/changeGeneral', function(){
+	// 	$request = \Bitrix\Main\Context::getCurrent()->getRequest();
+	// 	$userName = trim($request->getPost('userName'));
+	// 	$userLastName = trim($request->getPost('userLastName'));
+	// 	$userLogin = trim($request->getPost('userLogin'));
+	// 	if (\Hc\Houseceeper\Controller\User::changeUserGeneralInfo($userName, $userLastName, $userLogin))
+	// 	{
+	// 		LocalRedirect('/profile');
+	// 	}
+	// });
+
+	$routes->post('/profile/changeGeneral', [\Hc\Houseceeper\Controller\User::class, 'changeUserGeneralInfo']); // todo
+
 	$routes->post('/profile/changeAvatar', function(){
 		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
 		$file = $request->getPost('files');

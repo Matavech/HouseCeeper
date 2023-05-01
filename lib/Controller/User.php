@@ -120,7 +120,7 @@ class User extends Controller
 		return $result;
 	}
 
-	public static function changeUserGeneralInfo($userName, $userLastName, $userLogin)
+	public static function changeUserGeneralInfoAction($userName, $userLastName, $userLogin)
 	{
 		if (!$userName || !$userLogin)
 		{
@@ -147,10 +147,10 @@ class User extends Controller
 				'NAME' => $userName,
 				'LAST_NAME' => $userLastName,
 			]);
-			return True;
+			LocalRedirect('/profile');
 		}
 
-		return $errorMessage;
+
 	}
 
 	public static function getUserAvatar($userId)

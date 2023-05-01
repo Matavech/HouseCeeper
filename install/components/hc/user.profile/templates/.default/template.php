@@ -13,6 +13,7 @@
 			<div class="column mr-5">
 				<h1 class="has-text-primary-dark">Основная информация</h1>
 				<form action="/profile/changeGeneral" method="post">
+					<?= bitrix_sessid_post() ?>
 					<h2>Имя</h2>
 					<input class="input" type="text" id="userName" name="userName"
 						   value="<?= $arResult['USER']['NAME'] ?>" readonly required>
