@@ -44,27 +44,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<h2>
 
 				</h2>
-			<?php if (isset($arResult['POST']['FILES'])) : ?>
-				<h5>
-					Прикрепленные файлы:
-				</h5>
-			<?php endif; ?>
-			<?php foreach ($arResult['POST']['IMAGES'] as $image) {
-				echo CFile::ShowImage($image['ID'], 400, 400, 'border=2px');
-			} ?>
 
-			<div>
+			<?= \Bitrix\Main\UI\FileInput::createInstance(
+				[
+					"name" => "files[#IND#]",
+					"description" => true,
+					"upload" => true,
+					"allowUpload" => "A",
+					"medialib" => true,
+					"fileDialog" => true,
+					"delete" => true,
+					"maxCount" => 10,
+					"maxSize" => 50*1024*1024
+				])->show(
+						array_merge($arResult['POST']['FILES'], $arResult['POST']['IMAGES']), true
+			) ?>
 
-				<?php foreach ($arResult['POST']['FILES'] as $file) { ?>
-					<div>
-						<a href="<?= $file['SRC'] ?>" download="<?= $file['ORIGINAL_NAME'] ?>">
-							<i class="fas fa-file" aria-hidden="true"></i>
-							<?= $file['ORIGINAL_NAME'] ?>
-							<i class="fas fa-download" aria-hidden="true"></i>
-						</a>
-					</div>
-				<?php } ?>
-			</div>
 			</div>
 			<div class="buttons">
 				<button class="button mt-5" type="submit">Сохранить</button>

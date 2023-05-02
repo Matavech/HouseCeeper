@@ -144,4 +144,9 @@ class Post
 			->setTypeId($postTypeId);
 		return $post->save();
 	}
+
+	public static function getPostHouseId($postId)
+	{
+		return PostTable::getById($postId)->fetchObject()->getHouseId();
+	}
 }

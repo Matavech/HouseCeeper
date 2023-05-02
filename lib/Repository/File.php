@@ -2,6 +2,7 @@
 
 namespace Hc\Houseceeper\Repository;
 
+use Bitrix\Main\IO\Directory;
 use Hc\Houseceeper\Model\PostFileTable;
 
 class File
@@ -60,7 +61,7 @@ class File
 		}
 	}
 
-	public static function deletePostFiles($postId)
+	public static function deleteAllPostFiles($postId)
 	{
 		$query = PostFileTable::getList([
 			'select' => ['*'],
@@ -74,5 +75,24 @@ class File
 		}
 
 		\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() . '/upload/post-files/' . $postId);
+	}
+
+	public static function deletePostFiles($postId, $fileIds)
+	{
+		$query = PostFileTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'POST_ID' => $postId,
+				'@FILE_ID' => $fileIds
+			]
+		])->fetchCollection();
+
+		foreach ($query as $obj)
+		{
+			\CFile::Delete($obj->getFileId());
+			$filePath = \CFile::GetPath($obj->getFileId());
+			\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() .  $filePath);
+			$obj->delete();
+		}
 	}
 }
