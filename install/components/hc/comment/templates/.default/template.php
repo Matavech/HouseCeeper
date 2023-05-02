@@ -12,7 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <article class="media comment mt-3 lvl-<?=$arParams['LEVEL']?>">
 	<figure class="media-left">
 		<p class="image is-64x64">
-			<img src="https://bulma.io/images/placeholders/128x128.png">
+			<img src="<?= $arParams['COMMENT']['USER_AVATAR'] ?>">
 		</p>
 	</figure>
 	<div class="media-content">
