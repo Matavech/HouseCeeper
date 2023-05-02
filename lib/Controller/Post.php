@@ -153,12 +153,11 @@ class Post extends Engine\Controller
 			return;
 		}
 
-		Repository\File::deletePostFiles($postId, $fileIdsToDelete);
-		die();
-
 		$result = Repository\Post::updateGeneral($postId, $postTitle, $postContent, $postTypeId);
 		if ($result->isSuccess())
 		{
+			Repository\File::deletePostFiles($postId, $fileIdsToDelete);
+			Repository\File::addPostFiles($postId, $filesToAdd);
 			return True;
 		}
 		return $result->getErrorMessages();

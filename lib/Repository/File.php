@@ -91,6 +91,7 @@ class File
 		{
 			\CFile::Delete($obj->getFileId());
 			$filePath = \CFile::GetPath($obj->getFileId());
+			unlink($_SERVER["DOCUMENT_ROOT"] . $filePath);
 			$obj->delete();
 		}
 	}
