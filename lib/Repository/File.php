@@ -91,7 +91,6 @@ class File
 		{
 			\CFile::Delete($obj->getFileId());
 			$filePath = \CFile::GetPath($obj->getFileId());
-			\Bitrix\Main\IO\Directory::deleteDirectory(\Bitrix\Main\Application::getDocumentRoot() .  $filePath);
 			$obj->delete();
 		}
 	}
