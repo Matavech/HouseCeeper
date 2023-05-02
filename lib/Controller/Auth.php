@@ -24,7 +24,10 @@ class Auth extends Engine\Controller
 		if (is_bool($errorMessage) && $errorMessage){
 			LocalRedirect('/');
 		} else {
-			ShowMessage($errorMessage);
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:sign.in', '', [
+				'error' => $errorMessage,
+			]);
 		}
 	}
 

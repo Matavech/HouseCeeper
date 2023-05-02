@@ -20,6 +20,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 			<div class="field mt-6">
+				<?php if(isset($arResult['ERROR'])): ?>
+					<div class="notification is-warning">
+						<?php ShowMessage($arResult['ERROR']) ?>
+					</div>
+				<?php endif; ?>
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_LOGIN') ; ?></label>
 				<div class="control has-icons-left has-icons-right">
 					<input required class="input " type="text" placeholder="Введите логин" name="login">
