@@ -27,6 +27,9 @@ class PostEditComponent extends CBitrixComponent {
 				"delete" => true,
 				"maxCount" => 10,
 				"maxSize" => 50*1024*1024
-			]);
+			])->show(
+			array_merge($this->arResult['POST']['FILES'], $this->arResult['POST']['IMAGES']),
+			true
+		) ;
 	}
 }

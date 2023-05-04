@@ -113,7 +113,7 @@ class Post extends Engine\Controller
 		}
 		$comment = new Comment();
 		$comment->deletePostComments($id);
-		Repository\File::deletePostFiles($id);
+		Repository\File::deleteAllPostFiles($id);
 		PostTable::delete($id);
 		LocalRedirect('/house/' . $housePath);
 	}
@@ -130,7 +130,7 @@ class Post extends Engine\Controller
 		LocalRedirect('/house/' . $housePath . '/post/' . $id);
 	}
 
-	public function update($postId, $postTitle, $postContent, $postType)
+	public function update($postId, $postTitle, $postContent, $postType, $filesToAdd, $fileIdsToDelete)
 	{
 		$postId = (int)$postId;
 		$postTitle = trim($postTitle);
@@ -149,7 +149,7 @@ class Post extends Engine\Controller
 			return;
 		}
 		global $USER;
-		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetId(), $postId))
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetId(), Repository\Post::getPostHouseId($postId)))
 		{
 			echo 'Вам нельзя';
 			return;
@@ -165,6 +165,8 @@ class Post extends Engine\Controller
 		$result = Repository\Post::updateGeneral($postId, $postTitle, $postContent, $postTypeId);
 		if ($result->isSuccess())
 		{
+			Repository\File::deletePostFiles($postId, $fileIdsToDelete);
+			Repository\File::addPostFiles($postId, $filesToAdd);
 			return True;
 		}
 		return $result->getErrorMessages();

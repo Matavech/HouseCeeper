@@ -118,7 +118,17 @@ return function (RoutingConfigurator $routes)
 		$postCaption = $request->getPost('post-caption');
 		$postContent = $request->getPost('post-body');
 		$postType = $request->getPost('post-type');
-		$result = \Hc\Houseceeper\Controller\Post::update($_REQUEST['id'], $postCaption, $postContent, $postType);
+		$filesToAdd = $request->getPost('files');
+
+		$fileIdsToDelete = [];
+		foreach ($request->getPostList() as $paramName => $paramValue) {
+			if (strpos($paramName, '_del') !== false && $paramValue === 'Y') {
+				$fileId = str_replace('_del', '', $paramName);
+				$fileIdsToDelete[] = $request->getPost($fileId);
+			}
+		}
+
+		$result = \Hc\Houseceeper\Controller\Post::update($_REQUEST['id'], $postCaption, $postContent, $postType, $filesToAdd, $fileIdsToDelete);
 		if ($result===true)
 		{
 			LocalRedirect('/house/'.$_REQUEST['housePath'].'/post/'.$_REQUEST['id']);
