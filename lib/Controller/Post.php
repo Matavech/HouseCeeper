@@ -55,8 +55,7 @@ class Post extends Engine\Controller
 
 		if (count($files) > self::MAX_FILE_COUNT)
 		{
-			echo 'Вы не можете загрузить более ' . self::MAX_FILE_COUNT . ' файлов';
-			return;
+			$errors[] =  'Вы не можете загрузить более ' . self::MAX_FILE_COUNT . ' файлов';
 		}
 
 		if ($houseId && $postTypeId) {
@@ -71,14 +70,24 @@ class Post extends Engine\Controller
 				//echo 'Post has been added successfully';
 				LocalRedirect('/house/'.$housePath);
 			} else {
-				$errors = $result->getErrors();
-				foreach ($errors as $error) {
-					echo $error->getMessage();
+				foreach ($result->getErrors() as $error) {
+
+					$errors[] = $error->getMessage();
 				}
 			}
-		} else {
-			echo 'Wrong post type or house path';
 		}
+
+		$errors[] = 'Неверный тип поста или путь к дому';
+
+		if ($errors)
+		{
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:post.add', '', [
+				'errors' => $errors,
+				'housePath' => $housePath,
+			]);
+		}
+
 	}
 
 	public function getPostById($id)

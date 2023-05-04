@@ -228,7 +228,6 @@ class User
 			return $USER->GetID();
 		}
 
-		ShowMessage($resultMessage);
-		return false;
+		return $resultMessage['MESSAGE'];
 	}
 }

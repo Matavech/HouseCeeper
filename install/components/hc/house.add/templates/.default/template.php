@@ -11,7 +11,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
 <div class="container">
 	<div class="content">
-
+		<?php if(isset($arResult['ERRORS'])) : ?>
+		<div class="errors mt-3">
+			<?php foreach($arResult['ERRORS'] as $error): ?>
+				<div class="notification is-warning">
+					<?= $error?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<?php endif; ?>
 		<form method="post" action="/add-house">
 			<?php bitrix_sessid_post(); ?>
 

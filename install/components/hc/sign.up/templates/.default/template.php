@@ -21,6 +21,16 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_IF_YOU_WANT_NEW_HOUSE')?>, <a href="/get-into?key=<?= $arParams['key'] ?>"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_PRESS_HERE')?></a>
 	</h2>
 
+	<?php if(isset($arResult['ERRORS'])) : ?>
+		<?php foreach($arResult['ERRORS'] as $error): ?>
+		<div class="notification is-warning">
+
+			<?= $error?>
+
+		</div>
+		<?php endforeach; ?>
+	<?php endif; ?>
+
 	<form action="/reg" method="post">
 
 		<div class="field mt-6">

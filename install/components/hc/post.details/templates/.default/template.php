@@ -69,6 +69,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<article class="media">
 
 					<div class="media-content">
+						<?php if(isset($arResult['ERRORS'])) : ?>
+							<div class="errors mb-3">
+								<?php foreach($arResult['ERRORS'] as $error): ?>
+									<div class="notification is-warning">
+										<?= $error?>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
 						<form method="post" action="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>">
 							<?php bitrix_sessid_post(); ?>
 							<div class="field">

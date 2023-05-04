@@ -42,23 +42,44 @@ class Auth extends Engine\Controller
 
 		if (strlen($name) > 20 || strlen($lastname) > 20)
 		{
-			echo 'Имя и фамилия не могут быть длиннее 20 символов';
-			return;
+			$errors[] = 'Имя и фамилия не могут быть длиннее 20 символов.';
 		}
 		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
 		if ($apartment)
 		{
-			$userId = \Hc\Houseceeper\Repository\User::registerUser($login, $name, $lastname, $password, $email);
-			if ($userId)
+			$result = \Hc\Houseceeper\Repository\User::registerUser($login, $name, $lastname, $password, $email);
+			if (is_numeric($result))
 			{
+				$userId = $result;
 				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), 3);
 				\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
 				\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
-				LocalRedirect('/');
+			}
+			else
+			{
+				foreach (explode('<br>', $result) as $error)
+				{
+					if ($error)
+					{
+						$errors[] = $error;
+					}
+				}
 			}
 		} else {
-			echo 'Неверный ключ';
+			$errors[] = 'Неверный ключ';
 		}
+		if ($errors)
+		{
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:sign.up', '', [
+				'errors' => $errors,
+			]);
+		}
+		else
+		{
+			LocalRedirect('/');
+		}
+
 	}
 
 	public static function addUserToHouse()
@@ -77,16 +98,42 @@ class Auth extends Engine\Controller
 				$USER = new \CUser();
 			}
 			$errorMessage = $USER->Login($login, $password, "Y");
-			$userId = $USER->GetID();
-			if ($userId)
+
+			if ($errorMessage)
 			{
-				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), 3);
-				\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
-				\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
-				LocalRedirect('/');
+				foreach (explode('<br>', $errorMessage['MESSAGE']) as $error)
+				{
+					if ($error)
+					{
+						$errors[] = $error;
+					}
+				}
+
 			}
-		} else {
-			echo 'Неверный ключ';
+			else
+			{
+				$userId = $USER->GetID();
+				if ($userId)
+				{
+					\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), 3);
+					\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
+					\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
+					LocalRedirect('/');
+				}
+			}
+
+		}
+		else
+		{
+			$errors[] = 'Неверный ключ';
+		}
+
+		if ($errors)
+		{
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:get.into', '', [
+				'errors' => $errors,
+			]);
 		}
 	}
 
