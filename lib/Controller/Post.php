@@ -76,9 +76,10 @@ class Post extends Engine\Controller
 				}
 			}
 		}
-
-		$errors[] = 'Неверный тип поста или путь к дому';
-
+		else
+		{
+			$errors[] = 'Неверный тип поста или путь к дому';
+		}
 		if ($errors)
 		{
 			$APPLICATION = new \CMain();
