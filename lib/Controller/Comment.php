@@ -40,7 +40,7 @@ class Comment extends Controller
 		$post = \Hc\Houseceeper\Repository\Post::getDetails($postId);
 		if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === PostType::HC_HOUSECEEPER_POSTTYPE_ANNOUNCEMENT)
 		{
-			echo 'Каким-то образом вы смогли попытаться добавить комментарий к объявлению. Мы это предусмотрели, так нельзя';
+			$errors[] =  'Каким-то образом вы смогли попытаться добавить комментарий к объявлению. Мы это предусмотрели, так нельзя';
 		}
 
 		$request = Context::getCurrent()->getRequest();
@@ -65,8 +65,17 @@ class Comment extends Controller
 
 			foreach ($result->getErrorMessages() as $message)
 			{
-				echo $message;
+				$errors[] = $message;
 			}
+		}
+		if ($errors)
+		{
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:post.details', '', [
+				'errors' => $errors,
+				'id' => $postId,
+				'housePath' => $housePath,
+			]);
 		}
 	}
 

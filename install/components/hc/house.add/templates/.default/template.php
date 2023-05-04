@@ -11,7 +11,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
 <div class="container">
 	<div class="content">
-
+		<?php if(isset($arResult['ERRORS'])) : ?>
+		<div class="errors mt-3">
+			<?php foreach($arResult['ERRORS'] as $error): ?>
+				<div class="notification is-warning">
+					<?= $error?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<?php endif; ?>
 		<form method="post" action="/add-house">
 			<?php bitrix_sessid_post(); ?>
 
@@ -21,7 +29,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_HOUSE_NAME')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="text" placeholder="дом" name="house-name">
+					<input class="input" type="text" placeholder="дом" name="house-name">
 				</div>
 			</div>
 			<div class="field">
@@ -33,19 +41,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_UNIQ_ID')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="text" placeholder="dom1" name="unique-path">
+					<input class="input" type="text" placeholder="dom1" name="unique-path">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_NUMBER_OF_APARTMENT')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" min="1" type="number" name="number-of-apartments">
+					<input class="input" min="1" type="number" name="number-of-apartments">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_ADDRESS')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="text" name="address">
+					<input class="input" type="text" name="address">
 				</div>
 			</div>
 			<h1 class="title">
@@ -54,37 +62,37 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_NAME')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="text" name="headman-name">
+					<input class="input" type="text" name="headman-name">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_LAST_NAME')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="text" name="headman-lastname">
+					<input class="input" type="text" name="headman-lastname">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_EMAIL')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="email" name="headman-email">
+					<input class="input" type="email" name="headman-email">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_APARTMENT_NUMBER')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" min="1" type="number" name="headman-apartment-number">
+					<input min="1" type="number" name="headman-apartment-number">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_LOGIN')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="text" name="headman-login">
+					<input class="input" type="text" name="headman-login">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_PASSWORD')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required pattern=".*\S+.*" class="input" type="password" name="headman-password">
+					<input class="input" type="password" name="headman-password">
 				</div>
 			</div>
 			<button class="button" type="submit"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEADD_ADD_HOUSE')?></button>

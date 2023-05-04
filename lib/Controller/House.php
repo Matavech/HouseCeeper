@@ -77,8 +77,7 @@ class House extends Engine\Controller
 		$headmanPassword = 			trim($request->getPost('headman-password'));
 
 		if($headmanApartmentNumber > $numberOfApart){
-			echo 'Номер квартиры председателя не должен превышать общее кол-во квартир';
-			return;
+			$errors[] = 'Номер квартиры председателя не должен превышать общее кол-во квартир';
 		}
 
 		try {
@@ -89,9 +88,10 @@ class House extends Engine\Controller
 			Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
 
 			if($houseId){
-				$headmanId = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
+				$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
 
-				if($headmanId){
+				if(is_numeric($result)){
+					$headmanId = $result;
 					Repository\User::setRole($headmanId, $houseId, 2);
 					$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
 
@@ -102,12 +102,28 @@ class House extends Engine\Controller
 						LocalRedirect('/');
 					}
 				}
+				else
+				{
+					foreach (explode('<br>', $result) as $error)
+					{
+						if ($error)
+						{
+							$errors[] = $error;
+						}
+					}
+				}
 			}
 
 			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
 		} catch (Exception $e) {
 			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
-			echo 'Произошла ошибка: ' . $e->getMessage();
+			$errors[] =  $e->getMessage();
+		}
+		if ($errors) {
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:house.add', '', [
+				'errors' => $errors,
+			]);
 		}
 	}
 

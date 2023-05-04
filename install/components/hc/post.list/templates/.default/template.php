@@ -5,7 +5,7 @@
  * @var array $arParams
  * @var CMain $APPLICATION
  */
-
+\Bitrix\Main\UI\Extension::load('hc.hc-constantmanager');
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 

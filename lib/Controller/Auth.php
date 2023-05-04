@@ -3,7 +3,6 @@ namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Engine;
 use Bitrix\Main\Context;
-use Bitrix\Main\Security\Password;
 use Hc\Houseceeper\Model\ApartmentTable;
 use Hc\Houseceeper\Model\ApartmentUserTable;
 use Hc\Houseceeper\Model\UserRoleTable;
@@ -16,6 +15,7 @@ class Auth extends Engine\Controller
 		$password = trim($request->getPost('password'));
 
 		global $USER;
+
 		if (!is_object($USER))
 			$USER = new \CUser();
 
@@ -24,52 +24,10 @@ class Auth extends Engine\Controller
 		if (is_bool($errorMessage) && $errorMessage){
 			LocalRedirect('/');
 		} else {
-			ShowMessage($errorMessage);
-		}
-	}
-
-//	 public static function changePassword($userLogin, $oldPassword, $newPassword, $confirmPassword)
-//	 {
-//	 		global $USER;
-//	 		if (!is_object($USER))
-//	 		{
-//	 			$USER = new \CUser();
-//	 		}
-//	 		$USER->Login($userLogin, $oldPassword, "Y");
-//	 		$userId = $USER->GetID();
-//	 		if ($userId)
-//	 		{
-//	 			var_dump($USER->ChangePassword($userLogin, $checkword, $newPassword, $confirmPassword)); die;
-//
-//	 				$USER->Login($userLogin, $newPassword);
-//	 				LocalRedirect('/');
-//
-//	 			echo 'something wrong';
-//	 		}
-//
-//	 }
-
-	public static function changePassword($oldPassword, $newPassword, $confirmPassword)
-	{
-		global $USER;
-		$errorMessage = $USER->Login($USER->GetLogin(), $oldPassword);
-		if (is_bool($errorMessage) && $errorMessage) {
-			if ($newPassword === $confirmPassword){
-				$user = new \CUser();
-				$result = $user->update($USER->GetID(), [
-					'PASSWORD' => $newPassword,
-					'CONFIRM_PASSWORD' => $confirmPassword
-				]);
-				if ($result) {
-					LocalRedirect('/profile');
-				} else {
-					echo $user->LAST_ERROR;
-				}
-			} else {
-				echo 'Пароли не совпадают';
-			}
-		} else {
-			echo 'Неверный старый пароль';
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:sign.in', '', [
+				'error' => $errorMessage,
+			]);
 		}
 	}
 
@@ -82,20 +40,46 @@ class Auth extends Engine\Controller
 		$email =	trim($request->getPost('email'));
 		$key = 		trim($request->getPost('key'));
 
+		if (strlen($name) > 20 || strlen($lastname) > 20)
+		{
+			$errors[] = 'Имя и фамилия не могут быть длиннее 20 символов.';
+		}
 		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
 		if ($apartment)
 		{
-			$userId = \Hc\Houseceeper\Repository\User::registerUser($login, $name, $lastname, $password, $email);
-			if ($userId)
+			$result = \Hc\Houseceeper\Repository\User::registerUser($login, $name, $lastname, $password, $email);
+			if (is_numeric($result))
 			{
+				$userId = $result;
 				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), 3);
 				\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
 				\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
-				LocalRedirect('/');
+			}
+			else
+			{
+				foreach (explode('<br>', $result) as $error)
+				{
+					if ($error)
+					{
+						$errors[] = $error;
+					}
+				}
 			}
 		} else {
-			echo 'Неверный ключ';
+			$errors[] = 'Неверный ключ';
 		}
+		if ($errors)
+		{
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:sign.up', '', [
+				'errors' => $errors,
+			]);
+		}
+		else
+		{
+			LocalRedirect('/');
+		}
+
 	}
 
 	public static function addUserToHouse()
@@ -114,17 +98,43 @@ class Auth extends Engine\Controller
 				$USER = new \CUser();
 			}
 			$errorMessage = $USER->Login($login, $password, "Y");
-			$userId = $USER->GetID();
-			if ($userId)
+
+			if ($errorMessage)
 			{
-				$userRole = \Hc\Houseceeper\Repository\User::getUserRole($userId, $apartment->getHouseId());
-				\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), $userRole);
-				\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
-				\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
-				LocalRedirect('/');
+				foreach (explode('<br>', $errorMessage['MESSAGE']) as $error)
+				{
+					if ($error)
+					{
+						$errors[] = $error;
+					}
+				}
+
 			}
-		} else {
-			echo 'Неверный ключ';
+			else
+			{
+				$userId = $USER->GetID();
+				if ($userId)
+				{
+					$userRole = \Hc\Houseceeper\Repository\User::getUserRole($userId, $apartment->getHouseId());
+					\Hc\Houseceeper\Repository\User::setRole($userId, $apartment->getHouseId(), $userRole);
+					\Hc\Houseceeper\Repository\Apartment::addUser($apartment->getId(), $userId);
+					\Hc\Houseceeper\Repository\Apartment::updateRegKey($apartment);
+					LocalRedirect('/');
+				}
+			}
+
+		}
+		else
+		{
+			$errors[] = 'Неверный ключ';
+		}
+
+		if ($errors)
+		{
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:get.into', '', [
+				'errors' => $errors,
+			]);
 		}
 	}
 

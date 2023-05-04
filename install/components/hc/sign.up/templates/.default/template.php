@@ -21,12 +21,22 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_IF_YOU_WANT_NEW_HOUSE')?>, <a href="/get-into?key=<?= $arParams['key'] ?>"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_PRESS_HERE')?></a>
 	</h2>
 
+	<?php if(isset($arResult['ERRORS'])) : ?>
+		<?php foreach($arResult['ERRORS'] as $error): ?>
+		<div class="notification is-warning">
+
+			<?= $error?>
+
+		</div>
+		<?php endforeach; ?>
+	<?php endif; ?>
+
 	<form action="/reg" method="post">
 
 		<div class="field mt-6">
 			<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_NAME')?></label>
 			<div class="control">
-				<input required class="input" type="text" placeholder="Введите имя" name="firstname">
+				<input class="input" type="text" placeholder="Введите имя" name="firstname">
 			</div>
 		</div>
 
@@ -40,7 +50,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<div class="field">
 			<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_LOGIN')?></label>
 			<div class="control has-icons-left has-icons-right">
-				<input required class="input " type="text" placeholder="Введите логин" name="login">
+				<input class="input " type="text" placeholder="Введите логин" name="login">
 				<span class="icon is-small is-left">
 		 <i class="fa-user fa-solid"></i>
 		</span>
@@ -50,7 +60,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<div class="field">
 		<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_EMAIL')?></label>
 		<div class="control has-icons-left has-icons-right">
-			<input required class="input " type="text" placeholder="Введите почту" name="email">
+			<input class="input " type="text" placeholder="Введите почту" name="email">
 			<span class="icon is-small is-left">
 		 <i class="fa-user fa-solid"></i>
 		</span>
@@ -60,7 +70,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<div class="field">
 			<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_PASSWORD')?></label>
 			<div class="control has-icons-left has-icons-right">
-				<input required class="input " type="password" placeholder="Введите пароль" name="password">
+				<input class="input " type="password" placeholder="Введите пароль" name="password">
 				<span class="icon is-small is-left">
 		 <i class="fa-solid fa-lock"></i>
 		</span>
@@ -70,7 +80,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<div class="field mt-6">
 			<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_KEY')?></label>
 			<div class="control has-icons-left has-icons-right">
-				<input required class="input " type="text" placeholder="Введите ключ" value="<?= $arParams['key'] ?>" name="key">
+				<input class="input " type="text" placeholder="Введите ключ" value="<?= $arParams['key'] ?>" name="key">
 				<span class="icon is-small is-left">
 		<i class="fa-solid fa-key"></i>
 		</span>

@@ -36,7 +36,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<form action="/house/<?=$_REQUEST['housePath']?>/post/<?=$_REQUEST['id']?>/deleteComment" method="post">
 		<input type="hidden" name="commentId" value="<?=$arParams['COMMENT']['ID']?>">
 		<input type="hidden" name="houseId" value="<?=$arResult['HOUSE']['ID']?>">
-		<button  onclick="return confirm(<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_COMMENT_ARE_YOU_SURE_YOU_WANT_DELETE')?>)" type="submit" class="button is-small">
+		<button  onclick="return confirm('Вы уверены, что хотите удалить этот комментарий?')" type="submit" class="button is-small">
 								<span class="icon">
 									<i class="fa-solid fa-xmark"></i>
 								</span>

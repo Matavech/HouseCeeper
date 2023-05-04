@@ -11,7 +11,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
 <div class="container">
 	<div class="content">
-
+		<?php if(isset($arResult['ERRORS'])) : ?>
+		<div class="errors mt-3">
+			<?php foreach($arResult['ERRORS'] as $error): ?>
+				<div class="notification is-warning">
+					<?= $error?>
+				</div>
+			<?php endforeach; ?>
+		</div>
+		<?php endif; ?>
 		<form method="post" action="/house/<?= $arParams['housePath'] ?>/add-post" enctype="multipart/form-data">
 			<?php bitrix_sessid_post(); ?>
 
@@ -21,7 +29,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_POST_TITLE')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" placeholder="Заголовок" name="post-caption">
+					<input class="input" type="text" placeholder="Заголовок" name="post-caption">
 				</div>
 			</div>
 			<div class="field">

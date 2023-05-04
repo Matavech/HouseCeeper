@@ -24,8 +24,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<h2 class="subtitle mt-5">
 					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
 				</h2>
-				<h5 >
+				<h5 class="date-published">
 					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_PUBLISHED')?>: <?=$arResult['POST']['DATETIME_CREATED'] ?> <br>
+				</h5>
+				<h5 class="user-info">
 					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_USER')?>:
 					<?php if (\Hc\Houseceeper\Repository\User::isAdmin($arResult['POST']['USER_ID'])) : echo '<strong>'; ?>
 					<?php endif ?>
@@ -59,20 +61,30 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				</div>
 				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['POST']['HOUSE_ID']) || $USER->IsAdmin()) :?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'unconfirmed') : ?>
-					<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_CONFIRM_PUBLICATION')?>?')" class="button is-success" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/confirm"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_CONFIRM_PUBLICATION')?></a>
-				<?php endif; ?>
-				<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_DELETE_PUBLICATION')?>')" class="button is-danger" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_DELETE_PUBLICATION')?></a>
+						<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_CONFIRM_PUBLICATION')?>?')" class="button is-success" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/confirm"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_CONFIRM_PUBLICATION')?></a>
+					<?php endif; ?>
+					<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_DELETE_PUBLICATION')?>')" class="button is-danger" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_DELETE_PUBLICATION')?></a>
+					<a href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/edit" class="button is-success">Редактировать</a>
 				<?php endif; ?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'discussion') :?>
 				<h1 class="title mt-5"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_COMMENTS')?></h1>
 				<article class="media">
 
 					<div class="media-content">
+						<?php if(isset($arResult['ERRORS'])) : ?>
+							<div class="errors mb-3">
+								<?php foreach($arResult['ERRORS'] as $error): ?>
+									<div class="notification is-warning">
+										<?= $error?>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						<?php endif; ?>
 						<form method="post" action="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>">
 							<?php bitrix_sessid_post(); ?>
 							<div class="field">
 								<p class="control">
-									<textarea required class="textarea" id="inputComment" name="content" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ADD_COMMENT')?>..."></textarea>
+									<textarea class="textarea" id="inputComment" name="content" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ADD_COMMENT')?>..."></textarea>
 								</p>
 								<input id="parentCommentId" type="hidden" name="parentId" value="">
 							</div>
@@ -93,4 +105,4 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</section>
 	</div>
 </main>
-<script></script>
+

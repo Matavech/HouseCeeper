@@ -240,8 +240,7 @@ class User
 			return $USER->GetID();
 		}
 
-		ShowMessage($resultMessage);
-		return false;
+		return $resultMessage['MESSAGE'];
 	}
 
 	public static function changeInfo($userName, $userLastName, $newLogin, $userLogin)

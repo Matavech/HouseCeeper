@@ -55,8 +55,7 @@ class Post extends Engine\Controller
 
 		if (count($files) > self::MAX_FILE_COUNT)
 		{
-			echo 'Вы не можете загрузить более ' . self::MAX_FILE_COUNT . ' файлов';
-			return;
+			$errors[] =  'Вы не можете загрузить более ' . self::MAX_FILE_COUNT . ' файлов';
 		}
 
 		if ($houseId && $postTypeId) {
@@ -71,14 +70,25 @@ class Post extends Engine\Controller
 				//echo 'Post has been added successfully';
 				LocalRedirect('/house/'.$housePath);
 			} else {
-				$errors = $result->getErrors();
-				foreach ($errors as $error) {
-					echo $error->getMessage();
+				foreach ($result->getErrors() as $error) {
+
+					$errors[] = $error->getMessage();
 				}
 			}
-		} else {
-			echo 'Wrong post type or house path';
 		}
+		else
+		{
+			$errors[] = 'Неверный тип поста или путь к дому';
+		}
+		if ($errors)
+		{
+			$APPLICATION = new \CMain();
+			$APPLICATION->IncludeComponent('hc:post.add', '', [
+				'errors' => $errors,
+				'housePath' => $housePath,
+			]);
+		}
+
 	}
 
 	public function getPostById($id)
@@ -104,7 +114,7 @@ class Post extends Engine\Controller
 		}
 		$comment = new Comment();
 		$comment->deletePostComments($id);
-		Repository\File::deletePostFiles($id);
+		Repository\File::deleteAllPostFiles($id);
 		PostTable::delete($id);
 		LocalRedirect('/house/' . $housePath);
 	}
@@ -119,5 +129,47 @@ class Post extends Engine\Controller
 		}
 		Repository\Post::acceptPost($id);
 		LocalRedirect('/house/' . $housePath . '/post/' . $id);
+	}
+
+	public function update($postId, $postTitle, $postContent, $postType, $filesToAdd, $fileIdsToDelete)
+	{
+		$postId = (int)$postId;
+		$postTitle = trim($postTitle);
+		$postContent = trim($postContent);
+		$postType = trim($postType);
+
+		if (!$postTitle || !$postType)
+		{
+			echo 'Не введены обязательные поля';
+			return;
+		}
+		$post = Repository\Post::getDetails($postId);
+		if (!$post)
+		{
+			echo 'Пост не найден';
+			return;
+		}
+		global $USER;
+		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetId(), Repository\Post::getPostHouseId($postId)))
+		{
+			echo 'Вам нельзя';
+			return;
+		}
+
+		$postTypeId = Repository\Post::getPostTypeId($postType);
+		if (!$postTypeId)
+		{
+			echo 'Недопустимый тип поста';
+			return;
+		}
+
+		$result = Repository\Post::updateGeneral($postId, $postTitle, $postContent, $postTypeId);
+		if ($result->isSuccess())
+		{
+			Repository\File::deletePostFiles($postId, $fileIdsToDelete);
+			Repository\File::addPostFiles($postId, $filesToAdd);
+			return True;
+		}
+		return $result->getErrorMessages();
 	}
 }
