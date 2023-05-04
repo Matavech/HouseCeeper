@@ -24,8 +24,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<h2 class="subtitle mt-5">
 					<?= htmlspecialcharsbx($arResult['POST']['CONTENT'])?>
 				</h2>
-				<h5 >
+				<h5 class="date-published">
 					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_PUBLISHED')?>: <?=$arResult['POST']['DATETIME_CREATED'] ?> <br>
+				</h5>
+				<h5 class="user-info">
 					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_USER')?>:
 					<?php if (\Hc\Houseceeper\Repository\User::isAdmin($arResult['POST']['USER_ID'])) : echo '<strong>'; ?>
 					<?php endif ?>
