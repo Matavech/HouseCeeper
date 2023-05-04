@@ -84,7 +84,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 							<?php bitrix_sessid_post(); ?>
 							<div class="field">
 								<p class="control">
-									<textarea required class="textarea" id="inputComment" name="content" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ADD_COMMENT')?>..."></textarea>
+									<textarea class="textarea" id="inputComment" name="content" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ADD_COMMENT')?>..."></textarea>
 								</p>
 								<input id="parentCommentId" type="hidden" name="parentId" value="">
 							</div>

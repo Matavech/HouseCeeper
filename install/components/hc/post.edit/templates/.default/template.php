@@ -21,7 +21,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_POST_TITLE')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input" type="text" placeholder="Заголовок" name="post-caption" value="<?=$arResult['POST']['TITLE']?>">
+					<input class="input" type="text" placeholder="Заголовок" name="post-caption" value="<?=$arResult['POST']['TITLE']?>">
 				</div>
 			</div>
 			<div class="field">

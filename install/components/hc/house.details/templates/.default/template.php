@@ -38,7 +38,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<div class="field">
 					<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_UNIQ_ID') ?></label>
 					<div class="control">
-						<input required class="input" type="text" value="<?= $arResult['HOUSE']['UNIQUE_PATH'] ?> "
+						<input class="input" type="text" value="<?= $arResult['HOUSE']['UNIQUE_PATH'] ?> "
 							   style="cursor: text"
 							   name="unique-path">
 					</div>
@@ -46,7 +46,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<div class="field">
 					<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_NUMBER_OF_APARTMENT') ?></label>
 					<div class="control">
-						<input required class="input" type="number" name="number-of-apartments" min="1"
+						<input class="input" type="number" name="number-of-apartments" min="1"
 							   style="cursor: text"
 							   value="<?= $arResult['HOUSE']['NUMBER_OF_APARTMENT'] ?>">
 					</div>
@@ -54,7 +54,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<div class="field">
 					<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_ADDRESS') ?></label>
 					<div class="control">
-						<input required class="input" type="text" name="address" style="cursor: text"
+						<input class="input" type="text" name="address" style="cursor: text"
 							   value="<?= $arResult['HOUSE']['ADDRESS'] ?>">
 					</div>
 				</div>

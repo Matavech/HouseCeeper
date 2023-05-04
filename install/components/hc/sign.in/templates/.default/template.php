@@ -27,7 +27,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<?php endif; ?>
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_LOGIN') ; ?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input " type="text" placeholder="Введите логин" name="login">
+					<input class="input " type="text" placeholder="Введите логин" name="login">
 					<span class="icon is-small is-left">
 		 <i class="fa-user fa-solid"></i>
 		</span>
@@ -37,7 +37,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGHIN_PASSWORD') ; ?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input required class="input " type="password" placeholder="Введите пароль" name="password">
+					<input class="input " type="password" placeholder="Введите пароль" name="password">
 					<span class="icon is-small is-left">
 		 <i class="fa-solid fa-lock"></i>
 		</span>
