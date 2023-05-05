@@ -71,7 +71,6 @@ class Post extends Engine\Controller
 				LocalRedirect('/house/'.$housePath);
 			} else {
 				foreach ($result->getErrors() as $error) {
-
 					$errors[] = $error->getMessage();
 				}
 			}
@@ -82,11 +81,13 @@ class Post extends Engine\Controller
 		}
 		if ($errors)
 		{
-			$APPLICATION = new \CMain();
-			$APPLICATION->IncludeComponent('hc:post.add', '', [
-				'errors' => $errors,
-				'housePath' => $housePath,
-			]);
+//			$APPLICATION = new \CMain();
+//			$APPLICATION->IncludeComponent('hc:post.add', '', [
+//				'errors' => $errors,
+//				'housePath' => $housePath,
+//			]);
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/house/'.$housePath.'/add-post');
 		}
 
 	}
@@ -138,29 +139,21 @@ class Post extends Engine\Controller
 		$postContent = trim($postContent);
 		$postType = trim($postType);
 
-		if (!$postTitle || !$postType)
-		{
-			echo 'Не введены обязательные поля';
-			return;
-		}
 		$post = Repository\Post::getDetails($postId);
 		if (!$post)
 		{
-			echo 'Пост не найден';
-			return;
+			$errors[] = 'Пост не найден';
 		}
 		global $USER;
 		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetId(), Repository\Post::getPostHouseId($postId)))
 		{
-			echo 'Вам нельзя';
-			return;
+			$errors[] = 'Вам нельзя';
 		}
 
 		$postTypeId = Repository\Post::getPostTypeId($postType);
 		if (!$postTypeId)
 		{
-			echo 'Недопустимый тип поста';
-			return;
+			$errors[] = 'Недопустимый тип поста';
 		}
 
 		$result = Repository\Post::updateGeneral($postId, $postTitle, $postContent, $postTypeId);
@@ -170,6 +163,13 @@ class Post extends Engine\Controller
 			Repository\File::addPostFiles($postId, $filesToAdd);
 			return True;
 		}
+
+		foreach ($result->getErrors() as $error) {
+			$errors[] = $error->getMessage();
+		}
+
+		\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+		LocalRedirect('edit');
 		return $result->getErrorMessages();
 	}
 }

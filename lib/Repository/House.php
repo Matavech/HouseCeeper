@@ -115,7 +115,11 @@ class House
 				'UNIQUE_PATH' => $uniquePath,
 				'INFO' => $info
 		]);
-		return $result->getId();
+		if($result->isSuccess()){
+			return $result->getId();
+		}
+
+		return $result->getErrorMessages();
 	}
 
 	public static function updateHouse($houseId, $houseName, $address, $numberOfApart, $uniquePath, $info)

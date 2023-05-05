@@ -83,11 +83,12 @@ class House extends Engine\Controller
 		try {
 			\Bitrix\Main\Application::getConnection()->startTransaction();
 
-			$houseId = Repository\House::addHouse($houseName, $address, $numberOfApart, $uniquePath, $info);
+			$result = Repository\House::addHouse($houseName, $address, $numberOfApart, $uniquePath, $info);
 
-			Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
+			if(is_numeric($result)){
+				$houseId = $result;
+				Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
 
-			if($houseId){
 				$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
 
 				if(is_numeric($result)){
@@ -102,15 +103,12 @@ class House extends Engine\Controller
 						LocalRedirect('/');
 					}
 				}
-				else
+			}
+			foreach ($result as $error)
+			{
+				if ($error)
 				{
-					foreach (explode('<br>', $result) as $error)
-					{
-						if ($error)
-						{
-							$errors[] = $error;
-						}
-					}
+					$errors[] = $error;
 				}
 			}
 
@@ -120,10 +118,12 @@ class House extends Engine\Controller
 			$errors[] =  $e->getMessage();
 		}
 		if ($errors) {
-			$APPLICATION = new \CMain();
-			$APPLICATION->IncludeComponent('hc:house.add', '', [
-				'errors' => $errors,
-			]);
+//			$APPLICATION = new \CMain();
+//			$APPLICATION->IncludeComponent('hc:house.add', '', [
+//				'errors' => $errors,
+//			]);
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/add-house');
 		}
 	}
 

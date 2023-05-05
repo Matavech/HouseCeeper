@@ -24,10 +24,12 @@ class Auth extends Engine\Controller
 		if (is_bool($errorMessage) && $errorMessage){
 			LocalRedirect('/');
 		} else {
-			$APPLICATION = new \CMain();
-			$APPLICATION->IncludeComponent('hc:sign.in', '', [
-				'error' => $errorMessage,
-			]);
+//			$APPLICATION = new \CMain();
+//			$APPLICATION->IncludeComponent('hc:sign.in', '', [
+//				'error' => $errorMessage,
+//			]);
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errorMessage);
+			LocalRedirect('/sign-in');
 		}
 	}
 
@@ -70,10 +72,12 @@ class Auth extends Engine\Controller
 		}
 		if ($errors)
 		{
-			$APPLICATION = new \CMain();
-			$APPLICATION->IncludeComponent('hc:sign.up', '', [
-				'errors' => $errors,
-			]);
+//			$APPLICATION = new \CMain();
+//			$APPLICATION->IncludeComponent('hc:sign.up', '', [
+//				'errors' => $errors,
+//			]);
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/sign-up');
 		}
 		else
 		{
@@ -131,10 +135,12 @@ class Auth extends Engine\Controller
 
 		if ($errors)
 		{
-			$APPLICATION = new \CMain();
-			$APPLICATION->IncludeComponent('hc:get.into', '', [
-				'errors' => $errors,
-			]);
+//			$APPLICATION = new \CMain();
+//			$APPLICATION->IncludeComponent('hc:get.into', '', [
+//				'errors' => $errors,
+//			]);
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/get-into');
 		}
 	}
 

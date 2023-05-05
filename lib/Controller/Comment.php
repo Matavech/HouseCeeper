@@ -41,41 +41,40 @@ class Comment extends Controller
 		if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === PostType::HC_HOUSECEEPER_POSTTYPE_ANNOUNCEMENT)
 		{
 			$errors[] =  'Каким-то образом вы смогли попытаться добавить комментарий к объявлению. Мы это предусмотрели, так нельзя';
-		}
+		} else {
+			$request = Context::getCurrent()->getRequest();
+			global $USER;
 
-		$request = Context::getCurrent()->getRequest();
-		global $USER;
+			$content = trim($request->getPost('content'));
 
+			$parentId = (int)$request->getPost('parentId');
+			$parentId = $parentId === 0 ? NULL : $parentId;
+			$userId = $USER->GetID();
+			$result = \Hc\Houseceeper\Repository\Comment::addItem($postId, $userId, $content, $parentId);
 
-		$content = trim($request->getPost('content'));
-
-		$parentId = (int)$request->getPost('parentId');
-		$parentId = $parentId === 0 ? NULL : $parentId;
-
-
-		$userId = $USER->GetID();
-
-		$result = \Hc\Houseceeper\Repository\Comment::addItem($postId, $userId, $content, $parentId);
-		if ($result->isSuccess())
-		{
-			LocalRedirect('/house/'. $housePath .  '/post/'. $postId);
-		}
-		else
-		{
-
-			foreach ($result->getErrorMessages() as $message)
+			if ($result->isSuccess())
 			{
-				$errors[] = $message;
+				LocalRedirect('/house/'. $housePath .  '/post/'. $postId);
+			}
+			else
+			{
+				foreach ($result->getErrorMessages() as $message)
+				{
+					$errors[] = $message;
+				}
 			}
 		}
+
 		if ($errors)
 		{
-			$APPLICATION = new \CMain();
-			$APPLICATION->IncludeComponent('hc:post.details', '', [
-				'errors' => $errors,
-				'id' => $postId,
-				'housePath' => $housePath,
-			]);
+//			$APPLICATION = new \CMain();
+//			$APPLICATION->IncludeComponent('hc:post.details', '', [
+//				'errors' => $errors,
+//				'id' => $postId,
+//				'housePath' => $housePath,
+//			]);
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/house/'. $housePath .  '/post/'. $postId);
 		}
 	}
 

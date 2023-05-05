@@ -163,8 +163,10 @@ class User extends Controller
 		}
 		if ($errors)
 		{
-			$errorMessage = implode('<br>', $errors);
-			LocalRedirect('/profile?errors=' . urlencode($errorMessage));
+//			$errorMessage = implode('<br>', $errors);
+//			LocalRedirect('/profile?errors=' . urlencode($errorMessage));
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+			LocalRedirect('/profile');
 		}
 		else
 		{
