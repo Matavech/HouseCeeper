@@ -53,8 +53,10 @@ class User extends Controller
 		LocalRedirect('about');
 	}
 
-	public static function removeUserFromApartment($userId, $apartmentId, $houseId)
+	public static function removeUserFromApartmentAction($apartmentId, $houseId)
 	{
+		global $USER;
+		$userId = $USER->GetId();
 		if (!self::checkAccessToApartment($userId, $apartmentId))
 		{
 			echo 'Вы не являетесь жильцом этой квартиры!';
@@ -69,8 +71,10 @@ class User extends Controller
 		LocalRedirect('/profile');
 	}
 
-	public static function removeuserFromHouse($userId, $houseId)
+	public static function removeuserFromHouseAction($houseId)
 	{
+		global $USER;
+		$userId = $USER->GetId();
 		if(\Hc\Houseceeper\Repository\User::hasApartments($userId, $houseId))
 		{
 			\Hc\Houseceeper\Repository\User::removeUserFromAllApartments($userId, $houseId);

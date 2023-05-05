@@ -49,15 +49,17 @@
 				<button class="button is-success mt-3 js-modal-trigger" data-target="modal-js-example">
 					Изменить аватар
 				</button>
-					<a class="button is-danger mt-3" href="profile/deleteAvatar" >
-						Удалить аватар
-					</a>
+					<form action="/profile/deleteAvatar" method="get">
+						<?= bitrix_sessid_post() ?>
+						<button type="submit" class="button is-danger">Удалить аватар</button>
+					</form>
 				<?php endif; ?>
 
 			</div>
 			<div class="column ml-5">
 				<h1 class="has-text-primary-dark">Изменение пароля</h1>
 				<form action="/profile/changePassword" method="post">
+					<?= bitrix_sessid_post() ?>
 					<h2>Старый пароль</h2>
 					<input type="password" class="input" name="oldPassword" >
 					<h2>Новый пароль</h2>
@@ -83,6 +85,7 @@
 						<?php foreach ($house['APARTMENTS'] as $key => $apartment)  : ?>
 							<div class="buttons">
 								<form action="/profile/leaveApartment" method="post" class="mt-3">
+									<?= bitrix_sessid_post() ?>
 									<input type="hidden" name="houseId" value="<?= $house['ID'] ?>">
 									<input type="hidden" name="apartmentId" value="<?= $apartment ?>">
 									<div class="buttons has-addons">
@@ -98,6 +101,7 @@
 						<?php endforeach; ?>
 					</h2>
 					<form action="/profile/leaveHouse" method="post">
+						<?= bitrix_sessid_post() ?>
 						<input type="hidden" name="houseId" value="<?= $house['ID'] ?>">
 						<button class="button is-danger" type="submit">Покинуть дом</button>
 					</form>
@@ -108,6 +112,7 @@
 </div>
 <div id="modal-js-example" class="modal">
 	<form action="profile/changeAvatar" method="post">
+		<?= bitrix_sessid_post() ?>
 		<div class="modal-background"></div>
 		<div class="modal-content">
 			<div class="box">

@@ -154,7 +154,7 @@ class Auth extends Engine\Controller
 		}
 	}
 
-	public static function changePassword($oldPassword, $newPassword, $confirmPassword)
+	public static function changePasswordAction($oldPassword, $newPassword, $confirmPassword)
 	{
 		global $USER;
 		$errors = [];

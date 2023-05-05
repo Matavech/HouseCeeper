@@ -30,65 +30,12 @@ return function (RoutingConfigurator $routes)
 	});
 
 	$routes->get('/profile', new PublicPageController('/local/modules/hc.houseceeper/views/user-profile.php'));
-	 $routes->post('/profile/changePassword', function() {
-	 	$request = \Bitrix\Main\Context::getCurrent()->getRequest();
-	 	$oldPassword = trim($request->getPost('oldPassword'));
-	 	$newPassword = trim($request->getPost('newPassword'));
-	 	$confirmPassword = trim($request->getPost('confirmPassword'));
-	 	\Hc\Houseceeper\Controller\Auth::changePassword($oldPassword, $newPassword, $confirmPassword);
-	 });
-	// $routes->post('/profile/changeGeneral', function(){
-	// 	$request = \Bitrix\Main\Context::getCurrent()->getRequest();
-	// 	$userName = trim($request->getPost('userName'));
-	// 	$userLastName = trim($request->getPost('userLastName'));
-	// 	$userLogin = trim($request->getPost('userLogin'));
-	// 	if (\Hc\Houseceeper\Controller\User::changeUserGeneralInfo($userName, $userLastName, $userLogin))
-	// 	{
-	// 		LocalRedirect('/profile');
-	// 	}
-	// });
-
-	$routes->post('/profile/changeGeneral', [\Hc\Houseceeper\Controller\User::class, 'changeUserGeneralInfo']); // todo
-
-	$routes->post('/profile/changeAvatar', function(){
-		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
-		$file = $request->getPost('files');
-		if (!$file)
-		{
-			LocalRedirect('/profile');
-		}
-
-		global $USER;
-		$error = \Hc\Houseceeper\Controller\File::changeAvatar($USER->GetId(), $file[0]);
-		if ($error)
-		{
-			echo $error;
-			return;
-		}
-		LocalRedirect('/profile');
-	});
-	$routes->get('/profile/deleteAvatar', function () {
-		global $USER;
-		\Hc\Houseceeper\Controller\File::deleteAvatar($USER->GetId());
-		LocalRedirect('/profile');
-	});
-
-
-	$routes->post('/profile/leaveApartment', function(){
-		global $USER;
-		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
-		$userId = $USER->GetId();
-		$apartmentId = trim($request->getPost('apartmentId'));
-		$houseId = trim($request->getPost('houseId'));
-		\Hc\Houseceeper\Controller\User::removeUserFromApartment($userId, $apartmentId, $houseId);
-	});
-	$routes->post('/profile/leaveHouse', function(){
-		global $USER;
-		$request = \Bitrix\Main\Context::getCurrent()->getRequest();
-		$userId = $USER->GetId();
-		$houseId = trim($request->getPost('houseId'));
-		\Hc\Houseceeper\Controller\User::removeuserFromHouse($userId, $houseId);
-	});
+	$routes->post('/profile/changePassword', [\Hc\Houseceeper\Controller\Auth::class, 'changePassword']);
+	$routes->post('/profile/changeGeneral', [\Hc\Houseceeper\Controller\User::class, 'changeUserGeneralInfo']);
+	$routes->post('/profile/changeAvatar', [\Hc\Houseceeper\Controller\File::class, 'changeAvatar']);
+	$routes->get('/profile/deleteAvatar', [\Hc\Houseceeper\Controller\File::class, 'deleteAvatar']);
+	$routes->post('/profile/leaveApartment', [\Hc\Houseceeper\Controller\User::class, 'removeUserFromApartment']);
+	$routes->post('/profile/leaveHouse', [\Hc\Houseceeper\Controller\User::class, 'removeuserFromHouse']);
 
 	$routes->get('/house-list', new PublicPageController('/local/modules/hc.houseceeper/views/house-list.php'));
 	$routes->get('/add-house', new PublicPageController('/local/modules/hc.houseceeper/views/house-add.php'));
