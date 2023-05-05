@@ -61,7 +61,7 @@ class House extends Engine\Controller
 		LocalRedirect('/');
 	}
 
-	public function addNewHouse()
+	public function addNewHouseAction($houseName, $uniquePath, $numberOfApart, $address, $info, $headmanName, $headmanLastname, $headmanEmail, $headmanApartmentNumber, $headmanLogin, $headmanPassword)
 	{
 		$request = Context::getCurrent()->getRequest();
 		$houseName = 				trim($request->getPost('house-name'));

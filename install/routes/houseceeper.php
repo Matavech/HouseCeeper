@@ -39,10 +39,8 @@ return function (RoutingConfigurator $routes)
 
 	$routes->get('/house-list', new PublicPageController('/local/modules/hc.houseceeper/views/house-list.php'));
 	$routes->get('/add-house', new PublicPageController('/local/modules/hc.houseceeper/views/house-add.php'));
-	$routes->post('/add-house', function () {
-		$house = new \Hc\Houseceeper\Controller\House();
-		$house->addNewHouse();
-	});
+	$routes->post('/add-house', [\Hc\Houseceeper\Controller\House::class, 'addNewHouse']);
+
 
 	$routes->get('/house/{housePath}/about', new PublicPageController('/local/modules/hc.houseceeper/views/house-details.php'));
 	$routes->get('/create-reg-link', function () {
