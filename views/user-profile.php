@@ -12,6 +12,8 @@ if (!$USER->IsAuthorized())
 	LocalRedirect('/sign-in');
 }
 
-$APPLICATION->IncludeComponent('hc:user.profile', '', []);
+$APPLICATION->IncludeComponent('hc:user.profile', '', [
+	'errors' => $_REQUEST['errors'],
+]);
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

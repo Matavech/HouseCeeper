@@ -122,35 +122,54 @@ class User extends Controller
 
 	public static function changeUserGeneralInfoAction($userName, $userLastName, $userLogin)
 	{
+		$errors = [];
 		if (!$userName || !$userLogin)
 		{
-			echo 'Не заполнены обязательные поля';
-			return;
+			$errors[] =  'Не заполнены обязателные поля';
 		}
 		global $USER;
 		if (strlen($userName) > 20 || strlen($userLastName) > 20)
 		{
-			echo 'Имя и фамилия не могут быть длиннее 20 символов';
-			return;
+			$errors[] = 'Имя и фамилия не должны быть больше 20 символов';
 		}
 		if ($USER->GetLogin()!==$userLogin && \CUser::GetByLogin($userLogin) && !\Hc\Houseceeper\Repository\User::checkLoginExists($userLogin))
-			{
-				echo 'Логин занят';
-				return;
-			}
-		$errorMessage = \Hc\Houseceeper\Repository\User::changeInfo($userName, $userLastName, $userLogin, $USER->GetLogin());
-		if (!$errorMessage)
 		{
-			$userId = $USER->GetID();
-			$USER->Update($userId, [
-				'LOGIN' => $userLogin,
-				'NAME' => $userName,
-				'LAST_NAME' => $userLastName,
-			]);
-			LocalRedirect('/profile');
+			$errors[] = 'Логин занят';
 		}
 
-
+		$errorMessage = \Hc\Houseceeper\Repository\User::changeInfo($userName, $userLastName, $userLogin, $USER->GetLogin());
+		if (!$errorMessage && !count($errors))
+		{
+			$userId = $USER->GetID();
+			$result = \Hc\Houseceeper\Repository\User::updateUser($userId, $userLogin, $userName, $userLastName);
+			if (!is_numeric($result))
+			{
+				foreach (explode('<br>', $result) as $error)
+				{
+					if ($error)
+					{
+						$errors[] = $error;
+					}
+				}
+			}
+		} else {
+			foreach (explode('<br>', $errorMessage) as $error)
+			{
+				if ($error)
+				{
+					$errors[] = $error;
+				}
+			}
+		}
+		if ($errors)
+		{
+			$errorMessage = implode('<br>', $errors);
+			LocalRedirect('/profile?errors=' . urlencode($errorMessage));
+		}
+		else
+		{
+			LocalRedirect('/profile');
+		}
 	}
 
 	public static function getUserAvatar($userId)

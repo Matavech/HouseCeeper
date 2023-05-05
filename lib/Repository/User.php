@@ -243,6 +243,24 @@ class User
 		return $resultMessage['MESSAGE'];
 	}
 
+	public static function updateUser($userId, $userLogin, $userName, $userLastName)
+	{
+		global $USER;
+		$resultMessage = $USER->Update($userId, [
+			'LOGIN' => $userLogin,
+			'NAME' => $userName,
+			'LAST_NAME' => $userLastName,
+		]);
+		if ($resultMessage['TYPE'] === 'OK') {
+			$userId = $USER->GetID();
+			$USER->Update($userId, [
+				"WORK_COMPANY" => 'HouseCeeper'
+			]);
+			return $USER->GetID();
+		}
+		return $resultMessage['MESSAGE'];
+	}
+
 	public static function changeInfo($userName, $userLastName, $newLogin, $userLogin)
 	{
 		return BUserTable::query()

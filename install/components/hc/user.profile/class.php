@@ -4,6 +4,7 @@ class UserProfileComponent extends CBitrixComponent
 {
 	public function executeComponent()
 	{
+		$this->fetchError();
 		$this->fetchUser();
 		$this->fetchHouses();
 		$this->arResult['FILES'] = $this->prepareFileInput();
@@ -46,5 +47,9 @@ class UserProfileComponent extends CBitrixComponent
 				"maxCount" => 1,
 				"maxSize" => 10*1024*1024
 			]);
+	}
+	public function fetchError()
+	{
+		$this->arResult['ERRORS'] = $this->arParams['errors'];
 	}
 }

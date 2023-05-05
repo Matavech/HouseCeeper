@@ -8,6 +8,11 @@
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
 
 <div class="container">
+	<?php if(isset($arResult['ERRORS'])): ?>
+		<div class="notification is-warning">
+			<?php ShowMessage($arResult['ERRORS']) ?>
+		</div>
+	<?php endif; ?>
 	<div class="content mt-5">
 		<div class="columns">
 			<div class="column mr-5">
