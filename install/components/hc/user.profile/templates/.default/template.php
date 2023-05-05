@@ -2,17 +2,14 @@
 /**
  * @var array $arResult
  * @var array $arParams
+ * @var CMain $APPLICATION
  */
 
 ?>
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
 
 <div class="container">
-	<?php if(isset($arResult['ERRORS'])): ?>
-		<div class="notification is-warning">
-			<?php ShowMessage($arResult['ERRORS']) ?>
-		</div>
-	<?php endif; ?>
+	<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
 	<div class="content mt-5">
 		<div class="columns">
 			<div class="column mr-5">
@@ -62,11 +59,11 @@
 				<h1 class="has-text-primary-dark">Изменение пароля</h1>
 				<form action="/profile/changePassword" method="post">
 					<h2>Старый пароль</h2>
-					<input type="password" class="input" name="oldPassword" required>
+					<input type="password" class="input" name="oldPassword" >
 					<h2>Новый пароль</h2>
-					<input type="password" class="input" name="newPassword" required>
+					<input type="password" class="input" name="newPassword" >
 					<h2>Повторите пароль</h2>
-					<input type="password" class="input" name="confirmPassword" required>
+					<input type="password" class="input" name="confirmPassword" >
 					<button class="button is-success mt-3" type="submit">Change password</button>
 				</form>
 

@@ -3,6 +3,7 @@
 /**
  * @var array $arResult
  * @var array $arParams
+ * @var CMain $APPLICATION
  */
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -16,15 +17,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<h2 class="subtitle"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_GETINTO_FOR_SUCCESS_YOU_NEED_PROFILE') ; ?></h2>
 		</section>
 
-		<?php if(isset($arResult['ERRORS'])) : ?>
-			<div class="errors mt-3">
-				<?php foreach($arResult['ERRORS'] as $error): ?>
-					<div class="notification is-warning">
-						<?= $error?>
-					</div>
-				<?php endforeach; ?>
-			</div>
-		<?php endif; ?>
+		<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
+
 		<form action="/get-into" method="post">
 
 

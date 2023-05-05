@@ -13,24 +13,34 @@ class Auth extends Engine\Controller
 		$request = Context::getCurrent()->getRequest();
 		$login = trim($request->getPost('login'));
 		$password = trim($request->getPost('password'));
+		$errors = [];
+
+		if (empty($login)){
+			$errors[] = 'Введите логин';
+		}
+		if (empty($password)){
+			$errors[] = 'Введите пароль';
+		}
 
 		global $USER;
-
 		if (!is_object($USER))
 			$USER = new \CUser();
 
-		$errorMessage = $USER->Login($login, $password, "Y");
+		if(!$errors) {
+			$errorMessage = $USER->Login($login, $password, "Y");
 
-		if (is_bool($errorMessage) && $errorMessage){
-			LocalRedirect('/');
-		} else {
-//			$APPLICATION = new \CMain();
-//			$APPLICATION->IncludeComponent('hc:sign.in', '', [
-//				'error' => $errorMessage,
-//			]);
-			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errorMessage);
-			LocalRedirect('/sign-in');
+			if (is_bool($errorMessage) && $errorMessage) {
+				LocalRedirect('/');
+			} else {
+				$errors[] = $errorMessage['MESSAGE'];
+			}
 		}
+		//$APPLICATION = new \CMain();
+		//$APPLICATION->IncludeComponent('hc:sign.in', '', [
+		//	'error' => $errorMessage,
+		//]);
+		\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+		LocalRedirect('/sign-in');
 	}
 
 	public static function signupUser() {

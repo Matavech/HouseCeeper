@@ -3,6 +3,7 @@
 /**
  * @var array $arResult
  * @var array $arParams
+ * @var CMain $APPLICATION
  */
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -11,15 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
 <div class="container">
 	<div class="content">
-		<?php if(isset($arResult['ERRORS'])) : ?>
-			<div class="errors mt-3">
-				<?php foreach($arResult['ERRORS'] as $error): ?>
-					<div class="notification is-warning">
-						<?= $error?>
-					</div>
-				<?php endforeach; ?>
-			</div>
-		<?php endif; ?>
+		<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
 
 		<form method="post" action="/house/<?= $arParams['housePath'] ?>/post/<?=$arResult['POST']['ID']?>/edit">
 			<?php bitrix_sessid_post(); ?>
