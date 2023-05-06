@@ -63,68 +63,54 @@ class House extends Engine\Controller
 
 	public function addNewHouseAction($houseName, $uniquePath, $numberOfApart, $address, $info, $headmanName, $headmanLastname, $headmanEmail, $headmanApartmentNumber, $headmanLogin, $headmanPassword)
 	{
-		$request = Context::getCurrent()->getRequest();
-		$houseName = 				trim($request->getPost('house-name'));
-		$uniquePath = 				trim($request->getPost('unique-path'));
-		$numberOfApart = 			trim($request->getPost('number-of-apartments'));
-		$address = 					trim($request->getPost('address'));
-		$info = 					trim($request->getPost('info'));
-		$headmanName = 				trim($request->getPost('headman-name'));
-		$headmanLastname = 			trim($request->getPost('headman-lastname'));
-		$headmanEmail =			 	trim($request->getPost('headman-email'));
-		$headmanApartmentNumber = 	trim($request->getPost('headman-apartment-number'));
-		$headmanLogin = 			trim($request->getPost('headman-login'));
-		$headmanPassword = 			trim($request->getPost('headman-password'));
-
-		if($headmanApartmentNumber > $numberOfApart){
+		$errors = [];
+		if (!$headmanApartmentNumber) {
+			$errors[] = 'Введите номер квартиры председателя';
+		} elseif ($headmanApartmentNumber > $numberOfApart) {
 			$errors[] = 'Номер квартиры председателя не должен превышать общее кол-во квартир';
 		}
 
-		try {
-			\Bitrix\Main\Application::getConnection()->startTransaction();
+		if (!$errors) {
+			try {
+				\Bitrix\Main\Application::getConnection()->startTransaction();
 
-			$result = Repository\House::addHouse($houseName, $address, $numberOfApart, $uniquePath, $info);
-
-			if(is_numeric($result)){
-				$houseId = $result;
-				Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
-
-				$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
+				$result = Repository\House::addHouse($houseName, $address, $numberOfApart, $uniquePath, $info);
 
 				if(is_numeric($result)){
-					$headmanId = $result;
-					Repository\User::setRole($headmanId, $houseId, 2);
-					$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
+					$houseId = $result;
+					Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
 
-					if($apartmentId){
-						Repository\Apartment::addUser($apartmentId, $headmanId);
+					$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
+					if(is_numeric($result)){
+						$headmanId = $result;
+						Repository\User::setRole($headmanId, $houseId, 2);
+						$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
 
-						\Bitrix\Main\Application::getConnection()->commitTransaction();
-						LocalRedirect('/');
+						if($apartmentId){
+							Repository\Apartment::addUser($apartmentId, $headmanId);
+
+							\Bitrix\Main\Application::getConnection()->commitTransaction();
+							LocalRedirect('/');
+						}
+					} else {
+						$errors[] = $result;
+					}
+				} else {
+					foreach ($result as $error)
+					{
+						$errors[] = $error;
 					}
 				}
-			}
-			foreach ($result as $error)
-			{
-				if ($error)
-				{
-					$errors[] = $error;
-				}
-			}
 
-			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
-		} catch (Exception $e) {
-			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
-			$errors[] =  $e->getMessage();
+				\Bitrix\Main\Application::getConnection()->rollbackTransaction();
+			} catch (Exception $e) {
+				\Bitrix\Main\Application::getConnection()->rollbackTransaction();
+				$errors[] =  $e->getMessage();
+			}
 		}
-		if ($errors) {
-//			$APPLICATION = new \CMain();
-//			$APPLICATION->IncludeComponent('hc:house.add', '', [
-//				'errors' => $errors,
-//			]);
-			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
-			LocalRedirect('/add-house');
-		}
+
+		\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
+		LocalRedirect('/add-house');
 	}
 
 	public function editHouse(){
