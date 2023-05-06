@@ -22,7 +22,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<?php } ?>
 				</th>
 				<td style="width: 220px">
-					<?= $user['FULL_NAME'] ?>
+					<?= htmlspecialcharsbx($user['FULL_NAME']) ?>
 				</td>
 				<?php if ($USER->IsAdmin()) { ?>
 					<td style="width: 250px">

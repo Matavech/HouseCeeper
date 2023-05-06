@@ -142,5 +142,11 @@ class House
 
 	}
 
-
+	public static function getNumberOfApartment($houseId)
+	{
+		return HouseTable::query()
+			->setSelect(['NUMBER_OF_APARTMENT'])
+			->setFilter(['ID'=>$houseId])
+			->fetch()['NUMBER_OF_APARTMENT'];
+	}
 }

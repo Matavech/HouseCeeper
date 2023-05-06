@@ -136,20 +136,48 @@ class House extends Engine\Controller
 		$address = 					trim($request->getPost('address'));
 		$info = 					trim($request->getPost('info'));
 
-		if (Repository\Apartment::getMaxApartmentNumber($houseId) < $numberOfApart){
-			echo 'Новое количество квартир не должно быть меньшее чем максимальный номер существующей квартиры';
-			return;
+		$errors = [];
+		try {
+			\Bitrix\Main\Application::getConnection()->startTransaction();
+
+			if (Repository\Apartment::getMaxApartmentNumber($houseId) > (int)$numberOfApart){
+				$errors[] = 'Новое количество квартир не должно быть меньше, чем максимальный номер заселенной квартиры';
+			} else {
+				$oldApartmentsNumber = \Hc\Houseceeper\Repository\House::getNumberOfApartment($houseId);
+				if ($oldApartmentsNumber > $numberOfApart){
+					$result = Repository\Apartment::deleteApatments($houseId, $numberOfApart, $oldApartmentsNumber);
+				} elseif ($oldApartmentsNumber < $numberOfApart) {
+					$result = Repository\Apartment::addApartments($houseId, $oldApartmentsNumber + 1, $numberOfApart);
+				} else {
+					$result = true;
+				}
+
+				if ($result || $result->isSuccess()){
+					$result = Repository\House::updateHouse($houseId, $houseName, $address, $numberOfApart, $uniquePath, $info);
+					if ($result->isSuccess())
+					{
+						\Bitrix\Main\Application::getConnection()->commitTransaction();
+					} else {
+						foreach ($result->getErrors() as $error) {
+							$errors[] = $error->getMessage();
+						}
+					}
+				} else {
+					foreach ($result->getErrors() as $error) {
+						$errors[] = $error->getMessage();
+					}
+				}
+			}
+
+			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
+		} catch (Exception $e) {
+			\Bitrix\Main\Application::getConnection()->rollbackTransaction();
+			$errors[] =  $e->getMessage();
 		}
 
-		$result = Repository\House::updateHouse($houseId, $houseName, $address, $numberOfApart, $uniquePath, $info);
-
-		if ($result->isSuccess())
-		{
-			LocalRedirect('/');
+		if ($errors) {
+			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 		}
-		$errors = $result->getErrors();
-		foreach ($errors as $error) {
-			echo $error->getMessage() . "</br>";
-		}
+		LocalRedirect('about');
 	}
 }

@@ -14,7 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <script src="https://kit.fontawesome.com/cfd6832a09.js" crossorigin="anonymous"></script>
 <div class="container">
 	<div class="content">
-
+		<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
 		<form method="post" action="edit-house">
 			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?>>
 				<?php bitrix_sessid_post(); ?>

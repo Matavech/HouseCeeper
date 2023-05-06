@@ -112,8 +112,9 @@ class Auth extends Engine\Controller
 				$USER = new \CUser();
 			}
 			$errorMessage = $USER->Login($login, $password, "Y");
+			var_dump($errorMessage);
 
-			if ($errorMessage)
+			if (!is_bool($errorMessage) || !$errorMessage)
 			{
 				foreach (explode('<br>', $errorMessage['MESSAGE']) as $error)
 				{

@@ -141,11 +141,23 @@ class Apartment
 
 	public static function getMaxApartmentNumber($houseId)
 	{
-		$apartment = ApartmentTable::query()
+		$allApartmens = ApartmentTable::query()
 			->setSelect(['*'])
 			->setFilter(['HOUSE_ID' => $houseId])
-			->setOrder(['NUMBER' => 'DESC'])->fetchObject();
-		return $apartment->getNumber();
+			->fetchCollection();
+
+//		$apartment = ApartmentUserTable::query()
+//			->setSelect(['*', 'APARTMENT.NUMBER'])
+//			->setFilter(['@APARTMENT_ID' => $allApartmens->getIdList()])
+//			->setOrder(['APARTMENT.NUMBER' => 'DESC'])
+//			->fetchObject();
+		$apartment = ApartmentUserTable::getList([
+			'select' => ['*', 'APARTMENT.NUMBER'],
+			'filter' => ['@APARTMENT_ID' => $allApartmens->getIdList()],
+			'order' => ['APARTMENT.NUMBER' => 'DESC']
+		])->fetch();
+
+		return $apartment['HC_HOUSECEEPER_MODEL_APARTMENT_USER_APARTMENT_NUMBER'];
 	}
 
 	public static function getHouseIdByApartmentId($apartmentId)
@@ -155,5 +167,22 @@ class Apartment
 							 ->setFilter(['ID' => $apartmentId])
 							 ->fetch()['HOUSE_ID'];
 
+	}
+
+	public static function deleteApatments($houseId, $newApartmentsNumber, $oldApartmentsNumber)
+	{
+		$apartments = ApartmentTable::getList([
+			'select' => ['*'],
+			'filter' => [
+				'HOUSE_ID' => $houseId,
+				'><NUMBER' => [$newApartmentsNumber + 1, $oldApartmentsNumber]
+			]
+		])->fetchCollection();
+
+		foreach ($apartments as $apartment)
+		{
+			$result = ApartmentTable::delete($apartment->getId());
+		}
+		return $result;
 	}
 }
