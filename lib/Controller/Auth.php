@@ -96,12 +96,8 @@ class Auth extends Engine\Controller
 
 	}
 
-	public static function addUserToHouse()
+	public static function addUserToHouseAction($login, $password, $key)
 	{
-		$request = Context::getCurrent()->getRequest();
-		$login = 	trim($request->getPost('login'));
-		$password = trim($request->getPost('password'));
-		$key = 		trim($request->getPost('key'));
 
 		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
 		if ($apartment)

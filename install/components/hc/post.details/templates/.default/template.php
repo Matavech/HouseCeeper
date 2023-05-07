@@ -61,9 +61,21 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				</div>
 				<?php if (\Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['POST']['HOUSE_ID']) || $USER->IsAdmin()) :?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'unconfirmed') : ?>
-						<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_CONFIRM_PUBLICATION')?>?')" class="button is-success" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/confirm"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_CONFIRM_PUBLICATION')?></a>
+						<form method="post" action="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/confirm">
+							<?= bitrix_sessid_post(); ?>
+							<button class="button is-success"
+									onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_CONFIRM_PUBLICATION')?>?')">
+								<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_CONFIRM_PUBLICATION')?>
+							</button>
+						</form>
 					<?php endif; ?>
-					<a onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_DELETE_PUBLICATION')?>')" class="button is-danger" href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_DELETE_PUBLICATION')?></a>
+				<form method="post" action="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/delete">
+					<?= bitrix_sessid_post(); ?>
+					<button class="button is-danger"
+							onclick="return confirm('<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ARE_YOU_SURE_YOU_DELETE_PUBLICATION')?>?')">
+						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_DELETE_PUBLICATION')?>
+					</button>
+				</form>
 					<a href="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>/edit" class="button is-success">Редактировать</a>
 				<?php endif; ?>
 				<?php if ($arResult['POST']['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === 'discussion') :?>
@@ -73,7 +85,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 					<div class="media-content">
 						<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
 						<form method="post" action="/house/<?=$arParams['housePath']?>/post/<?=$arResult['POST']['ID']?>">
-							<?php bitrix_sessid_post(); ?>
+							<?= bitrix_sessid_post(); ?>
 							<div class="field">
 								<p class="control">
 									<textarea class="textarea" id="inputComment" name="content" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTDETAILS_ADD_COMMENT')?>..."></textarea>

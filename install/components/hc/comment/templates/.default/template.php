@@ -34,6 +34,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 	<?php if ($USER->GetID()===$arParams['COMMENT']['USER_ID'] || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID']) || $USER->IsAdmin()) : ?>
 	<form action="/house/<?=$_REQUEST['housePath']?>/post/<?=$_REQUEST['id']?>/deleteComment" method="post">
+		<?= bitrix_sessid_post(); ?>
 		<input type="hidden" name="commentId" value="<?=$arParams['COMMENT']['ID']?>">
 		<input type="hidden" name="houseId" value="<?=$arResult['HOUSE']['ID']?>">
 		<button  onclick="return confirm('Вы уверены, что хотите удалить этот комментарий?')" type="submit" class="button is-small">

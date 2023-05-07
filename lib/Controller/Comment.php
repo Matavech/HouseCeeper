@@ -35,21 +35,19 @@ class Comment extends Controller
 
 	}
 
-	public function addComment(string $housePath,  int $postId)
+	public function addCommentAction(string $housePath, int $postId, $content, $parentId = 0)
 	{
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$post = \Hc\Houseceeper\Repository\Post::getDetails($postId);
 		if ($post['HC_HOUSECEEPER_MODEL_POST_TYPE_NAME'] === PostType::HC_HOUSECEEPER_POSTTYPE_ANNOUNCEMENT)
 		{
 			$errors[] =  'Каким-то образом вы смогли попытаться добавить комментарий к объявлению. Мы это предусмотрели, так нельзя';
 		} else {
-			$request = Context::getCurrent()->getRequest();
 			global $USER;
-
-			$content = trim($request->getPost('content'));
-
-			$parentId = (int)$request->getPost('parentId');
-			$parentId = $parentId === 0 ? NULL : $parentId;
 			$userId = $USER->GetID();
+			$content = trim($content);
+			$parentId = (int)$parentId;
+
 			$result = \Hc\Houseceeper\Repository\Comment::addItem($postId, $userId, $content, $parentId);
 
 			if ($result->isSuccess())

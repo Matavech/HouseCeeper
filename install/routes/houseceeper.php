@@ -11,7 +11,6 @@ return function (RoutingConfigurator $routes)
 		if(!$USER->IsAuthorized()) {
 			LocalRedirect('/sign-in');
 		}
-
 		LocalRedirect('/house-list');
 	});
 
@@ -25,9 +24,7 @@ return function (RoutingConfigurator $routes)
 		Hc\Houseceeper\Controller\Auth::signupUser();
 	});
 	$routes->get('/get-into', new PublicPageController('/local/modules/hc.houseceeper/views/get-into.php'));
-	$routes->post('/get-into', function() {
-		\Hc\Houseceeper\Controller\Auth::addUserToHouse();
-	});
+	$routes->post('/get-into', [\Hc\Houseceeper\Controller\Auth::class, 'addUserToHouse']);
 
 	$routes->get('/profile', new PublicPageController('/local/modules/hc.houseceeper/views/user-profile.php'));
 	$routes->post('/profile/changePassword', [\Hc\Houseceeper\Controller\Auth::class, 'changePassword']);
@@ -46,43 +43,13 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/create-reg-link', function () {
 		echo \Hc\Houseceeper\Repository\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
 	});
-	$routes->post('/house/{housePath}/edit-house', function () {
-		global $USER;
-		if(!$USER->IsAdmin())
-		{
-			LocalRedirect('/house/{housePath}/about');
-		}
-		$house = new \Hc\Houseceeper\Controller\House();
-		$house->editHouse();
-	});
-	$routes->post('/house/{housePath}/add-headman', function () {
-		global $USER;
-		if(!$USER->IsAdmin())
-		{
-			LocalRedirect('/house/{housePath}/about');
-		}
-		$user = new \Hc\Houseceeper\Controller\User();
-		$user->addHeadman();
-	});
-	$routes->post('/house/{housePath}/delete-headman', function () {
-		global $USER;
-		if(!$USER->IsAdmin())
-		{
-			LocalRedirect('/house/{housePath}/about');
-		}
-		$user = new \Hc\Houseceeper\Controller\User();
-		$user->deleteHeadman();
-	});
-	$routes->post('/house/{housePath}/remove-user', function () {
-		$user = new \Hc\Houseceeper\Controller\User();
-		$user->removeUserFromApartmentAdmin();
-	});
+	$routes->post('/house/{housePath}/edit-house', [\Hc\Houseceeper\Controller\House::class, 'editHouse']);
+	$routes->post('/house/{housePath}/add-headman', [\Hc\Houseceeper\Controller\User::class, 'addHeadman']);
+	$routes->post('/house/{housePath}/delete-headman', [\Hc\Houseceeper\Controller\User::class, 'deleteHeadman']);
+	$routes->post('/house/{housePath}/remove-user', [\Hc\Houseceeper\Controller\User::class, 'removeUserFromApartmentAdmin']);
 
 	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));
-	$routes->post('/house/{housePath}/add-post', function() {
-		$post = new \Hc\Houseceeper\Controller\Post();
-		$post->addNewPostForHouse($_REQUEST['housePath']);
-	});
+	$routes->post('/house/{housePath}/add-post', [\Hc\Houseceeper\Controller\Post::class, 'addNewPostForHouse']);
 
 	$routes->get('/house/{housePath}', new PublicPageController('/local/modules/hc.houseceeper/views/post-list.php'));
 	$routes->get('/house/{housePath}/discussions', new PublicPageController('/local/modules/hc.houseceeper/views/discussion-list.php'));
@@ -91,22 +58,10 @@ return function (RoutingConfigurator $routes)
 	$routes->get('/sign-in', new PublicPageController('/local/modules/hc.houseceeper/views/sign-in.php'));
 
 	$routes->get('/house/{housePath}/post/{id}', new PublicPageController('/local/modules/hc.houseceeper/views/post-details.php'))->where('id', '[0-9]+');
-	$routes->post('/house/{housePath}/post/{id}', function() {
-		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
-		$comment = new \Hc\Houseceeper\Controller\Comment();
-		$comment->addComment($_REQUEST['housePath'],$_REQUEST['id']);
-	});
-	$routes->get('/house/{housePath}/post/{id}/delete', function() {
-		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
-		$post = new \Hc\Houseceeper\Controller\Post();
-		$post->deletePost($_REQUEST['housePath'], $_REQUEST['id']);
-	});
-	$routes->get('/house/{housePath}/post/{id}/confirm', function() {
-		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
-		$post = new \Hc\Houseceeper\Controller\Post();
-		$post->confirmPost($_REQUEST['housePath'], $_REQUEST['id']);
-	});
-	$routes->post('/house/{housePath}/post/{id}/deleteComment', function() {
+	$routes->post('/house/{housePath}/post/{postId}', [\Hc\Houseceeper\Controller\Comment::class, 'addComment']);
+	$routes->post('/house/{housePath}/post/{postId}/delete', [\Hc\Houseceeper\Controller\Post::class, 'deletePost']);
+	$routes->post('/house/{housePath}/post/{postId}/confirm', [\Hc\Houseceeper\Controller\Post::class, 'confirmPost']);
+	$routes->post('/house/{housePath}/post/{postId}/deleteComment', function() {
 		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		$comment = new \Hc\Houseceeper\Controller\Comment();
 		$comment->deleteComment();

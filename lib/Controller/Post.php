@@ -32,22 +32,20 @@ class Post extends Engine\Controller
 		];
 	}
 
-	public function addNewPostForHouse(string $housePath)
+	public function addNewPostForHouseAction(string $housePath, $postCaption, $postBody, $files = [], $postType = PostType::HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED)
 	{
 		global $USER;
 		$houseId = Repository\House::getIdByPath($housePath);
-		$request = Context::getCurrent()->getRequest();
 		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID(), $houseId))
 		{
 			$postType = PostType::HC_HOUSECEEPER_POSTTYPE_UNCONFIRMED;
 		}
 		else
 		{
-			$postType = trim($request->getPost('post-type'));
+			$postType = trim($postType);
 		}
-		$postCaption = trim($request->getPost('post-caption'));
-		$postBody = trim($request->getPost('post-body'));
-		$files = $request->getPost('files');
+		$postCaption = trim($postCaption);
+		$postBody = trim($postBody);
 
 		global $USER;
 		$userId = $USER->GetID();
@@ -105,8 +103,9 @@ class Post extends Engine\Controller
 		return $post;
 	}
 
-	public function deletePost(string $housePath, int $id)
+	public function deletePostAction(string $housePath, int $postId)
 	{
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		global $USER;
 		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID(), Repository\House::getIdByPath($housePath)))
 		{
@@ -114,22 +113,23 @@ class Post extends Engine\Controller
 			return;
 		}
 		$comment = new Comment();
-		$comment->deletePostComments($id);
-		Repository\File::deleteAllPostFiles($id);
-		PostTable::delete($id);
+		$comment->deletePostComments($postId);
+		Repository\File::deleteAllPostFiles($postId);
+		PostTable::delete($postId);
 		LocalRedirect('/house/' . $housePath);
 	}
 
-	public function confirmPost(string $housePath, int $id)
+	public function confirmPostAction(string $housePath, int $postId)
 	{
+		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
 		global $USER;
 		if (!$USER->IsAdmin() && !Repository\User::isHeadman($USER->GetID(), Repository\House::getIdByPath($housePath)))
 		{
 			echo ('Вам нельзя такое');
 			return;
 		}
-		Repository\Post::acceptPost($id);
-		LocalRedirect('/house/' . $housePath . '/post/' . $id);
+		Repository\Post::acceptPost($postId);
+		LocalRedirect('/house/' . $housePath . '/post/' . $postId);
 	}
 
 	public function update($postId, $postTitle, $postContent, $postType, $filesToAdd, $fileIdsToDelete)

@@ -14,7 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<div class="content">
 		<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
 		<form method="post" action="/house/<?= $arParams['housePath'] ?>/add-post" enctype="multipart/form-data">
-			<?php bitrix_sessid_post(); ?>
+			<?= bitrix_sessid_post(); ?>
 
 			<h1 class="title mt-6">
 				<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_NEW_POST')?>
@@ -22,24 +22,24 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<div class="field">
 				<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_POST_TITLE')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<input class="input" type="text" placeholder="Заголовок" name="post-caption">
+					<input class="input" type="text" placeholder="Заголовок" name="postCaption">
 				</div>
 			</div>
 			<div class="field">
 				<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_POST_CONTENT')?></label>
 				<div class="control has-icons-left has-icons-right">
-					<textarea class="input" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_TYPE_POST_CONTENT')?>" name="post-body"></textarea>
+					<textarea class="input" placeholder="<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_TYPE_POST_CONTENT')?>" name="postBody"></textarea>
 				</div>
 			</div>
 			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) :?>
 			<div class="control">
 				<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_CHOSE_TYPE_OF_POST')?></label>
 				<label class="radio">
-					<input type="radio" name="post-type" value="announcement">
+					<input type="radio" name="postType" value="announcement">
 					<?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_ANNOUNCEMENT') ?>
 				</label>
 				<label class="radio">
-					<input type="radio" name="post-type" value="discussion">
+					<input type="radio" name="postType" value="discussion">
 					<?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_POSTADD_DISCUSSION') ?>
 				</label>
 			</div>

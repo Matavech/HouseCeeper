@@ -13,36 +13,35 @@ class User extends Controller
 		return \Hc\Houseceeper\Repository\User::getName($id);
 	}
 
-	public function deleteHeadman()
+	public function deleteHeadmanAction($userId, $houseId)
 	{
-		$request = Context::getCurrent()->getRequest();
-		$userId = 	trim($request->getPost('headman-id'));
-		$houseId = 	trim($request->getPost('house-id'));
+		global $USER;
+		if(!$USER->IsAdmin())
+		{
+			LocalRedirect('/house/{housePath}/about');
+		}
 
 		\Hc\Houseceeper\Repository\User::deleteHeadman($userId, $houseId);
 		LocalRedirect('about');
 	}
 
-	public function addHeadman()
+	public function addHeadmanAction($userId, $houseId)
 	{
-		$request = Context::getCurrent()->getRequest();
-		$userId = 	trim($request->getPost('user-id'));
-		$houseId = 	trim($request->getPost('house-id'));
+		global $USER;
+		if(!$USER->IsAdmin())
+		{
+			LocalRedirect('/house/{housePath}/about');
+		}
 
 		\Hc\Houseceeper\Repository\User::addHeadman($userId, $houseId);
 		LocalRedirect('about');
 	}
 
-	public function removeUserFromApartmentAdmin()
+	public function removeUserFromApartmentAdminAction($userId, $apartmentId, $houseId)
 	{
 		global $USER;
 		if($USER->IsAdmin())
 		{
-			$request = Context::getCurrent()->getRequest();
-			$userId = 	trim($request->getPost('user-id'));
-			$apartmentId = trim($request->getPost('apartment-id'));
-			$houseId = trim($request->getPost('house-id'));
-
 			\Hc\Houseceeper\Repository\User::removeUserFromApartment($userId, $apartmentId);
 
 			if (!\Hc\Houseceeper\Repository\User::hasApartments($userId, $houseId))

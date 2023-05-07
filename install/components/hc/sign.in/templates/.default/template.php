@@ -18,7 +18,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		</section>
 
 		<form action="/login" method="post">
-
+			<?= bitrix_sessid_post(); ?>
 
 			<div class="field mt-6">
 					<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>

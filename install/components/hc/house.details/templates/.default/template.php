@@ -17,17 +17,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
 		<form method="post" action="edit-house">
 			<fieldset <?= $USER->IsAdmin() ? '' : 'disabled' ?>>
-				<?php bitrix_sessid_post(); ?>
+				<?= bitrix_sessid_post(); ?>
 
 				<div class="field mt-6">
 					<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_TITLE') ?></label>
 					<div class="control">
-						<input class="title input" type="text" name="house-name" style="cursor: text"
+						<input class="title input" type="text" name="houseName" style="cursor: text"
 							   value="<?= htmlspecialcharsbx($arResult['HOUSE']['NAME']) ?>">
 					</div>
 				</div>
 
-				<input type="hidden" name="house-id" value="<?= $arResult['HOUSE']['ID'] ?>">
+				<input type="hidden" name="houseId" value="<?= $arResult['HOUSE']['ID'] ?>">
 				<div class="field">
 					<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_TECHNIC_INFO') ?></label>
 					<div class="control">
@@ -38,15 +38,15 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<div class="field">
 					<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_UNIQ_ID') ?></label>
 					<div class="control">
-						<input class="input" type="text" value="<?= $arResult['HOUSE']['UNIQUE_PATH'] ?> "
+						<input class="input" type="text" value="<?= $arResult['HOUSE']['UNIQUE_PATH'] ?>"
 							   style="cursor: text"
-							   name="unique-path">
+							   name="uniquePath">
 					</div>
 				</div>
 				<div class="field">
 					<label class="label"><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_NUMBER_OF_APARTMENT') ?></label>
 					<div class="control">
-						<input class="input" type="number" name="number-of-apartments" min="1"
+						<input class="input" type="number" name="numberOfApart" min="1"
 							   style="cursor: text"
 							   value="<?= $arResult['HOUSE']['NUMBER_OF_APARTMENT'] ?>">
 					</div>

@@ -63,6 +63,18 @@ class House extends Engine\Controller
 
 	public function addNewHouseAction($houseName, $uniquePath, $numberOfApart, $address, $info, $headmanName, $headmanLastname, $headmanEmail, $headmanApartmentNumber, $headmanLogin, $headmanPassword)
 	{
+		$houseName = trim($houseName);
+		$uniquePath = trim($uniquePath);
+		$numberOfApart = trim($numberOfApart);
+		$address = 	trim($address);
+		$info = trim($info);
+		$headmanName = trim($headmanName);
+		$headmanLastname = trim($headmanLastname);
+		$headmanEmail = trim($headmanEmail);
+		$headmanApartmentNumber = trim($headmanApartmentNumber);
+		$headmanLogin = trim($headmanLogin);
+		$headmanPassword = trim($headmanPassword);
+
 		$errors = [];
 		if (!$headmanApartmentNumber) {
 			$errors[] = 'Введите номер квартиры председателя';
@@ -113,14 +125,18 @@ class House extends Engine\Controller
 		LocalRedirect('/add-house');
 	}
 
-	public function editHouse(){
-		$request = Context::getCurrent()->getRequest();
-		$houseId = 					trim($request->getPost('house-id'));
-		$houseName = 				trim($request->getPost('house-name'));
-		$uniquePath = 				trim($request->getPost('unique-path'));
-		$numberOfApart = 			trim($request->getPost('number-of-apartments'));
-		$address = 					trim($request->getPost('address'));
-		$info = 					trim($request->getPost('info'));
+	public function editHouseAction($houseId, $houseName, $uniquePath, $numberOfApart, $address, $info){
+		global $USER;
+		if(!$USER->IsAdmin())
+		{
+			LocalRedirect('/house/{housePath}/about');
+		}
+		$houseId = trim($houseId);
+		$houseName = trim($houseName);
+		$uniquePath = trim($uniquePath);
+		$numberOfApart = trim($numberOfApart);
+		$address = 	trim($address);
+		$info = trim($info);
 
 		$errors = [];
 		try {
