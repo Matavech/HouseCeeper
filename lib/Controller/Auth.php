@@ -22,6 +22,11 @@ class Auth extends Engine\Controller
 					Engine\ActionFilter\Authentication::class,
 				],
 			],
+			'addUserToHouse' => [
+				'-prefilters' => [
+					Engine\ActionFilter\Authentication::class,
+				],
+			],
 		];
 	}
 
