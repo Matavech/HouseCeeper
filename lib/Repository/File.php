@@ -101,7 +101,7 @@ class File
 
 	public static function saveAvatar($userId, $file)
 	{
-		$fileId = \CFile::SaveFile(
+		return \CFile::SaveFile(
 			$file,
 			"user-avatars/{$userId}",
 			'',
@@ -109,7 +109,6 @@ class File
 			'',
 			false
 		);
-		return $fileId;
 	}
 
 	public static function deleteFile($id)
