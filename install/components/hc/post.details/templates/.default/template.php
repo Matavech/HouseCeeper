@@ -103,7 +103,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 				</article>
 				<?php $comment = new \Hc\Houseceeper\Controller\Comment();
-				$comment->getComments($arResult['POST']['ID']);
+				$comment->printComments($arResult['POST']['ID']);
 				endif; ?>
 			</div>
 		</section>
