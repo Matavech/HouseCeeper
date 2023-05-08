@@ -45,13 +45,15 @@
 					<figure class="media is-left">
 						<?= CFile::ShowImage($arResult['USER']['AVATAR'], 300, 300, 'border=2px'); ?>
 					</figure>
-				<button class="button is-success mt-3 js-modal-trigger" data-target="modal-js-example">
+				<div class="buttons">
+				<button class="button is-success js-modal-trigger" data-target="modal-js-example">
 					<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_PROFILE_CHANGE_AVATAR')?>
 				</button>
 					<form action="/profile/deleteAvatar" method="get">
 						<?= bitrix_sessid_post() ?>
 						<button type="submit" class="button is-danger"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_PROFILE_DELETE_AVATAR')?></button>
 					</form>
+				</div>
 				<?php endif; ?>
 
 			</div>

@@ -13,7 +13,8 @@ class CommentComponent extends CBitrixComponent {
 		$this->arParams['COMMENT']['DATETIME_CREATED'] = FormatDate([ 's' => 'sago',
 																	  'i' => 'iago',
 																	  'H' => 'Hago',
-																	  '' => 'dago',], $this->arParams['COMMENT']['DATETIME_CREATED']);
+																	  '' => 'dago',],
+																	$this->arParams['COMMENT']['DATETIME_CREATED']);
 		$apartments = \Hc\Houseceeper\Repository\House::getUserApartmentNumber($USER->GetID(), $_REQUEST['housePath']);
 
 		$user = CUser::GetByID($USER->GetID())->GetNext();
