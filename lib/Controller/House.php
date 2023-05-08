@@ -84,33 +84,35 @@ class House extends Engine\Controller
 
 				if(is_numeric($result)){
 					$houseId = $result;
+					Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
+					$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
+
+					if(is_numeric($result)){
+						$headmanId = $result;
+						Repository\User::setRole($headmanId, $houseId, 2);
+					} else {
+						$errors[] = $result;
+					}
+
 					if (!$headmanApartmentNumber) {
 						$errors[] = 'Введите номер квартиры председателя';
 					} elseif ($headmanApartmentNumber > $numberOfApart) {
 						$errors[] = 'Номер квартиры председателя не должен превышать общее кол-во квартир';
-					} else {
-						Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
-						$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
-						if(is_numeric($result)){
-							$headmanId = $result;
-							Repository\User::setRole($headmanId, $houseId, 2);
-							$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
+					} else if(is_numeric($result)){
+						$headmanId = $result;
+						$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
 
-							if($apartmentId){
-								Repository\Apartment::addUser($apartmentId, $headmanId);
+						if($apartmentId){
+							Repository\Apartment::addUser($apartmentId, $headmanId);
 
-								\Bitrix\Main\Application::getConnection()->commitTransaction();
-								LocalRedirect('/');
-							}
-						} else {
-							$errors[] = $result;
+							\Bitrix\Main\Application::getConnection()->commitTransaction();
+							LocalRedirect('/');
 						}
 					}
-				} else {
-					foreach ($result as $error)
-					{
-						$errors[] = $error;
-					}
+				}
+				foreach ($result as $error)
+				{
+					$errors[] = $error;
 				}
 
 				\Bitrix\Main\Application::getConnection()->rollbackTransaction();
