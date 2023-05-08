@@ -25,7 +25,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<?php $APPLICATION->IncludeComponent('hc:errors.message', '', []); ?>
 
 	<form action="/reg" method="post">
-
+		<?= bitrix_sessid_post(); ?>
 		<div class="field mt-6">
 			<label class="label"><?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_SIGNUP_NAME')?></label>
 			<div class="control">

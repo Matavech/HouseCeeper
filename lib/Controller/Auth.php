@@ -9,10 +9,23 @@ use Hc\Houseceeper\Model\UserRoleTable;
 
 class Auth extends Engine\Controller
 {
-	public static function signin() {
-		$request = Context::getCurrent()->getRequest();
-		$login = trim($request->getPost('login'));
-		$password = trim($request->getPost('password'));
+	public function configureActions(): array
+	{
+		return [
+			'signin' => [
+				'-prefilters' => [
+					Engine\ActionFilter\Authentication::class,
+				],
+			],
+			'signupUser' => [
+				'-prefilters' => [
+					Engine\ActionFilter\Authentication::class,
+				],
+			],
+		];
+	}
+
+	public function signinAction($login, $password) {
 		$errors = [];
 
 		if (empty($login)){
@@ -43,23 +56,16 @@ class Auth extends Engine\Controller
 		LocalRedirect('/sign-in');
 	}
 
-	public static function signupUser() {
-		$request = Context::getCurrent()->getRequest();
-		$login = 	trim($request->getPost('login'));
-		$password = trim($request->getPost('password'));
-		$name = 	trim($request->getPost('firstname'));
-		$lastname = trim($request->getPost('lastname'));
-		$email =	trim($request->getPost('email'));
-		$key = 		trim($request->getPost('key'));
+	public function signupUserAction($login, $password, $firstname, $lastname, $email, $key) {
 
-		if (strlen($name) > 20 || strlen($lastname) > 20)
+		if (strlen($firstname) > 20 || strlen($lastname) > 20)
 		{
 			$errors[] = 'Имя и фамилия не могут быть длиннее 20 символов.';
 		}
 		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
 		if ($apartment)
 		{
-			$result = \Hc\Houseceeper\Repository\User::registerUser($login, $name, $lastname, $password, $email);
+			$result = \Hc\Houseceeper\Repository\User::registerUser($login, $firstname, $lastname, $password, $email);
 			if (is_numeric($result))
 			{
 				$userId = $result;
@@ -96,7 +102,7 @@ class Auth extends Engine\Controller
 
 	}
 
-	public static function addUserToHouseAction($login, $password, $key)
+	public function addUserToHouseAction($login, $password, $key)
 	{
 
 		$apartment = \Hc\Houseceeper\Repository\Apartment::getApartmentFromKey($key);
@@ -151,7 +157,7 @@ class Auth extends Engine\Controller
 		}
 	}
 
-	public static function changePasswordAction($oldPassword, $newPassword, $confirmPassword)
+	public function changePasswordAction($oldPassword, $newPassword, $confirmPassword)
 	{
 		global $USER;
 		$errors = [];
@@ -187,7 +193,7 @@ class Auth extends Engine\Controller
 		LocalRedirect('/profile');
 	}
 
-	public static function logout() {
+	public static function logoutAction() {
 		global $USER;
 		$USER->Logout();
 		LocalRedirect('/sign-in');

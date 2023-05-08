@@ -73,7 +73,7 @@ $housePath = extractValueFromLink($_SERVER['REQUEST_URI']);
 					<a class="button is-link" href="/profile">
 						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_GO_TO_PROFILE')?>
 					</a>
-					<a class="button is-white" href="/logout">
+					<a class="button is-white" href="/logout?sessid=<?= bitrix_sessid() ?>">
 						<?=\Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HEADER_LOGOUT')?>
 					</a>
 

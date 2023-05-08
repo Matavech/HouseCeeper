@@ -14,15 +14,9 @@ return function (RoutingConfigurator $routes)
 		LocalRedirect('/house-list');
 	});
 
-	$routes->get('/logout', function() {
-		Hc\Houseceeper\Controller\Auth::logout();
-	});
-	$routes->post('/login', function () {
-		Hc\Houseceeper\Controller\Auth::signin();
-	});
-	$routes->post('/reg', function()  {
-		Hc\Houseceeper\Controller\Auth::signupUser();
-	});
+	$routes->get('/logout', [\Hc\Houseceeper\Controller\Auth::class, 'logout']);
+	$routes->post('/login', [\Hc\Houseceeper\Controller\Auth::class, 'signin']);
+	$routes->post('/reg', [\Hc\Houseceeper\Controller\Auth::class, 'signupUser']);
 	$routes->get('/get-into', new PublicPageController('/local/modules/hc.houseceeper/views/get-into.php'));
 	$routes->post('/get-into', [\Hc\Houseceeper\Controller\Auth::class, 'addUserToHouse']);
 
