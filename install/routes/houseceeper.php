@@ -44,9 +44,9 @@ return function (RoutingConfigurator $routes)
 		echo \Hc\Houseceeper\Repository\Apartment::generateRegKey($_REQUEST['house-id'], $_REQUEST['number']);
 	});
 	$routes->post('/house/{housePath}/edit-house', [\Hc\Houseceeper\Controller\House::class, 'editHouse']);
-	$routes->post('/house/{housePath}/add-headman', [\Hc\Houseceeper\Controller\User::class, 'addHeadman']);
-	$routes->post('/house/{housePath}/delete-headman', [\Hc\Houseceeper\Controller\User::class, 'deleteHeadman']);
-	$routes->post('/house/{housePath}/remove-user', [\Hc\Houseceeper\Controller\User::class, 'removeUserFromApartmentAdmin']);
+	$routes->get('/house/{housePath}/add-headman/{userId}', [\Hc\Houseceeper\Controller\User::class, 'addHeadman']);
+	$routes->get('/house/{housePath}/delete-headman/{userId}', [\Hc\Houseceeper\Controller\User::class, 'deleteHeadman']);
+	$routes->get('/house/{housePath}/remove-user/{userId}/{apartmentId}', [\Hc\Houseceeper\Controller\User::class, 'removeUserFromApartmentAdmin']);
 
 	$routes->get('/house/{housePath}/add-post', new PublicPageController('/local/modules/hc.houseceeper/views/post-add.php'));
 	$routes->post('/house/{housePath}/add-post', [\Hc\Houseceeper\Controller\Post::class, 'addNewPostForHouse']);

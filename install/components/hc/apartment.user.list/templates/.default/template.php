@@ -11,7 +11,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <div class="table-container">
 	<table class="table">
 		<tbody>
-		<form></form>
 		<?php foreach ($arParams['USER_LIST'] as $user) { ?>
 			<tr>
 				<th style="width: 45px">
@@ -27,35 +26,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 				<?php if ($USER->IsAdmin()) { ?>
 					<td style="width: 250px">
 						<?php if (\Hc\Houseceeper\Repository\User::isHeadman($user['ID'], $arParams['HOUSE_ID'])) { ?>
-							<form method="post" action="delete-headman">
-								<?= bitrix_sessid_post(); ?>
-								<input type="hidden" name="houseId" value="<?= $arParams['HOUSE_ID'] ?>">
-								<input type="hidden" name="userId" value="<?= $user['ID'] ?>">
-								<button type="submit"
-										class="button is-warning "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_WITHDRAW_AUTHORITY') ?>
-								</button>
-							</form>
+							<a href="delete-headman/<?= $user['ID']?>?sessid=<?= bitrix_sessid() ?>" class="button is-warning">
+								<?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_WITHDRAW_AUTHORITY') ?>
+							</a>
 						<?php } else { ?>
-							<form method="post" action="add-headman">
-								<?= bitrix_sessid_post(); ?>
-								<input type="hidden" name="houseId" value="<?= $arParams['HOUSE_ID'] ?>">
-								<input type="hidden" name="userId" value="<?= $user['ID'] ?>">
-								<button type="submit"
-										class="button is-primary "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_ADD_HEADMAN') ?>
-								</button>
-							</form>
+							<a href="add-headman/<?= $user['ID']?>?sessid=<?= bitrix_sessid() ?>" class="button is-primary">
+								<?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_ADD_HEADMAN') ?>
+							</a>
 						<?php } ?>
 					</td>
 					<td>
-						<form method="post" action="remove-user">
-							<?= bitrix_sessid_post(); ?>
-							<input type="hidden" name="houseId" value="<?= $arParams['HOUSE_ID'] ?>">
-							<input type="hidden" name="userId" value="<?= $user['ID'] ?>">
-							<input type="hidden" name="apartmentId" value="<?= $arParams['APARTMENT_ID'] ?>">
-							<button type="submit"
-									class="button is-danger "><?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_REMOVE_USER') ?>
-							</button>
-						</form>
+						<a href="remove-user/<?= $user['ID']?>/<?= $arParams['APARTMENT_ID'] ?>?sessid=<?= bitrix_sessid() ?>" class="button is-danger">
+							<?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_APARTMENTUSERLIST_REMOVE_USER') ?>
+						</a>
 					</td>
 				<?php } ?>
 			</tr>

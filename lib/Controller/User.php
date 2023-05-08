@@ -13,43 +13,46 @@ class User extends Controller
 		return \Hc\Houseceeper\Repository\User::getName($id);
 	}
 
-	public function deleteHeadmanAction($userId, $houseId)
+	public function deleteHeadmanAction($userId, $housePath)
 	{
 		global $USER;
 		if(!$USER->IsAdmin())
 		{
 			LocalRedirect('/house/{housePath}/about');
 		}
+		$houseId = \Hc\Houseceeper\Repository\House::getIdByPath($housePath);
 
 		\Hc\Houseceeper\Repository\User::deleteHeadman($userId, $houseId);
-		LocalRedirect('about');
+		LocalRedirect('/house/' . $housePath . '/about');
 	}
 
-	public function addHeadmanAction($userId, $houseId)
+	public function addHeadmanAction($userId, $housePath)
 	{
 		global $USER;
 		if(!$USER->IsAdmin())
 		{
 			LocalRedirect('/house/{housePath}/about');
 		}
+		$houseId = \Hc\Houseceeper\Repository\House::getIdByPath($housePath);
 
 		\Hc\Houseceeper\Repository\User::addHeadman($userId, $houseId);
-		LocalRedirect('about');
+		LocalRedirect('/house/' . $housePath . '/about');
 	}
 
-	public function removeUserFromApartmentAdminAction($userId, $apartmentId, $houseId)
+	public function removeUserFromApartmentAdminAction($userId, $apartmentId, $housePath)
 	{
 		global $USER;
 		if($USER->IsAdmin())
 		{
 			\Hc\Houseceeper\Repository\User::removeUserFromApartment($userId, $apartmentId);
+			$houseId = \Hc\Houseceeper\Repository\House::getIdByPath($housePath);
 
 			if (!\Hc\Houseceeper\Repository\User::hasApartments($userId, $houseId))
 			{
 				\Hc\Houseceeper\Repository\User::removeUserFromHouse($userId, $houseId);
 			}
 		}
-		LocalRedirect('about');
+		LocalRedirect('/house/' . $housePath . '/about');
 	}
 
 	public static function removeUserFromApartmentAction($apartmentId, $houseId)
