@@ -86,7 +86,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 
 		<div class="mt-6">
-			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) {
+			<?php if ($USER->IsAdmin() || \Hc\Houseceeper\Repository\User::isHeadman($USER->GetID(), $arResult['HOUSE']['ID'])) { ?>
+				<h3 class="title mt-6">
+					<?= \Bitrix\Main\Localization\Loc::getMessage('HC_HOUSECEEPER_HOUSEDETAILS_APARTMENT_LIST') ?>
+				</h3>
+				<?php
 				$APPLICATION->IncludeComponent(
 					'bitrix:main.ui.grid',
 					'',
