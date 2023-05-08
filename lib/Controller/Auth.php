@@ -53,10 +53,6 @@ class Auth extends Engine\Controller
 				$errors[] = $errorMessage['MESSAGE'];
 			}
 		}
-		//$APPLICATION = new \CMain();
-		//$APPLICATION->IncludeComponent('hc:sign.in', '', [
-		//	'error' => $errorMessage,
-		//]);
 		\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 		LocalRedirect('/sign-in');
 	}

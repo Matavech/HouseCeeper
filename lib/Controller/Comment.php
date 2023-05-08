@@ -8,7 +8,7 @@ use Hc\HouseCeeper\Constant\PostType;
 use Hc\Houseceeper\Model\CommentTable;
 class Comment extends Controller
 {
-	public function getComments(int $postId = 0, int $level = 0, int $maxLevel = 3, string $order = 'DESC', int $parentId = NULL)
+	public function printComments(int $postId = 0, int $level = 0, int $maxLevel = 3, string $order = 'DESC', int $parentId = NULL)
 	{
 		$result = \Hc\Houseceeper\Repository\Comment::getCommentList($postId, $parentId);
 		if ($result)
@@ -29,7 +29,7 @@ class Comment extends Controller
 				{
 					$order = 'ASC';
 				}
-				$this->getComments($postId, $level + 1, $maxLevel, $order, $comment['ID']);
+				$this->printComments($postId, $level + 1, $maxLevel, $order, $comment['ID']);
 			}
 		}
 
