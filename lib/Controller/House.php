@@ -76,13 +76,7 @@ class House extends Engine\Controller
 		$headmanPassword = trim($headmanPassword);
 
 		$errors = [];
-		if (!$headmanApartmentNumber) {
-			$errors[] = 'Введите номер квартиры председателя';
-		} elseif ($headmanApartmentNumber > $numberOfApart) {
-			$errors[] = 'Номер квартиры председателя не должен превышать общее кол-во квартир';
-		}
 
-		if (!$errors) {
 			try {
 				\Bitrix\Main\Application::getConnection()->startTransaction();
 
@@ -90,22 +84,27 @@ class House extends Engine\Controller
 
 				if(is_numeric($result)){
 					$houseId = $result;
-					Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
-
-					$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
-					if(is_numeric($result)){
-						$headmanId = $result;
-						Repository\User::setRole($headmanId, $houseId, 2);
-						$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
-
-						if($apartmentId){
-							Repository\Apartment::addUser($apartmentId, $headmanId);
-
-							\Bitrix\Main\Application::getConnection()->commitTransaction();
-							LocalRedirect('/');
-						}
+					if (!$headmanApartmentNumber) {
+						$errors[] = 'Введите номер квартиры председателя';
+					} elseif ($headmanApartmentNumber > $numberOfApart) {
+						$errors[] = 'Номер квартиры председателя не должен превышать общее кол-во квартир';
 					} else {
-						$errors[] = $result;
+						Repository\Apartment::addApartments($houseId, 1, $numberOfApart);
+						$result = Repository\User::registerUser($headmanLogin, $headmanName, $headmanLastname, $headmanPassword, $headmanEmail);
+						if(is_numeric($result)){
+							$headmanId = $result;
+							Repository\User::setRole($headmanId, $houseId, 2);
+							$apartmentId = Repository\Apartment::getApartmentIdFromNumber($headmanApartmentNumber, $houseId);
+
+							if($apartmentId){
+								Repository\Apartment::addUser($apartmentId, $headmanId);
+
+								\Bitrix\Main\Application::getConnection()->commitTransaction();
+								LocalRedirect('/');
+							}
+						} else {
+							$errors[] = $result;
+						}
 					}
 				} else {
 					foreach ($result as $error)
@@ -119,7 +118,7 @@ class House extends Engine\Controller
 				\Bitrix\Main\Application::getConnection()->rollbackTransaction();
 				$errors[] =  $e->getMessage();
 			}
-		}
+
 
 		\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 		LocalRedirect('/add-house');
