@@ -56,7 +56,12 @@ class File extends Controller
 		$fileId = \Hc\Houseceeper\Repository\File::saveAvatar($userId, $arrFile);
 		if ($fileId)
 		{
-			self::deleteAvatar($userId);
+			$oldAvatarId = \Hc\Houseceeper\Repository\User::getUserAvatarId($userId);
+			if ($oldAvatarId)
+			{
+				\Hc\Houseceeper\Repository\File::deleteFile($oldAvatarId);
+				\Hc\Houseceeper\Repository\User::deleteAvatar($userId);
+			}
 			\Hc\Houseceeper\Repository\User::setAvatar($userId, $fileId);
 		}
 		LocalRedirect('/profile');
