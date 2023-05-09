@@ -28,8 +28,8 @@ FROM (SELECT 1 n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
       UNION SELECT 41 UNION SELECT 42 UNION SELECT 43 UNION SELECT 44 UNION SELECT 45
       UNION SELECT 46 UNION SELECT 47 UNION SELECT 48 UNION SELECT 49 UNION SELECT 50) nums;
 
-INSERT INTO hc_houseceeper_apartment (number, house_id, reg_key)
-VALUE (1, 2, HEX(RAND(15)));
+INSERT INTO hc_houseceeper_apartment (ID, number, house_id, reg_key)
+VALUE (51, 1, 2, substring(MD5(RAND()),1,15));
 
 INSERT INTO hc_houseceeper_apartment_user(USER_ID, APARTMENT_ID)
 VALUES (id0, 1),
