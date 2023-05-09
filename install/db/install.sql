@@ -99,6 +99,3 @@ CREATE TABLE IF NOT EXISTS hc_houseceeper_user_role(
                                                        HOUSE_ID INT NOT NULL,
                                                        PRIMARY KEY (USER_ID, HOUSE_ID)
 );
-
-INSERT INTO b_user(LOGIN, PASSWORD, )
-VALUES ()
