@@ -105,15 +105,17 @@ class User
 			'select' => ['ID'],
 			'filter' => ['=NAME' => Role::HC_HOUSECEEPER_ROLE_USER]
 		])->fetch()['ID'];
-		$newHeadman = UserRoleTable::getList([
+		$headman = UserRoleTable::getList([
 			'select' => ['*'],
 			'filter' => [
 				'USER_ID' => $userId,
 				'HOUSE_ID' =>$houseId
 			]
 		])->fetchObject();
-		$newHeadman->setRoleId($roleId);
-		$newHeadman->save();
+		if($headman){
+			$headman->setRoleId($roleId);
+			$headman->save();
+		}
 	}
 
 	public static function addHeadman($userId, $houseId)
@@ -129,8 +131,10 @@ class User
 				'HOUSE_ID' =>$houseId
 				]
 		])->fetchObject();
-		$newHeadman->setRoleId($roleId);
-		$newHeadman->save();
+		if($newHeadman){
+			$newHeadman->setRoleId($roleId);
+			$newHeadman->save();
+		}
 	}
 
 	public static function isHeadman($userId, $houseId)
