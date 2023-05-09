@@ -179,48 +179,12 @@ __projectorMigrate(2, function($updater, $DB)
 );');
 	}
 
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('hc_houseceeper_house'))
-	{
-		$updater->query("INSERT INTO hc_houseceeper_house (ID, NAME, ADDRESS, NUMBER_OF_APARTMENT, UNIQUE_PATH, INFO)
-VALUES (1, 'TEST HOUSE', 'address', '50', 'test-path', 'test info');");
-	}
-
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('hc_houseceeper_apartment'))
-	{
-		$updater->query("INSERT INTO hc_houseceeper_apartment (ID, NUMBER, REG_KEY, HOUSE_ID)
-VALUES (1, 1, 'secret key', 1);");
-	}
-
 	if ($updater->CanUpdateDatabase() && $updater->TableExists('hc_houseceeper_role'))
 	{
 		$updater->query("INSERT INTO hc_houseceeper_role (ID, NAME)
 VALUES (1, 'admin'),
        (2, 'headman'),
        (3, 'user');");
-	}
-
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('hc_houseceeper_user'))
-	{
-		$updater->query("INSERT INTO hc_houseceeper_user (ID, ROLE_ID)
-VALUES (1, 1);");
-	}
-
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('hc_houseceeper_apartment_user'))
-	{
-		$updater->query("INSERT INTO hc_houseceeper_apartment_user (USER_ID, APARTMENT_ID)
-VALUES (1, 1);");
-	}
-
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('hc_houseceeper_post_type'))
-	{
-		$updater->query("INSERT INTO hc_houseceeper_post_type (ID, NAME)
-VALUES (1, 'announcement');");
-	}
-
-	if ($updater->CanUpdateDatabase() && $updater->TableExists('hc_houseceeper_post'))
-	{
-		$updater->query("INSERT INTO hc_houseceeper_post (HOUSE_ID, USER_ID, TITLE, CONTENT, TYPE_ID)
-VALUES (1, 1, 'test post title', 'test post content', 1);");
 	}
 });
 

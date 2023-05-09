@@ -149,12 +149,14 @@ class User
 
 	public static function isAdmin($userId)
 	{
-		$result = UserRoleTable::query()
-							   ->setSelect(['ROLE.NAME'])
-							   ->setFilter(['USER_ID' => $userId]);
-		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
+//		$result = UserRoleTable::query()
+//							   ->setSelect(['ROLE.NAME'])
+//							   ->setFilter(['USER_ID' => $userId]);
+//		$role = $result->fetch()['HC_HOUSECEEPER_MODEL_USER_ROLE_ROLE_NAME'];
 
-		return $role === Role::HC_HOUSECEEPER_ROLE_ADMIN;
+//		return $role === Role::HC_HOUSECEEPER_ROLE_ADMIN;
+		global $USER;
+		return $USER->IsAdmin();
 	}
 
 	public static function hasAccessToHouse($userId, $houseId)

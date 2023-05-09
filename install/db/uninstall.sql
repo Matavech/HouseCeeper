@@ -11,3 +11,4 @@ DROP TABLE IF EXISTS hc_houseceeper_apartment;
 DROP TABLE IF EXISTS hc_houseceeper_house;
 
 DELETE FROM b_user WHERE WORK_COMPANY = 'HouseCeeper';
+DELETE FROM b_file WHERE MODULE_ID = 'hc.houseceeper';

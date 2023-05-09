@@ -27,11 +27,6 @@ CREATE TABLE IF NOT EXISTS hc_houseceeper_role (
     PRIMARY KEY (ID)
 );
 
-CREATE TABLE IF NOT EXISTS hc_houseceeper_user (
-    ID INT NOT NULL,
-    ROLE_ID INT NOT NULL,
-    PRIMARY KEY (ID)
-);
 
 CREATE TABLE IF NOT EXISTS hc_houseceeper_post_type (
     ID INT NOT NULL AUTO_INCREMENT,
@@ -78,30 +73,16 @@ CREATE TABLE IF NOT EXISTS hc_houseceeper_post_tag (
     PRIMARY KEY (POST_ID, TAG_ID)
 );
 
-INSERT INTO hc_houseceeper_house (ID, NAME, ADDRESS, NUMBER_OF_APARTMENT, UNIQUE_PATH, INFO)
-VALUES (1, 'TEST HOUSE', 'address', '50', 'test-path', 'test info');
-
-INSERT INTO hc_houseceeper_apartment (ID, NUMBER, REG_KEY, HOUSE_ID)
-VALUES (1, 1, 'secret key', 1);
-
 INSERT INTO hc_houseceeper_role (ID, NAME)
 VALUES (1, 'admin'),
        (2, 'headman'),
        (3, 'user');
 
-INSERT INTO hc_houseceeper_user (ID, ROLE_ID)
-VALUES (1, 1);
-
-INSERT INTO hc_houseceeper_apartment_user (USER_ID, APARTMENT_ID)
-VALUES (1, 1);
 
 INSERT INTO hc_houseceeper_post_type (ID, NAME)
 VALUES (1, 'announcement'),
        (2, 'discussion'),
        (3, 'unconfirmed');
-
-INSERT INTO hc_houseceeper_post (HOUSE_ID, USER_ID, TITLE, CONTENT, TYPE_ID)
-VALUES (1, 1, 'test post title', 'test post content', 1);
 
 ALTER TABLE hc_houseceeper_post add index IX_TITLE (TITLE);
 ALTER TABLE hc_houseceeper_post add index IX_HOUSE_ID (HOUSE_ID);
@@ -119,10 +100,5 @@ CREATE TABLE IF NOT EXISTS hc_houseceeper_user_role(
                                                        PRIMARY KEY (USER_ID, HOUSE_ID)
 );
 
-INSERT INTO hc_houseceeper_user_role (USER_ID, ROLE_ID, HOUSE_ID)
-SELECT u.ID, r.ID, h.ID
-FROM hc_houseceeper_user u
-         JOIN hc_houseceeper_role r ON u.ROLE_ID = r.ID
-         JOIN hc_houseceeper_apartment_user au ON au.USER_ID = u.ID
-         JOIN hc_houseceeper_apartment a ON a.ID = au.APARTMENT_ID
-         JOIN hc_houseceeper_house h ON h.ID = a.HOUSE_ID;
+INSERT INTO b_user(LOGIN, PASSWORD, )
+VALUES ()
