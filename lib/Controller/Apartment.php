@@ -19,7 +19,7 @@ class Apartment extends Engine\Controller
 			foreach ($apartmentList as $apartment) {
 				$apartmentId = $apartment['ID'];
 				$concatResult[$apartmentId]['NUMBER'] = $apartment['NUMBER'];
-				$concatResult[$apartmentId]['LINK'] = 'bitrix.dev.bx/sign-up?key=' . $apartment['REG_KEY'];
+				$concatResult[$apartmentId]['LINK'] = $_SERVER['SERVER_NAME'] . '/sign-up?key=' . $apartment['REG_KEY'];
 			}
 
 			foreach ($userList as $user){

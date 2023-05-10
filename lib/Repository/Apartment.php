@@ -48,7 +48,7 @@ class Apartment
 
 				if ($result->isSuccess())
 				{
-					return 'bitrix.dev.bx/sign-up?key=' . $newRegKey;
+					return $_SERVER['SERVER_NAME'] . '/sign-up?key=' . $newRegKey;
 				}
 			}
 			return 'bitrix.dev.bx/sign-up?key=' . $apartment->get('REG_KEY');
