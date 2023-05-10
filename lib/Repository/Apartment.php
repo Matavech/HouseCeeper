@@ -179,10 +179,13 @@ class Apartment
 			]
 		])->fetchCollection();
 
+		$connection = \Bitrix\Main\Application::getConnection();
+		$connection->startTransaction();
 		foreach ($apartments as $apartment)
 		{
 			$result = ApartmentTable::delete($apartment->getId());
 		}
+		$connection->commitTransaction();
 		return $result;
 	}
 }
