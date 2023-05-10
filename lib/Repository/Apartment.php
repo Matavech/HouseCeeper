@@ -51,7 +51,7 @@ class Apartment
 					return $_SERVER['SERVER_NAME'] . '/sign-up?key=' . $newRegKey;
 				}
 			}
-			return 'bitrix.dev.bx/sign-up?key=' . $apartment->get('REG_KEY');
+			return $_SERVER['SERVER_NAME'] . '/sign-up?key=' . $apartment->get('REG_KEY');
 		}
 		return 'Дом не найден';
 	}
