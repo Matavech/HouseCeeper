@@ -4,6 +4,7 @@ namespace Hc\Houseceeper\Controller;
 
 use Bitrix\Main\Context;
 use Bitrix\Main\Engine\Controller;
+use Bitrix\Main\Localization\Loc;
 use Hc\HouseCeeper\Constant\PostType;
 use Hc\Houseceeper\Model\CommentTable;
 class Comment extends Controller
@@ -74,6 +75,12 @@ class Comment extends Controller
 			\Bitrix\Main\Application::getInstance()->getSession()->set('errors', $errors);
 			LocalRedirect('/house/'. $housePath .  '/post/'. $postId);
 		}
+	}
+
+	public function deleteCommentAction(int $commentId)
+	{
+		self::deleteComment($commentId);
+		LocalRedirect(str_replace('/deleteComment', '', Context::getCurrent()->getRequest()->getRequestedPage()));
 	}
 
 	public function deleteComment(int $commentId = 0, bool $ignoreCheck = FALSE)

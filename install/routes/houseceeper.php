@@ -55,12 +55,13 @@ return function (RoutingConfigurator $routes)
 	$routes->post('/house/{housePath}/post/{postId}', [\Hc\Houseceeper\Controller\Comment::class, 'addComment']);
 	$routes->post('/house/{housePath}/post/{postId}/delete', [\Hc\Houseceeper\Controller\Post::class, 'deletePost']);
 	$routes->post('/house/{housePath}/post/{postId}/confirm', [\Hc\Houseceeper\Controller\Post::class, 'confirmPost']);
-	$routes->post('/house/{housePath}/post/{postId}/deleteComment', function() {
-		\Hc\Houseceeper\Controller\User::checkAccessToHouse();
-		$comment = new \Hc\Houseceeper\Controller\Comment();
-		$comment->deleteComment();
-		LocalRedirect('/house/' . $_REQUEST['housePath'] . '/post/' .$_REQUEST['id'] );
-	});
+	$routes->post('/house/{housePath}/post/{postId}/deleteComment', [\Hc\Houseceeper\Controller\Comment::class, 'deleteCommentAction']);
+	// $routes->post('/house/{housePath}/post/{postId}/deleteComment', function() {
+	// 	\Hc\Houseceeper\Controller\User::checkAccessToHouse();
+	// 	$comment = new \Hc\Houseceeper\Controller\Comment();
+	// 	$comment->deleteComment();
+	// 	LocalRedirect('/house/' . $_REQUEST['housePath'] . '/post/' .$_REQUEST['id'] );
+	// });
 
 	$routes->get('/house/{housePath}/post/{id}/edit', new PublicPageController('/local/modules/hc.houseceeper/views/post-edit.php'));
 	$routes->post('/house/{housePath}/post/{id}/edit', function(){
