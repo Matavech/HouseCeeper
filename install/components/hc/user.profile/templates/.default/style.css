@@ -1,0 +1,24 @@
+.columns {
+	border-bottom: 1px solid black;
+}
+
+.section {
+	border-bottom: 1px solid grey;
+}
+
+.section:last-child, .border-none {
+	border-bottom: none;
+}
+
+.disabled {
+	cursor: default !important;
+}
+
+#save, #reset {
+	display: none;
+}
+
+.modal-content
+{
+	max-width: 300px;
+}
