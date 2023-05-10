@@ -15,7 +15,8 @@ class CommentComponent extends CBitrixComponent {
 																	  'H' => 'Hago',
 																	  '' => 'dago',],
 																	$this->arParams['COMMENT']['DATETIME_CREATED']);
-		$apartments = \Hc\Houseceeper\Repository\House::getUserApartmentNumber($this->arParams['COMMENT']['USER_ID'], $_REQUEST['housePath']);
+		$housePath = Bitrix\Main\Context::getCurrent()->getRequest()->get('housePath');
+		$apartments = \Hc\Houseceeper\Repository\House::getUserApartmentNumber($this->arParams['COMMENT']['USER_ID'], $housePath);
 
 		$user = CUser::GetByID($this->arParams['COMMENT']['USER_ID'])->GetNext();
 		$personalPhoto = $user['PERSONAL_PHOTO'];
@@ -33,5 +34,6 @@ class CommentComponent extends CBitrixComponent {
 		$loc = count($apartments)>1 ? 'HC_HOUSECEEPER_COMMENT_APARTMENTS' : 'HC_HOUSECEEPER_COMMENT_APARTMENT';
 		$this->arParams['COMMENT']['USER_APARTMENT_NUMBER'] = \Bitrix\Main\Localization\Loc::getMessage($loc);
 		$this->arParams['COMMENT']['USER_APARTMENT'] = implode(', ', $apartments);
+		$this->arResult['HOUSE']['ID'] = \Hc\Houseceeper\Repository\House::getIdByPath($housePath);
 	}
 }
